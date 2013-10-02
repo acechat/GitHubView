@@ -17,6 +17,8 @@
 		8215E4EF17FAB71300B0F43C /* UsersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8215E4ED17FAB71300B0F43C /* UsersViewController.xib */; };
 		8215E4F317FAB72100B0F43C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8215E4F117FAB72100B0F43C /* SettingsViewController.m */; };
 		8215E4F417FAB72100B0F43C /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8215E4F217FAB72100B0F43C /* SettingsViewController.xib */; };
+		82170D4E17FBA1EB00F311BA /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 82170D4D17FBA1EB00F311BA /* .gitignore */; };
+		82170D5017FBA21500F311BA /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 82170D4F17FBA21500F311BA /* LICENSE */; };
 		827CA90917EB07A800490E88 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827CA90817EB07A800490E88 /* Foundation.framework */; };
 		827CA90B17EB07A800490E88 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827CA90A17EB07A800490E88 /* CoreGraphics.framework */; };
 		827CA90D17EB07A800490E88 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827CA90C17EB07A800490E88 /* UIKit.framework */; };
@@ -66,6 +68,8 @@
 		8215E4F017FAB72100B0F43C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		8215E4F117FAB72100B0F43C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		8215E4F217FAB72100B0F43C /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
+		82170D4D17FBA1EB00F311BA /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		82170D4F17FBA21500F311BA /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		827CA90517EB07A800490E88 /* GitHubView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		827CA90817EB07A800490E88 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		827CA90A17EB07A800490E88 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -126,6 +130,8 @@
 		827CA8FC17EB07A800490E88 = {
 			isa = PBXGroup;
 			children = (
+				82170D4F17FBA21500F311BA /* LICENSE */,
+				82170D4D17FBA1EB00F311BA /* .gitignore */,
 				827CA90E17EB07A800490E88 /* GitHubView */,
 				827CA92717EB07A800490E88 /* GitHubViewTests */,
 				827CA90717EB07A800490E88 /* Frameworks */,
@@ -310,7 +316,9 @@
 				827CA91B17EB07A800490E88 /* Images.xcassets in Resources */,
 				8215E4E017FAB6EC00B0F43C /* StarsViewController.xib in Resources */,
 				8215E4E517FAB6FF00B0F43C /* IssuesViewController.xib in Resources */,
+				82170D4E17FBA1EB00F311BA /* .gitignore in Resources */,
 				8215E4EA17FAB70A00B0F43C /* RepositoryViewController.xib in Resources */,
+				82170D5017FBA21500F311BA /* LICENSE in Resources */,
 				827CA94A17EB09B200490E88 /* LeftMenuViewController.xib in Resources */,
 				827CA94F17EB0A0C00490E88 /* NewsFeedViewController.xib in Resources */,
 				8215E4EF17FAB71300B0F43C /* UsersViewController.xib in Resources */,
