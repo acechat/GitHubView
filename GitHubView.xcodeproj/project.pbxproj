@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F1AFADB17FBE6E7001072F3 /* ConfigHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1AFADA17FBE6E7001072F3 /* ConfigHelper.m */; };
+		1F1AFADF17FBF419001072F3 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1AFADD17FBF419001072F3 /* HelpViewController.m */; };
+		1F1AFAE017FBF419001072F3 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1AFADE17FBF419001072F3 /* HelpViewController.xib */; };
+		1F1AFAE417FBF436001072F3 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1AFAE217FBF436001072F3 /* AboutViewController.m */; };
+		1F1AFAE517FBF436001072F3 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1AFAE317FBF436001072F3 /* AboutViewController.xib */; };
 		8215E4DF17FAB6EC00B0F43C /* StarsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8215E4DD17FAB6EC00B0F43C /* StarsViewController.m */; };
 		8215E4E017FAB6EC00B0F43C /* StarsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8215E4DE17FAB6EC00B0F43C /* StarsViewController.xib */; };
 		8215E4E417FAB6FF00B0F43C /* IssuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8215E4E217FAB6FF00B0F43C /* IssuesViewController.m */; };
@@ -53,6 +58,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F1AFAD917FBE6E7001072F3 /* ConfigHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigHelper.h; sourceTree = "<group>"; };
+		1F1AFADA17FBE6E7001072F3 /* ConfigHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigHelper.m; sourceTree = "<group>"; };
+		1F1AFADC17FBF419001072F3 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
+		1F1AFADD17FBF419001072F3 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
+		1F1AFADE17FBF419001072F3 /* HelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpViewController.xib; sourceTree = "<group>"; };
+		1F1AFAE117FBF436001072F3 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		1F1AFAE217FBF436001072F3 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		1F1AFAE317FBF436001072F3 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
 		8215E4DC17FAB6EC00B0F43C /* StarsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarsViewController.h; sourceTree = "<group>"; };
 		8215E4DD17FAB6EC00B0F43C /* StarsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarsViewController.m; sourceTree = "<group>"; };
 		8215E4DE17FAB6EC00B0F43C /* StarsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StarsViewController.xib; sourceTree = "<group>"; };
@@ -191,6 +204,14 @@
 				8215E4F017FAB72100B0F43C /* SettingsViewController.h */,
 				8215E4F117FAB72100B0F43C /* SettingsViewController.m */,
 				8215E4F217FAB72100B0F43C /* SettingsViewController.xib */,
+				1F1AFAD917FBE6E7001072F3 /* ConfigHelper.h */,
+				1F1AFADA17FBE6E7001072F3 /* ConfigHelper.m */,
+				1F1AFADC17FBF419001072F3 /* HelpViewController.h */,
+				1F1AFADD17FBF419001072F3 /* HelpViewController.m */,
+				1F1AFADE17FBF419001072F3 /* HelpViewController.xib */,
+				1F1AFAE117FBF436001072F3 /* AboutViewController.h */,
+				1F1AFAE217FBF436001072F3 /* AboutViewController.m */,
+				1F1AFAE317FBF436001072F3 /* AboutViewController.xib */,
 			);
 			path = GitHubView;
 			sourceTree = "<group>";
@@ -320,7 +341,9 @@
 				8215E4EA17FAB70A00B0F43C /* RepositoryViewController.xib in Resources */,
 				82170D5017FBA21500F311BA /* LICENSE in Resources */,
 				827CA94A17EB09B200490E88 /* LeftMenuViewController.xib in Resources */,
+				1F1AFAE517FBF436001072F3 /* AboutViewController.xib in Resources */,
 				827CA94F17EB0A0C00490E88 /* NewsFeedViewController.xib in Resources */,
+				1F1AFAE017FBF419001072F3 /* HelpViewController.xib in Resources */,
 				8215E4EF17FAB71300B0F43C /* UsersViewController.xib in Resources */,
 				82E6513117F57E93000653F2 /* AccountViewController.xib in Resources */,
 				8215E4F417FAB72100B0F43C /* SettingsViewController.xib in Resources */,
@@ -345,12 +368,15 @@
 				827CA93F17EB088D00490E88 /* PKRevealControllerContainerView.m in Sources */,
 				827CA94E17EB0A0C00490E88 /* NewsFeedViewController.m in Sources */,
 				827CA93E17EB088D00490E88 /* PKRevealController.m in Sources */,
+				1F1AFADB17FBE6E7001072F3 /* ConfigHelper.m in Sources */,
 				827CA94017EB088D00490E88 /* UIViewController+PKRevealController.m in Sources */,
 				8215E4DF17FAB6EC00B0F43C /* StarsViewController.m in Sources */,
 				827CA91917EB07A800490E88 /* AppDelegate.m in Sources */,
 				8215E4E917FAB70A00B0F43C /* RepositoryViewController.m in Sources */,
 				8215E4E417FAB6FF00B0F43C /* IssuesViewController.m in Sources */,
 				827CA94917EB09B200490E88 /* LeftMenuViewController.m in Sources */,
+				1F1AFAE417FBF436001072F3 /* AboutViewController.m in Sources */,
+				1F1AFADF17FBF419001072F3 /* HelpViewController.m in Sources */,
 				8215E4EE17FAB71300B0F43C /* UsersViewController.m in Sources */,
 				82E6513017F57E93000653F2 /* AccountViewController.m in Sources */,
 				827CA91517EB07A800490E88 /* main.m in Sources */,

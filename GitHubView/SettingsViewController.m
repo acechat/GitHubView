@@ -8,12 +8,31 @@
 
 #import "SettingsViewController.h"
 #import "PKRevealController.h"
+#import "AppDelegate.h"
+#import "ConfigHelper.h"
+#import "HelpViewController.h"
+#import "AboutViewController.h"
 
 @interface SettingsViewController ()
 
 @end
 
 @implementation SettingsViewController
+
+@synthesize screenInfo;
+@synthesize aboutList;
+//@synthesize switchStatusBar;
+@synthesize usernameTextField;
+@synthesize passwordTextField;
+@synthesize singleTap;
+
+@synthesize themeList;
+@synthesize themeLastIndexPath;
+@synthesize themeIndex;
+
+@synthesize delegate;
+@synthesize selector;
+//@synthesize hideScreen;
 
 - (void)showLeftMenu:(id)sender
 {
@@ -55,6 +74,39 @@
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showLeftMenu:)];
     }
     self.title = @"Settings";
+    
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]
+                                   initWithBarButtonSystemItem:UIBarButtonSystemItemSave
+                                   target:self
+                                   action:@selector(saveConfig)];
+    
+    self.navigationItem.rightBarButtonItem = saveButton;
+    
+    self.aboutList = [[NSArray alloc] initWithObjects:@"About this app", @"Help", nil];
+    /*
+    self.switchStatusBar = [[UISwitch alloc] initWithFrame:CGRectZero];
+    [switchStatusBar addTarget:self action:@selector(switchHideStatusChanged:) forControlEvents:UIControlEventValueChanged];
+     */
+    
+    self.usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 179, 30)];
+    self.usernameTextField.borderStyle = UITextBorderStyleRoundedRect;
+    self.usernameTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.usernameTextField.returnKeyType = UIReturnKeyNext;
+    self.usernameTextField.delegate = self;
+    self.passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 179, 30)];
+    self.passwordTextField.secureTextEntry = YES;
+    self.passwordTextField.borderStyle = UITextBorderStyleRoundedRect;
+    self.passwordTextField.delegate = self;
+    self.passwordTextField.returnKeyType = UIReturnKeyNext;
+    
+    self.singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapAction:)];
+    self.singleTap.numberOfTouchesRequired = 1;
+    self.singleTap.numberOfTapsRequired = 1;
+    [self.singleTap setDelaysTouchesBegan:YES];
+    [self.singleTap setDelaysTouchesEnded:YES];
+    self.singleTap.delegate = self;
+    
+    [self loadConfig];
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,33 +115,187 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+#pragma mark - Configuration
+
+- (void)saveConfig
+{
+    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    NSMutableDictionary *profileList = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *userinfo = [[NSMutableDictionary alloc] initWithCapacity:2];
+    NSString *userName = self.usernameTextField.text == nil ? @"" : self.usernameTextField.text;
+    NSString *password = self.passwordTextField.text == nil ? @"" : self.passwordTextField.text;
+    
+    [userinfo setValue:userName forKey:@"user_id"];
+    [userinfo setValue:password forKey:@"password"];
+    [profileList setValue:userinfo forKey:userName];
+    
+    [ConfigHelper saveSelectedUserID:userName];
+    [ConfigHelper saveUserProfile:profileList];
+    
+    /*
+    NSMutableDictionary *screeninfo = [[NSMutableDictionary alloc] initWithCapacity:2];
+    [screeninfo setObject:[NSNumber numberWithBool:hideScreen] forKey:@"statusbar"];
+    [app.appConfiguration setObject:screeninfo forKey:@"screen"];
+     */
+    
+    [app.appConfiguration setObject:[NSNumber numberWithInt:[themeLastIndexPath row]] forKey:@"theme_index"];
+    
+    [app saveConfig];
+    
+    /*
+    [self dismissViewControllerAnimated:YES completion:^{
+    }];
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(updateData:)])
+        [delegate performSelector:self.selector withObject:nil];
+     */
+}
+
+- (void)loadConfig
+{
+    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    
+    NSString *userName = [ConfigHelper loadSelectedUserID];
+    NSDictionary *profileList = [ConfigHelper loadUserProfile];
+    NSDictionary *userInfo = nil;
+    if (userName != nil)
+        userInfo = [profileList valueForKey:userName];
+    NSString *password = @"";
+    if (userInfo != nil)
+        password = [userInfo valueForKey:@"password"];
+    
+    self.usernameTextField.text = userName;
+    self.passwordTextField.text = password;
+    
+    //self.hideScreen = [app getStatusBarStatus];
+    //[self.switchStatusBar setOn:self.hideScreen];
+    
+    NSNumber *themeNumber = [app.appConfiguration objectForKey:@"theme_index"];
+    themeIndex = [themeNumber intValue];
+    
+    self.themeList = app.themeList;
+}
+
+
+#pragma mark - User Interaction
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self.tableView addGestureRecognizer:self.singleTap];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [self.tableView removeGestureRecognizer:self.singleTap];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField == self.usernameTextField)
+        [self.passwordTextField becomeFirstResponder];
+    else if (textField == self.passwordTextField)
+        [self.usernameTextField becomeFirstResponder];
+    
+    return YES;
+}
+
+- (void)singleTapAction:(id)sender
+{
+    [self.usernameTextField resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
+}
+
+#pragma mark - View lifecycle
+
+/*
+- (void)switchHideStatusChanged:(id)sender
+{
+    hideScreen = self.switchStatusBar.on;
+}
+ */
+
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
+    switch (section) {
+        case 0:
+            return 2; // Username and password
+        case 1:
+            return [self.themeList count];
+        case 2:
+            return [self.aboutList count];
+    }
     return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *CellIdentifier = @"ConfigCell";
+    NSUInteger section = [indexPath section];
+    
+    UITableViewCell *cell = nil;
+    
+    cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                      reuseIdentifier:CellIdentifier];
+    }
+    cell.detailTextLabel.text = nil;
+    cell.imageView.image = nil;
+    cell.accessoryView = nil;
+    
+    NSDictionary *dict;
+    NSUInteger newRow = [indexPath row];
+    NSUInteger oldRow;
+    
+    switch (section) {
+        case 0:
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            cell.accessoryView = newRow == 0 ? usernameTextField : passwordTextField;
+            cell.textLabel.text = newRow == 0 ? @"Username:" : @"Password:";
+            break;
+        case 1:
+            dict = [self.themeList objectAtIndex:newRow];
+            
+            oldRow = [self.themeLastIndexPath row];
+            cell.detailTextLabel.text = @"";
+            cell.textLabel.text = [dict objectForKey:@"desc"];
+            
+            cell.accessoryType = (newRow == oldRow && self.themeLastIndexPath != nil) ?
+            UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+            
+            if (self.themeLastIndexPath == nil && newRow == themeIndex) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                self.themeLastIndexPath = indexPath;
+            }
+            break;
+        case 2:
+            cell.textLabel.text = [self.aboutList objectAtIndex:newRow];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            break;
     }
     
-    // Configure the cell...
-    
+    // Configure the cell.
     return cell;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    switch (section) {
+        case 0: return @"Login";
+        case 1: return @"Theme for code";
+        case 2: return @"About";
+    }
+    return @"";
 }
 
 /*
@@ -131,22 +337,51 @@
 }
 */
 
-/*
-#pragma mark - Table view delegate
 
-// In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
+#pragma mark - UITableViewDelegate
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here, for example:
-    // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+    int section = indexPath.section;
+    int newRow = indexPath.row;
+    int oldRow = -1;
 
-    // Pass the selected object to the new view controller.
+    AboutViewController *aboutViewController;
+    HelpViewController *helpViewController;
     
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    switch (section) {
+        case 0:
+            break;
+        case 1:
+            oldRow = (self.themeLastIndexPath != nil) ? [self.themeLastIndexPath row] : -1;
+            if (newRow != oldRow) {
+                UITableViewCell *newCell = [self.tableView cellForRowAtIndexPath:indexPath];
+                newCell.accessoryType = UITableViewCellAccessoryCheckmark;
+                UITableViewCell *oldCell = [self.tableView cellForRowAtIndexPath:self.themeLastIndexPath];
+                oldCell.accessoryType = UITableViewCellAccessoryNone;
+                
+                self.themeLastIndexPath = indexPath;
+            }
+            break;
+        case 2:
+            switch (newRow) {
+                case 0:
+                    aboutViewController = [[AboutViewController alloc]
+                                           initWithNibName:@"AboutViewController" bundle:nil];
+                    
+                    
+                    [self.navigationController pushViewController:aboutViewController animated:YES];
+                    break;
+                case 1:
+                    helpViewController = [[HelpViewController alloc]
+                                          initWithNibName:@"HelpViewController" bundle:nil];
+                    
+                    [self.navigationController pushViewController:helpViewController animated:YES];
+                    break;
+            }
+            break;
+    }
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
- 
- */
 
 @end

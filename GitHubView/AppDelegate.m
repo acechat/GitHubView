@@ -25,19 +25,118 @@
 @synthesize menuTextList;
 @synthesize menuControllerList;
 
-/*
-@synthesize newsFeedController;
-@synthesize starsController;
-@synthesize issuesController;
-@synthesize repositoryController;
-@synthesize usersController;
-@synthesize accountViewController;
-@synthesize settingsController;
-*/
+
+@synthesize appConfiguration;
+@synthesize themeList;
+
+- (NSString *)dataFilePath {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    return [documentsDirectory stringByAppendingPathComponent:@"config.plist"];
+}
+
+- (void)saveConfig
+{
+    [self.appConfiguration writeToFile:[self dataFilePath] atomically:YES];
+}
+
+- (void)loadConfig
+{
+    NSString *filePath = [self dataFilePath];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        appConfiguration = [[NSMutableDictionary alloc] initWithContentsOfFile:[self dataFilePath]];
+    } else {
+        appConfiguration = [[NSMutableDictionary alloc] init];
+        [appConfiguration writeToFile:filePath atomically:YES];
+    }
+}
+
+- (BOOL)getStatusBarStatus
+{
+    NSMutableDictionary *data = [self.appConfiguration objectForKey:@"screen"];
+    if (data == nil) return YES; // Show status bar
+    
+    NSNumber *statusBar = [data objectForKey:@"statusbar"];
+    BOOL statusBarValue;
+    
+    if (statusBar == nil)
+        statusBarValue = YES;
+    else
+        statusBarValue = [statusBar boolValue];
+    
+    return statusBarValue;
+}
+
+- (NSString *)getUsername
+{
+    NSMutableDictionary *userinfo = [self.appConfiguration objectForKey:@"login"];
+    if (userinfo == nil) return @"";
+    
+    NSString *username = [userinfo objectForKey:@"username"];
+    return username == nil ? @"" : username;
+}
+
+- (NSString *)getPassword
+{
+    NSMutableDictionary *userinfo = [self.appConfiguration objectForKey:@"login"];
+    if (userinfo == nil) return @"";
+    
+    NSString *password = [userinfo objectForKey:@"password"];
+    return password == nil ? @"" : password;
+}
+
+- (void)setThemeList
+{
+    NSDictionary *desert = [[NSDictionary alloc] initWithObjectsAndKeys:
+                            @"Black", @"desc",
+                            @"desert.css", @"path",
+                            nil];
+    NSDictionary *prettify = [[NSDictionary alloc] initWithObjectsAndKeys:
+                              @"Clean", @"desc",
+                              @"prettify.css", @"path",
+                              nil];
+    NSDictionary *sons = [[NSDictionary alloc] initWithObjectsAndKeys:
+                          @"Darker", @"desc",
+                          @"sons.css", @"path",
+                          nil];
+    
+    self.themeList = [[NSMutableArray alloc] initWithObjects:prettify, desert, sons, nil];
+}
+
+- (int)getThemeIndex
+{
+    NSNumber *number = [self.appConfiguration objectForKey:@"theme_index"];
+    int themeIndex = [number intValue];
+    
+    if (themeIndex < 0) themeIndex = 0;
+    
+    if (themeIndex >= [self.themeList count])
+        themeIndex = [self.themeList count] - 1;
+    
+    return themeIndex;
+}
+
+- (NSString *)getThemeFilename:(int)index
+{
+    return [[self.themeList objectAtIndex:index] objectForKey:@"path"];
+}
+
+- (NSString *)getCurrentTheme
+{
+    NSString *themePath = [self getThemeFilename:[self getThemeIndex]];
+    if (themePath == nil)
+        themePath = @"prettify.css";
+    return themePath;
+}
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    [self loadConfig];
+    [self setThemeList];
     
     NSMutableArray *githubMenuTextList = [[NSMutableArray alloc] init];
     NSMutableArray *githubMenuControllerList = [[NSMutableArray alloc] init];

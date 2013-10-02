@@ -22,14 +22,21 @@
 @property (nonatomic, strong) NSMutableArray *menuControllerList;
 @property (nonatomic, strong) NSMutableArray *menuHeaderList;
 
-/*
-@property (nonatomic, strong) UINavigationController *newsFeedController;
-@property (nonatomic, strong) UINavigationController *starsController;
-@property (nonatomic, strong) UINavigationController *issuesController;
-@property (nonatomic, strong) UINavigationController *repositoryController;
-@property (nonatomic, strong) UINavigationController *usersController;
-@property (nonatomic, strong) UINavigationController *accountViewController;
-@property (nonatomic, strong) UINavigationController *settingsController;
- */
+@property (nonatomic, retain) NSMutableDictionary *appConfiguration;
+@property (nonatomic, retain) NSMutableArray *themeList;
+
+// Configuration
+- (NSString *)dataFilePath;
+- (void)saveConfig;
+- (void)loadConfig;
+- (BOOL)getStatusBarStatus;
+- (NSString *)getUsername;
+- (NSString *)getPassword;
+
+- (void)setThemeList;
+- (int)getThemeIndex;
+- (NSString *)getThemeFilename:(int)index;
+- (NSString *)getCurrentTheme;
+
 
 @end
