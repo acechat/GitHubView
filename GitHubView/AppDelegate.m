@@ -7,13 +7,89 @@
 //
 
 #import "AppDelegate.h"
+#import "PKRevealController.h"
+#import "LeftMenuViewController.h"
+#import "NewsFeedViewController.h"
+#import "StarsViewController.h"
+#import "IssuesViewController.h"
+#import "RepositoryViewController.h"
+#import "UsersViewController.h"
+#import "AccountViewController.h"
+#import "SettingsViewController.h"
 
 @implementation AppDelegate
 
+@synthesize revealController;
+@synthesize leftMenuController;
+
+@synthesize menuTextList;
+@synthesize menuControllerList;
+
+/*
+@synthesize newsFeedController;
+@synthesize starsController;
+@synthesize issuesController;
+@synthesize repositoryController;
+@synthesize usersController;
+@synthesize accountViewController;
+@synthesize settingsController;
+*/
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    
+    NSMutableArray *githubMenuTextList = [[NSMutableArray alloc] init];
+    NSMutableArray *githubMenuControllerList = [[NSMutableArray alloc] init];
+    
+    NSMutableArray *accountMenuTextList = [[NSMutableArray alloc] init];
+    NSMutableArray *accountMenuControllerList = [[NSMutableArray alloc] init];
+    
+    self.menuTextList = [[NSMutableArray alloc] initWithCapacity:2];
+    self.menuControllerList = [[NSMutableArray alloc] initWithCapacity:2];
+    self.menuHeaderList = [[NSMutableArray alloc] initWithCapacity:2];
+    
+    [githubMenuTextList addObject:@"News Feed"];
+    [githubMenuControllerList addObject:[[UINavigationController alloc] initWithRootViewController:[[NewsFeedViewController alloc] init]]];
+    
+    [githubMenuTextList addObject:@"Stars"];
+    [githubMenuControllerList addObject:[[UINavigationController alloc] initWithRootViewController:[[StarsViewController alloc] init]]];
+    
+    [githubMenuTextList addObject:@"Issues"];
+    [githubMenuControllerList addObject:[[UINavigationController alloc] initWithRootViewController:[[IssuesViewController alloc] init]]];
+    
+    [githubMenuTextList addObject:@"Repository"];
+    [githubMenuControllerList addObject:[[UINavigationController alloc] initWithRootViewController:[[RepositoryViewController alloc] init]]];
+    
+    [githubMenuTextList addObject:@"Users"];
+    [githubMenuControllerList addObject:[[UINavigationController alloc] initWithRootViewController:[[UsersViewController alloc] init]]];
+    
+    [accountMenuTextList addObject:@"Account"];
+    [accountMenuControllerList addObject:[[UINavigationController alloc]
+                                   initWithRootViewController:[[AccountViewController alloc] init]]];
+    
+    [accountMenuTextList addObject:@"Settings"];
+    [accountMenuControllerList addObject:[[UINavigationController alloc] initWithRootViewController:[[SettingsViewController alloc] init]]];
+
+    
+    [self.menuHeaderList addObject:@"GitHubView"];
+    [self.menuTextList addObject:githubMenuTextList];
+    [self.menuControllerList addObject:githubMenuControllerList];
+    
+    [self.menuHeaderList addObject:@"Account"];
+    [self.menuTextList addObject:accountMenuTextList];
+    [self.menuControllerList addObject:accountMenuControllerList];
+    
+    self.leftMenuController = [[LeftMenuViewController alloc] init];
+    
+    self.leftMenuController.menuHeaderList = self.menuHeaderList;
+    self.leftMenuController.menuTextList = self.menuTextList;
+    self.leftMenuController.menuControllerList = self.menuControllerList;
+    
+    self.revealController = [PKRevealController revealControllerWithFrontViewController:self.menuControllerList[0][0] leftViewController:self.leftMenuController options:nil];
+    
+    self.window.rootViewController = self.revealController;
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

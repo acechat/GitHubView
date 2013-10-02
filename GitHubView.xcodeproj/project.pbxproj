@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8215E4DF17FAB6EC00B0F43C /* StarsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8215E4DD17FAB6EC00B0F43C /* StarsViewController.m */; };
+		8215E4E017FAB6EC00B0F43C /* StarsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8215E4DE17FAB6EC00B0F43C /* StarsViewController.xib */; };
+		8215E4E417FAB6FF00B0F43C /* IssuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8215E4E217FAB6FF00B0F43C /* IssuesViewController.m */; };
+		8215E4E517FAB6FF00B0F43C /* IssuesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8215E4E317FAB6FF00B0F43C /* IssuesViewController.xib */; };
+		8215E4E917FAB70A00B0F43C /* RepositoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8215E4E717FAB70A00B0F43C /* RepositoryViewController.m */; };
+		8215E4EA17FAB70A00B0F43C /* RepositoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8215E4E817FAB70A00B0F43C /* RepositoryViewController.xib */; };
+		8215E4EE17FAB71300B0F43C /* UsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8215E4EC17FAB71300B0F43C /* UsersViewController.m */; };
+		8215E4EF17FAB71300B0F43C /* UsersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8215E4ED17FAB71300B0F43C /* UsersViewController.xib */; };
+		8215E4F317FAB72100B0F43C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8215E4F117FAB72100B0F43C /* SettingsViewController.m */; };
+		8215E4F417FAB72100B0F43C /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8215E4F217FAB72100B0F43C /* SettingsViewController.xib */; };
 		827CA90917EB07A800490E88 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827CA90817EB07A800490E88 /* Foundation.framework */; };
 		827CA90B17EB07A800490E88 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827CA90A17EB07A800490E88 /* CoreGraphics.framework */; };
 		827CA90D17EB07A800490E88 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827CA90C17EB07A800490E88 /* UIKit.framework */; };
@@ -19,6 +29,15 @@
 		827CA92417EB07A800490E88 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827CA90C17EB07A800490E88 /* UIKit.framework */; };
 		827CA92C17EB07A800490E88 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 827CA92A17EB07A800490E88 /* InfoPlist.strings */; };
 		827CA92E17EB07A800490E88 /* GitHubViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 827CA92D17EB07A800490E88 /* GitHubViewTests.m */; };
+		827CA93E17EB088D00490E88 /* PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827CA93917EB088D00490E88 /* PKRevealController.m */; };
+		827CA93F17EB088D00490E88 /* PKRevealControllerContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 827CA93B17EB088D00490E88 /* PKRevealControllerContainerView.m */; };
+		827CA94017EB088D00490E88 /* UIViewController+PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827CA93D17EB088D00490E88 /* UIViewController+PKRevealController.m */; };
+		827CA94917EB09B200490E88 /* LeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827CA94717EB09B200490E88 /* LeftMenuViewController.m */; };
+		827CA94A17EB09B200490E88 /* LeftMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 827CA94817EB09B200490E88 /* LeftMenuViewController.xib */; };
+		827CA94E17EB0A0C00490E88 /* NewsFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827CA94C17EB0A0C00490E88 /* NewsFeedViewController.m */; };
+		827CA94F17EB0A0C00490E88 /* NewsFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 827CA94D17EB0A0C00490E88 /* NewsFeedViewController.xib */; };
+		82E6513017F57E93000653F2 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E6512E17F57E93000653F2 /* AccountViewController.m */; };
+		82E6513117F57E93000653F2 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E6512F17F57E93000653F2 /* AccountViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +51,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8215E4DC17FAB6EC00B0F43C /* StarsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarsViewController.h; sourceTree = "<group>"; };
+		8215E4DD17FAB6EC00B0F43C /* StarsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarsViewController.m; sourceTree = "<group>"; };
+		8215E4DE17FAB6EC00B0F43C /* StarsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StarsViewController.xib; sourceTree = "<group>"; };
+		8215E4E117FAB6FF00B0F43C /* IssuesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IssuesViewController.h; sourceTree = "<group>"; };
+		8215E4E217FAB6FF00B0F43C /* IssuesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IssuesViewController.m; sourceTree = "<group>"; };
+		8215E4E317FAB6FF00B0F43C /* IssuesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IssuesViewController.xib; sourceTree = "<group>"; };
+		8215E4E617FAB70A00B0F43C /* RepositoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepositoryViewController.h; sourceTree = "<group>"; };
+		8215E4E717FAB70A00B0F43C /* RepositoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepositoryViewController.m; sourceTree = "<group>"; };
+		8215E4E817FAB70A00B0F43C /* RepositoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepositoryViewController.xib; sourceTree = "<group>"; };
+		8215E4EB17FAB71300B0F43C /* UsersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersViewController.h; sourceTree = "<group>"; };
+		8215E4EC17FAB71300B0F43C /* UsersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersViewController.m; sourceTree = "<group>"; };
+		8215E4ED17FAB71300B0F43C /* UsersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UsersViewController.xib; sourceTree = "<group>"; };
+		8215E4F017FAB72100B0F43C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		8215E4F117FAB72100B0F43C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		8215E4F217FAB72100B0F43C /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		827CA90517EB07A800490E88 /* GitHubView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		827CA90817EB07A800490E88 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		827CA90A17EB07A800490E88 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -48,6 +82,21 @@
 		827CA92917EB07A800490E88 /* GitHubViewTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GitHubViewTests-Info.plist"; sourceTree = "<group>"; };
 		827CA92B17EB07A800490E88 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		827CA92D17EB07A800490E88 /* GitHubViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GitHubViewTests.m; sourceTree = "<group>"; };
+		827CA93817EB088D00490E88 /* PKRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKRevealController.h; sourceTree = "<group>"; };
+		827CA93917EB088D00490E88 /* PKRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKRevealController.m; sourceTree = "<group>"; };
+		827CA93A17EB088D00490E88 /* PKRevealControllerContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKRevealControllerContainerView.h; sourceTree = "<group>"; };
+		827CA93B17EB088D00490E88 /* PKRevealControllerContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKRevealControllerContainerView.m; sourceTree = "<group>"; };
+		827CA93C17EB088D00490E88 /* UIViewController+PKRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PKRevealController.h"; sourceTree = "<group>"; };
+		827CA93D17EB088D00490E88 /* UIViewController+PKRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PKRevealController.m"; sourceTree = "<group>"; };
+		827CA94617EB09B200490E88 /* LeftMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuViewController.h; sourceTree = "<group>"; };
+		827CA94717EB09B200490E88 /* LeftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuViewController.m; sourceTree = "<group>"; };
+		827CA94817EB09B200490E88 /* LeftMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftMenuViewController.xib; sourceTree = "<group>"; };
+		827CA94B17EB0A0C00490E88 /* NewsFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsFeedViewController.h; sourceTree = "<group>"; };
+		827CA94C17EB0A0C00490E88 /* NewsFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsFeedViewController.m; sourceTree = "<group>"; };
+		827CA94D17EB0A0C00490E88 /* NewsFeedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsFeedViewController.xib; sourceTree = "<group>"; };
+		82E6512D17F57E93000653F2 /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
+		82E6512E17F57E93000653F2 /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
+		82E6512F17F57E93000653F2 /* AccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,10 +156,35 @@
 		827CA90E17EB07A800490E88 /* GitHubView */ = {
 			isa = PBXGroup;
 			children = (
+				827CA93717EB088D00490E88 /* PKRevealController */,
 				827CA91717EB07A800490E88 /* AppDelegate.h */,
 				827CA91817EB07A800490E88 /* AppDelegate.m */,
 				827CA91A17EB07A800490E88 /* Images.xcassets */,
 				827CA90F17EB07A800490E88 /* Supporting Files */,
+				827CA94617EB09B200490E88 /* LeftMenuViewController.h */,
+				827CA94717EB09B200490E88 /* LeftMenuViewController.m */,
+				827CA94817EB09B200490E88 /* LeftMenuViewController.xib */,
+				827CA94B17EB0A0C00490E88 /* NewsFeedViewController.h */,
+				827CA94C17EB0A0C00490E88 /* NewsFeedViewController.m */,
+				827CA94D17EB0A0C00490E88 /* NewsFeedViewController.xib */,
+				8215E4DC17FAB6EC00B0F43C /* StarsViewController.h */,
+				8215E4DD17FAB6EC00B0F43C /* StarsViewController.m */,
+				8215E4DE17FAB6EC00B0F43C /* StarsViewController.xib */,
+				8215E4E117FAB6FF00B0F43C /* IssuesViewController.h */,
+				8215E4E217FAB6FF00B0F43C /* IssuesViewController.m */,
+				8215E4E317FAB6FF00B0F43C /* IssuesViewController.xib */,
+				8215E4E617FAB70A00B0F43C /* RepositoryViewController.h */,
+				8215E4E717FAB70A00B0F43C /* RepositoryViewController.m */,
+				8215E4E817FAB70A00B0F43C /* RepositoryViewController.xib */,
+				8215E4EB17FAB71300B0F43C /* UsersViewController.h */,
+				8215E4EC17FAB71300B0F43C /* UsersViewController.m */,
+				8215E4ED17FAB71300B0F43C /* UsersViewController.xib */,
+				82E6512D17F57E93000653F2 /* AccountViewController.h */,
+				82E6512E17F57E93000653F2 /* AccountViewController.m */,
+				82E6512F17F57E93000653F2 /* AccountViewController.xib */,
+				8215E4F017FAB72100B0F43C /* SettingsViewController.h */,
+				8215E4F117FAB72100B0F43C /* SettingsViewController.m */,
+				8215E4F217FAB72100B0F43C /* SettingsViewController.xib */,
 			);
 			path = GitHubView;
 			sourceTree = "<group>";
@@ -142,6 +216,19 @@
 				827CA92A17EB07A800490E88 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		827CA93717EB088D00490E88 /* PKRevealController */ = {
+			isa = PBXGroup;
+			children = (
+				827CA93817EB088D00490E88 /* PKRevealController.h */,
+				827CA93917EB088D00490E88 /* PKRevealController.m */,
+				827CA93A17EB088D00490E88 /* PKRevealControllerContainerView.h */,
+				827CA93B17EB088D00490E88 /* PKRevealControllerContainerView.m */,
+				827CA93C17EB088D00490E88 /* UIViewController+PKRevealController.h */,
+				827CA93D17EB088D00490E88 /* UIViewController+PKRevealController.m */,
+			);
+			path = PKRevealController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -221,6 +308,14 @@
 			files = (
 				827CA91317EB07A800490E88 /* InfoPlist.strings in Resources */,
 				827CA91B17EB07A800490E88 /* Images.xcassets in Resources */,
+				8215E4E017FAB6EC00B0F43C /* StarsViewController.xib in Resources */,
+				8215E4E517FAB6FF00B0F43C /* IssuesViewController.xib in Resources */,
+				8215E4EA17FAB70A00B0F43C /* RepositoryViewController.xib in Resources */,
+				827CA94A17EB09B200490E88 /* LeftMenuViewController.xib in Resources */,
+				827CA94F17EB0A0C00490E88 /* NewsFeedViewController.xib in Resources */,
+				8215E4EF17FAB71300B0F43C /* UsersViewController.xib in Resources */,
+				82E6513117F57E93000653F2 /* AccountViewController.xib in Resources */,
+				8215E4F417FAB72100B0F43C /* SettingsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,8 +334,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				827CA93F17EB088D00490E88 /* PKRevealControllerContainerView.m in Sources */,
+				827CA94E17EB0A0C00490E88 /* NewsFeedViewController.m in Sources */,
+				827CA93E17EB088D00490E88 /* PKRevealController.m in Sources */,
+				827CA94017EB088D00490E88 /* UIViewController+PKRevealController.m in Sources */,
+				8215E4DF17FAB6EC00B0F43C /* StarsViewController.m in Sources */,
 				827CA91917EB07A800490E88 /* AppDelegate.m in Sources */,
+				8215E4E917FAB70A00B0F43C /* RepositoryViewController.m in Sources */,
+				8215E4E417FAB6FF00B0F43C /* IssuesViewController.m in Sources */,
+				827CA94917EB09B200490E88 /* LeftMenuViewController.m in Sources */,
+				8215E4EE17FAB71300B0F43C /* UsersViewController.m in Sources */,
+				82E6513017F57E93000653F2 /* AccountViewController.m in Sources */,
 				827CA91517EB07A800490E88 /* main.m in Sources */,
+				8215E4F317FAB72100B0F43C /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,6 +549,7 @@
 				827CA93317EB07A800490E88 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		827CA93417EB07A800490E88 /* Build configuration list for PBXNativeTarget "GitHubViewTests" */ = {
 			isa = XCConfigurationList;
@@ -451,6 +558,7 @@
 				827CA93617EB07A800490E88 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
