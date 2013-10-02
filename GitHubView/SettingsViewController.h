@@ -12,7 +12,6 @@
 
 @property (nonatomic, retain) NSMutableDictionary *screenInfo;
 @property (nonatomic, retain) NSArray *aboutList;
-//@property (nonatomic, retain) UISwitch *switchStatusBar;
 @property (nonatomic, retain) UITextField *usernameTextField;
 @property (nonatomic, retain) UITextField *passwordTextField;
 @property (nonatomic, retain) UITapGestureRecognizer *singleTap;
@@ -23,7 +22,6 @@
 
 @property (nonatomic, retain) id delegate;
 @property (nonatomic, assign) SEL selector;
-//@property (nonatomic, assign) BOOL hideScreen;
 
 - (void)saveConfig;
 - (void)loadConfig;

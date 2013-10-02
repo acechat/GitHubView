@@ -21,7 +21,6 @@
 
 @synthesize screenInfo;
 @synthesize aboutList;
-//@synthesize switchStatusBar;
 @synthesize usernameTextField;
 @synthesize passwordTextField;
 @synthesize singleTap;
@@ -32,7 +31,6 @@
 
 @synthesize delegate;
 @synthesize selector;
-//@synthesize hideScreen;
 
 - (void)showLeftMenu:(id)sender
 {
@@ -83,11 +81,7 @@
     self.navigationItem.rightBarButtonItem = saveButton;
     
     self.aboutList = [[NSArray alloc] initWithObjects:@"About this app", @"Help", nil];
-    /*
-    self.switchStatusBar = [[UISwitch alloc] initWithFrame:CGRectZero];
-    [switchStatusBar addTarget:self action:@selector(switchHideStatusChanged:) forControlEvents:UIControlEventValueChanged];
-     */
-    
+
     self.usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 179, 30)];
     self.usernameTextField.borderStyle = UITextBorderStyleRoundedRect;
     self.usernameTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -132,24 +126,24 @@
     [ConfigHelper saveSelectedUserID:userName];
     [ConfigHelper saveUserProfile:profileList];
     
-    /*
-    NSMutableDictionary *screeninfo = [[NSMutableDictionary alloc] initWithCapacity:2];
-    [screeninfo setObject:[NSNumber numberWithBool:hideScreen] forKey:@"statusbar"];
-    [app.appConfiguration setObject:screeninfo forKey:@"screen"];
-     */
-    
     [app.appConfiguration setObject:[NSNumber numberWithInt:[themeLastIndexPath row]] forKey:@"theme_index"];
     
     [app saveConfig];
     
-    /*
-    [self dismissViewControllerAnimated:YES completion:^{
-    }];
-    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(updateData:)])
-        [delegate performSelector:self.selector withObject:nil];
-     */
+    [self singleTapAction:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Changes saved" delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
+    [alert show];
+    
+    // Create the perform selector method with alert view object and time-period
+    [self performSelector:@selector(dismissAlertView:) withObject:alert afterDelay:0.7];
 }
 
+// Dismiss the alert view after time-Period
+-(void)dismissAlertView:(UIAlertView *)alert
+{
+    [alert dismissWithClickedButtonIndex:-1 animated:YES];
+    
+}
 - (void)loadConfig
 {
     AppDelegate *app = [[UIApplication sharedApplication] delegate];
@@ -165,9 +159,6 @@
     
     self.usernameTextField.text = userName;
     self.passwordTextField.text = password;
-    
-    //self.hideScreen = [app getStatusBarStatus];
-    //[self.switchStatusBar setOn:self.hideScreen];
     
     NSNumber *themeNumber = [app.appConfiguration objectForKey:@"theme_index"];
     themeIndex = [themeNumber intValue];
@@ -203,15 +194,6 @@
     [self.usernameTextField resignFirstResponder];
     [self.passwordTextField resignFirstResponder];
 }
-
-#pragma mark - View lifecycle
-
-/*
-- (void)switchHideStatusChanged:(id)sender
-{
-    hideScreen = self.switchStatusBar.on;
-}
- */
 
 #pragma mark - UITableViewDataSource
 
