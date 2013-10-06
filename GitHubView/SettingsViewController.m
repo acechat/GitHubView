@@ -126,12 +126,12 @@
     [ConfigHelper saveSelectedUserID:userName];
     [ConfigHelper saveUserProfile:profileList];
     
-    [app.appConfiguration setObject:[NSNumber numberWithInt:[themeLastIndexPath row]] forKey:@"theme_index"];
+    [app.appConfiguration setObject:[NSNumber numberWithInt:themeLastIndexPath.row] forKey:@"theme_index"];
     
     [app saveConfig];
     
     [self singleTapAction:nil];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Changes saved" delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Saved changes" delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
     [alert show];
     
     // Create the perform selector method with alert view object and time-period
