@@ -8,12 +8,27 @@
 
 #import "NewsFeedViewController.h"
 #import "PKRevealController.h"
+#import "ConfigHelper.h"
+#import "AFNetworking.h"
+
+#define kFeederReloadCompletedNotification  @"feedChanged"
+
+#define kFeedElementName @"feed"
+#define kItemElementName @"entry"
 
 @interface NewsFeedViewController ()
 
 @end
 
 @implementation NewsFeedViewController
+
+@synthesize webView;
+@synthesize loginUserID;
+@synthesize password;
+@synthesize feedPosts;
+@synthesize userIconDictionary;
+@synthesize currentElement;
+@synthesize currentElementData;
 
 - (void)showLeftMenu:(id)sender
 {
@@ -55,6 +70,25 @@
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showLeftMenu:)];
     }
     self.title = @"News Feed";
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.tintColor = [UIColor grayColor];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Updating News Feed"];
+    [refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refreshControl;
+
+}
+
+- (void) pullToRefresh
+{
+    [self refreshNewsFeed];
+    [self performSelector:@selector(updateTable) withObject:nil afterDelay:2];
+}
+
+- (void)updateTable
+{
+    [self.tableView reloadData];
+    [self.refreshControl endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning
@@ -148,5 +182,63 @@
 }
  
  */
+
+#pragma mark - Fetching News Feed
+
+
+- (void)refreshNewsFeed
+{
+    NSString *hostAddr = @"https://github.com";
+    NSString *path = nil;
+    
+    NSDictionary *profileList = [ConfigHelper loadUserProfile];
+    NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
+    NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
+
+    path = [NSString stringWithFormat:@"/%@.private.atom", selectedUserID];
+    
+
+    NSURLCredential *credential = [NSURLCredential credentialWithUser:[userProfile valueForKey:@"user_id"] password:[userProfile valueForKey:@"password"] persistence:NSURLCredentialPersistenceNone];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", hostAddr, path]];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager setCredential:credential];
+
+    [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+    /*
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+    [httpClient setAuthorizationHeaderWithUsername:[userProfile valueForKey:@"user_id"] password:[userProfile valueForKey:@"password"]];
+    
+    NSURLRequest *request = [httpClient requestWithMethod:@"GET" path:path parameters:nil];
+    
+    [AFXMLRequestOperation addAcceptableContentTypes:[NSSet setWithObject:@"application/atom+xml"]];
+    AFXMLRequestOperation *operation = [AFXMLRequestOperation XMLParserRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, NSXMLParser *XMLParser) {
+        [self performSelectorOnMainThread:@selector(didFinishFetchingNewsFeed:)
+                               withObject:XMLParser
+                            waitUntilDone:NO];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, NSXMLParser *XMLParser) {
+        [self setTopTitle];
+        NSString *errorMessage = error.localizedDescription;
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:errorMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Close"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+    
+    [operation start];
+     */
+}
+
 
 @end

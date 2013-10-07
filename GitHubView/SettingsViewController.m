@@ -101,6 +101,24 @@
     self.singleTap.delegate = self;
     
     [self loadConfig];
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.tintColor = [UIColor grayColor];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Restore settings"];
+    [refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refreshControl;
+}
+
+- (void) pullToRefresh
+{
+    [self loadConfig];
+    [self performSelector:@selector(updateTable) withObject:nil afterDelay:0];
+}
+
+- (void)updateTable
+{
+    [self.tableView reloadData];
+    [self.refreshControl endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning
@@ -161,7 +179,8 @@
     self.passwordTextField.text = password;
     
     NSNumber *themeNumber = [app.appConfiguration objectForKey:@"theme_index"];
-    themeIndex = [themeNumber intValue];
+    self.themeIndex = [themeNumber intValue];
+    self.themeLastIndexPath = nil;
     
     self.themeList = app.themeList;
 }
