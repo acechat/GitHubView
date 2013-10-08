@@ -14,4 +14,6 @@
 @property NSMutableArray *menuTextList;
 @property NSMutableArray *menuControllerList;
 
+@property NSIndexPath *selectedIndexPath;
+
 @end

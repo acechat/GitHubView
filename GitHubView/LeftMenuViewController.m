@@ -18,6 +18,8 @@
 @synthesize menuTextList;
 @synthesize menuControllerList;
 
+@synthesize selectedIndexPath;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -46,6 +48,7 @@
     self.tableView.backgroundView = backgroundView;
     
     [self.revealController setMinimumWidth:240.0f maximumWidth:324.0f forViewController:self];
+    selectedIndexPath = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -83,6 +86,14 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    
+
+    if ((selectedIndexPath == nil && indexPath.row == 0 && indexPath.section == 0) || selectedIndexPath == indexPath)
+        [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+    else
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    
     cell.contentView.backgroundColor = [UIColor darkGrayColor];
     
     int section = indexPath.section;
@@ -141,6 +152,12 @@
 {
     self.revealController.frontViewController = self.menuControllerList[indexPath.section][indexPath.row];
     [self.revealController showViewController:self.revealController.frontViewController];
+    
+    [self.tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
+
+    selectedIndexPath = indexPath;
+
+    [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 
 @end
