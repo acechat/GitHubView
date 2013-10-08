@@ -33,6 +33,8 @@
 		8215E4F417FAB72100B0F43C /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8215E4F217FAB72100B0F43C /* SettingsViewController.xib */; };
 		82170D4E17FBA1EB00F311BA /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 82170D4D17FBA1EB00F311BA /* .gitignore */; };
 		82170D5017FBA21500F311BA /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 82170D4F17FBA21500F311BA /* LICENSE */; };
+		8233D77C1803CB0300942BB6 /* NewsFeedChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8233D77B1803CB0300942BB6 /* NewsFeedChannel.m */; };
+		8233D77F1803CB6200942BB6 /* NewsFeedPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 8233D77E1803CB6200942BB6 /* NewsFeedPost.m */; };
 		827CA90917EB07A800490E88 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827CA90817EB07A800490E88 /* Foundation.framework */; };
 		827CA90B17EB07A800490E88 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827CA90A17EB07A800490E88 /* CoreGraphics.framework */; };
 		827CA90D17EB07A800490E88 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827CA90C17EB07A800490E88 /* UIKit.framework */; };
@@ -111,6 +113,10 @@
 		8215E4F217FAB72100B0F43C /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		82170D4D17FBA1EB00F311BA /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		82170D4F17FBA21500F311BA /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		8233D77A1803CB0300942BB6 /* NewsFeedChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsFeedChannel.h; sourceTree = "<group>"; };
+		8233D77B1803CB0300942BB6 /* NewsFeedChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsFeedChannel.m; sourceTree = "<group>"; };
+		8233D77D1803CB6200942BB6 /* NewsFeedPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsFeedPost.h; sourceTree = "<group>"; };
+		8233D77E1803CB6200942BB6 /* NewsFeedPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsFeedPost.m; sourceTree = "<group>"; };
 		827CA90517EB07A800490E88 /* GitHubView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		827CA90817EB07A800490E88 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		827CA90A17EB07A800490E88 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -241,6 +247,10 @@
 				827CA94B17EB0A0C00490E88 /* NewsFeedViewController.h */,
 				827CA94C17EB0A0C00490E88 /* NewsFeedViewController.m */,
 				827CA94D17EB0A0C00490E88 /* NewsFeedViewController.xib */,
+				8233D77A1803CB0300942BB6 /* NewsFeedChannel.h */,
+				8233D77B1803CB0300942BB6 /* NewsFeedChannel.m */,
+				8233D77D1803CB6200942BB6 /* NewsFeedPost.h */,
+				8233D77E1803CB6200942BB6 /* NewsFeedPost.m */,
 				8215E4DC17FAB6EC00B0F43C /* StarsViewController.h */,
 				8215E4DD17FAB6EC00B0F43C /* StarsViewController.m */,
 				8215E4DE17FAB6EC00B0F43C /* StarsViewController.xib */,
@@ -428,7 +438,9 @@
 				827CA94E17EB0A0C00490E88 /* NewsFeedViewController.m in Sources */,
 				827CA93E17EB088D00490E88 /* PKRevealController.m in Sources */,
 				1F1AFADB17FBE6E7001072F3 /* ConfigHelper.m in Sources */,
+				8233D77C1803CB0300942BB6 /* NewsFeedChannel.m in Sources */,
 				827CA94017EB088D00490E88 /* UIViewController+PKRevealController.m in Sources */,
+				8233D77F1803CB6200942BB6 /* NewsFeedPost.m in Sources */,
 				1F0C54EC180269FE00CAFC23 /* AFSecurityPolicy.m in Sources */,
 				8215E4DF17FAB6EC00B0F43C /* StarsViewController.m in Sources */,
 				827CA91917EB07A800490E88 /* AppDelegate.m in Sources */,

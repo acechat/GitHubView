@@ -7,14 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NewsFeedChannel.h"
 
-@interface NewsFeedViewController : UITableViewController
-
+@interface NewsFeedViewController : UITableViewController <NSXMLParserDelegate>
 
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
 
 @property (nonatomic, retain) NSString *loginUserID;
 @property (nonatomic, retain) NSString *password;
+@property (nonatomic, retain) NewsFeedChannel *feedChannel;
 @property (nonatomic, retain) NSMutableArray *feedPosts;
 @property (nonatomic, retain) NSMutableDictionary *userIconDictionary;
 

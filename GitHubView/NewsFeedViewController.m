@@ -10,6 +10,8 @@
 #import "PKRevealController.h"
 #import "ConfigHelper.h"
 #import "AFNetworking.h"
+#import "NewsFeedChannel.h"
+#import "NewsFeedPost.h"
 
 #define kFeederReloadCompletedNotification  @"feedChanged"
 
@@ -25,6 +27,7 @@
 @synthesize webView;
 @synthesize loginUserID;
 @synthesize password;
+@synthesize feedChannel;
 @synthesize feedPosts;
 @synthesize userIconDictionary;
 @synthesize currentElement;
@@ -60,6 +63,8 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(feedChanged:) name:kFeederReloadCompletedNotification object:nil];
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     UIImage *revealImagePortrait = [UIImage imageNamed:@"reveal_menu_icon_portrait"];
@@ -77,6 +82,10 @@
     [refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
 
+    self.feedPosts = [[NSMutableArray alloc] init];
+    self.userIconDictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
+    
+    [self refreshNewsFeed];
 }
 
 - (void) pullToRefresh
@@ -101,27 +110,26 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return self.feedPosts.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"NewsFeedCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    // Configure the cell...
+    NewsFeedPost *post = self.feedPosts[indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@:%@", post.name, post.content];
     
     return cell;
 }
@@ -185,6 +193,12 @@
 
 #pragma mark - Fetching News Feed
 
+- (void)startNetworkIndicator {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+}
+- (void)stopNetworkIndicator {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
 
 - (void)refreshNewsFeed
 {
@@ -196,38 +210,25 @@
     NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
 
     path = [NSString stringWithFormat:@"/%@.private.atom", selectedUserID];
-    
 
     NSURLCredential *credential = [NSURLCredential credentialWithUser:[userProfile valueForKey:@"user_id"] password:[userProfile valueForKey:@"password"] persistence:NSURLCredentialPersistenceNone];
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", hostAddr, path]];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager setCredential:credential];
+    manager.responseSerializer = [AFXMLParserResponseSerializer new];
+    
+    NSSet *mySet = [[NSSet alloc] initWithObjects:@"application/xml", @"text/xml", @"application/atom+xml", nil];
+    manager.responseSerializer.acceptableContentTypes = mySet; // Adding custom content-type is not working so far.
 
-    [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-    }];
-    
-    
-    /*
-    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
-    [httpClient setAuthorizationHeaderWithUsername:[userProfile valueForKey:@"user_id"] password:[userProfile valueForKey:@"password"]];
-    
-    NSURLRequest *request = [httpClient requestWithMethod:@"GET" path:path parameters:nil];
-    
-    [AFXMLRequestOperation addAcceptableContentTypes:[NSSet setWithObject:@"application/atom+xml"]];
-    AFXMLRequestOperation *operation = [AFXMLRequestOperation XMLParserRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, NSXMLParser *XMLParser) {
-        [self performSelectorOnMainThread:@selector(didFinishFetchingNewsFeed:)
+    [self startNetworkIndicator];
+    [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, NSXMLParser *XMLParser) {
+        [self performSelectorOnMainThread:@selector(parseXMLNewsFeed:)
                                withObject:XMLParser
                             waitUntilDone:NO];
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, NSXMLParser *XMLParser) {
-        [self setTopTitle];
+        [self stopNetworkIndicator];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSString *errorMessage = error.localizedDescription;
-        
+        [self stopNetworkIndicator];
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:errorMessage
                                                            delegate:nil
@@ -235,10 +236,132 @@
                                                   otherButtonTitles:nil];
         [alertView show];
     }];
-    
-    [operation start];
-     */
 }
 
+
+- (void)parseXMLNewsFeed:(NSXMLParser *)xmlParser
+{
+    [feedPosts removeAllObjects];
+    
+    xmlParser.delegate = self;
+    
+    if ([xmlParser parse]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kFeederReloadCompletedNotification object:nil];
+    } else {
+        NSString *errorMessage = @"Parsing failed";
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:errorMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Close"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
+    
+    if ([elementName isEqualToString:kFeedElementName]) {
+        NewsFeedChannel *channel = [[NewsFeedChannel alloc] init];
+        self.feedChannel = channel;
+        self.currentElement = channel;
+        return;
+    }
+    
+    if ([elementName isEqualToString:kItemElementName]) {
+        NewsFeedPost *post = [[NewsFeedPost alloc] init];
+        [feedPosts addObject:post];
+        self.currentElement = post;
+        return;
+    }
+    
+    if ([elementName isEqualToString:@"media:thumbnail"]) {
+        [currentElement setValue:[attributeDict objectForKey:@"url"] forKey:@"media"];
+    }
+}
+
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
+    if (currentElementData == nil) {
+        self.currentElementData = [[NSMutableString alloc] init];
+    }
+    
+    [currentElementData appendString:string];
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
+    SEL selectorName = NSSelectorFromString(elementName);
+    if ([currentElement respondsToSelector:selectorName]) {
+        [currentElement setValue:currentElementData forKey:elementName];
+    }
+    
+    self.currentElementData = nil;
+}
+
+- (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
+    NSLog(@"ERR: %@", parseError);
+}
+
+- (void)feedChanged:(NSNotification *)notification {
+    NSLog(@"Feed updated");
+    [self.tableView reloadData];
+    /*
+    NSMutableString *htmlBody = [[NSMutableString alloc] init];
+    
+    [htmlBody appendString:@"<html><head>\
+     <meta name='viewport' content='width=device-width; initial-scale=0.9; maximum-scale=0.9;'>\
+     <link rel='stylesheet' href='iphone.css' />\
+     <script type='text/javascript' charset='utf-8'>\
+     window.onload = function() {\
+     setTimeout(function(){window.scrollTo(0, 1);}, 100);\
+     }\
+     </script></head>\
+     <body><div id='content'><table cellspacing=0 cellpading=0 class='nomargintable'>"];
+    
+    int count = 0;
+    
+    for (NewsFeedPost *feedPost in feedPosts) {
+        NSMutableString *msg = [[NSMutableString alloc] init];
+        [msg appendString:feedPost.content];
+        
+        if (msg != nil) {
+            [[[[[msg stringByReplacingOccurrencesOfString: @"&" withString: @"&amp;amp;"]
+                stringByReplacingOccurrencesOfString: @"\"" withString: @"&amp;quot;"]
+               stringByReplacingOccurrencesOfString: @"'" withString: @"&amp;#39;"]
+              stringByReplacingOccurrencesOfString: @">" withString: @"&amp;gt;"]
+             stringByReplacingOccurrencesOfString: @"<" withString: @"&amp;lt;"];
+        } else {
+            msg = [[NSMutableString alloc] initWithString:@""];
+        }
+        
+        NSMutableString *name = [[NSMutableString alloc] init];
+        [name appendString:feedPost.name];
+        
+        if (name != nil) {
+            [[[[[name stringByReplacingOccurrencesOfString: @"&" withString: @"&amp;amp;"]
+                stringByReplacingOccurrencesOfString: @"\"" withString: @"&amp;quot;"]
+               stringByReplacingOccurrencesOfString: @"'" withString: @"&amp;#39;"]
+              stringByReplacingOccurrencesOfString: @">" withString: @"&amp;gt;"]
+             stringByReplacingOccurrencesOfString: @"<" withString: @"&amp;lt;"];
+        } else {
+            name = [[NSMutableString alloc] initWithString:@""];
+        }
+
+        [htmlBody appendFormat:@"<tr><td colspan=2>%@</td></tr><tr valign='top'><td><b>%@</b><br/>%@</td></tr>",
+         count != 0 ? @"<hr>": @"", feedPost.title, msg];
+        
+        msg = nil;
+        name = nil;
+        
+        count++;
+    }
+    
+    [htmlBody appendString:@"</table></div></body></html>"];
+    
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    NSURL *baseURL = [NSURL fileURLWithPath:path];
+    
+    [self.webView loadHTMLString:htmlBody baseURL:baseURL];
+     */
+}
 
 @end
