@@ -211,7 +211,7 @@
 
     path = [NSString stringWithFormat:@"/%@.private.atom", selectedUserID];
 
-    NSURLCredential *credential = [NSURLCredential credentialWithUser:[userProfile valueForKey:@"user_id"] password:[userProfile valueForKey:@"password"] persistence:NSURLCredentialPersistenceNone];
+    NSURLCredential *credential = [NSURLCredential credentialWithUser:[userProfile valueForKey:@"user_id"] password:[userProfile valueForKey:@"password"] persistence:NSURLCredentialPersistenceForSession];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager setCredential:credential];
@@ -302,7 +302,6 @@
 }
 
 - (void)feedChanged:(NSNotification *)notification {
-    NSLog(@"Feed updated");
     [self.tableView reloadData];
     /*
     NSMutableString *htmlBody = [[NSMutableString alloc] init];

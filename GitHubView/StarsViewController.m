@@ -8,12 +8,17 @@
 
 #import "StarsViewController.h"
 #import "PKRevealController.h"
+#import "ConfigHelper.h"
+#import "AFNetworking.h"
 
 @interface StarsViewController ()
 
 @end
 
 @implementation StarsViewController
+
+@synthesize starringList;
+@synthesize loginUserID;
 
 
 - (void)showLeftMenu:(id)sender
@@ -62,11 +67,14 @@
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Updating Starraing"];
     [refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
+    
+    [self refreshStarring];
 }
 
 - (void) pullToRefresh
 {
-    [self performSelector:@selector(updateTable) withObject:nil afterDelay:2];
+    [self refreshStarring];
+    [self performSelector:@selector(updateTable) withObject:nil afterDelay:0];
 }
 
 - (void)updateTable
@@ -166,5 +174,50 @@
 }
  
  */
+#pragma mark - Fetching Starring
+
+- (void)startNetworkIndicator {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+}
+- (void)stopNetworkIndicator {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
+
+- (void)refreshStarring
+{
+    NSString *hostAddr = @"https://api.github.com";
+    NSString *path = @"/user/starred";
+    
+    NSDictionary *profileList = [ConfigHelper loadUserProfile];
+    NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
+    NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
+
+    NSURLCredential *credential = [NSURLCredential credentialWithUser:[userProfile valueForKey:@"user_id"] password:[userProfile valueForKey:@"password"] persistence:NSURLCredentialPersistenceForSession];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager setCredential:credential];
+    //manager.responseSerializer = [AFJSONResponseSerializer new];
+    
+    NSLog(@"manager: %@", manager);
+    [self startNetworkIndicator];
+    [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+        NSLog(@"JSON: %@", JSON);
+        [self.starringList removeAllObjects];
+        [self.starringList addObjectsFromArray:JSON];
+        [self.tableView reloadData];
+        [self stopNetworkIndicator];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"ERROR: %@", error);
+        NSString *errorMessage = error.localizedDescription;
+        [self stopNetworkIndicator];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:errorMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Close"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
+
 
 @end
