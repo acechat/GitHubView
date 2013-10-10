@@ -144,7 +144,7 @@
     [ConfigHelper saveSelectedUserID:userName];
     [ConfigHelper saveUserProfile:profileList];
     
-    [app.appConfiguration setObject:[NSNumber numberWithInt:themeLastIndexPath.row] forKey:@"theme_index"];
+    [app.appConfiguration setObject:[NSNumber numberWithLong:themeLastIndexPath.row] forKey:@"theme_index"];
     
     [app saveConfig];
     
@@ -343,9 +343,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    int section = indexPath.section;
-    int newRow = indexPath.row;
-    int oldRow = -1;
+    long section = indexPath.section;
+    long newRow = indexPath.row;
+    long oldRow = -1;
 
     AboutViewController *aboutViewController;
     HelpViewController *helpViewController;

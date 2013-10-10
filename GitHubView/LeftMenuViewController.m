@@ -96,8 +96,8 @@
     
     cell.contentView.backgroundColor = [UIColor darkGrayColor];
     
-    int section = indexPath.section;
-    int row = indexPath.row;
+    long section = indexPath.section;
+    long row = indexPath.row;
     
     NSArray *sectionMenu = self.menuTextList[section];
     cell.textLabel.text = sectionMenu[row];
