@@ -19,6 +19,7 @@
 @implementation UsersViewController
 
 @synthesize usersList;
+@synthesize userImageList;
 
 - (void)showLeftMenu:(id)sender
 {
@@ -68,6 +69,8 @@
     self.refreshControl = refreshControl;
     
     self.usersList = [[NSMutableArray alloc] init];
+    self.userImageList = [[NSMutableDictionary alloc] init];
+    
     [self refreshUsersList];
 }
 
@@ -113,8 +116,24 @@
     
     // Configure the cell...
     NSDictionary *user = self.usersList[indexPath.row];
-    cell.textLabel.text = [user valueForKey:@"login"];
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[user valueForKey:@"avatar_url"]]]];
+    NSString *loginID = [user valueForKey:@"login"];
+    cell.textLabel.text = loginID;
+    UIImage *image = [self.userImageList valueForKey:loginID];
+    if (image == nil) {
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+        dispatch_async(queue, ^(void) {
+            UIImage *myimage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[user valueForKey:@"avatar_url"]]]];
+            if (myimage) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (cell.tag == indexPath.row) {
+                            cell.imageView.image = myimage;
+                            [cell setNeedsLayout];
+                        }
+                    });
+            }
+            [self.userImageList setValue:myimage forKey:loginID];
+        });
+    }
     cell.imageView.image = image;
     
     return cell;
@@ -185,11 +204,26 @@
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
+- (void)loadAllUserImages {
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+    dispatch_async(queue, ^(void) {
+        for (int i = 0; i < self.usersList.count; i++) {
+            NSDictionary *user = self.usersList[i];
+            NSString *loginID = [user valueForKey:@"login"];
+            UIImage *myimage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[user valueForKey:@"avatar_url"]]]];
+            [self.userImageList setValue:myimage forKey:loginID];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+        }
+    });
+}
+
 - (void)refreshUsersList
 {
     NSString *hostAddr = @"https://api.github.com";
     NSString *path = @"/users";
-    //NSString *path = @"/legacy/repos/search/:" + searchKeyword;
+    //NSString *path = @"/legacy/user/search/:" + searchKeyword;
     
     NSDictionary *profileList = [ConfigHelper loadUserProfile];
     NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
@@ -207,6 +241,8 @@
         NSLog(@"JSON: %@", JSON);
         [self.usersList removeAllObjects];
         [self.usersList addObjectsFromArray:JSON];
+        [self.userImageList removeAllObjects];
+        [self loadAllUserImages];
         [self.tableView reloadData];
         [self stopNetworkIndicator];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

@@ -11,5 +11,6 @@
 @interface UsersViewController : UITableViewController
 
 @property (nonatomic, retain) NSMutableArray *usersList;
+@property (nonatomic, retain) NSMutableDictionary *userImageList;
 
 @end
