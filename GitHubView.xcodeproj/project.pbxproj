@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F00C44F180643A800E6A248 /* HelperTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F00C44E180643A800E6A248 /* HelperTools.m */; };
 		1F0C54E8180269FE00CAFC23 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0C54D6180269FE00CAFC23 /* AFHTTPRequestOperation.m */; };
 		1F0C54E9180269FE00CAFC23 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0C54D8180269FE00CAFC23 /* AFHTTPRequestOperationManager.m */; };
 		1F0C54EA180269FE00CAFC23 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0C54DA180269FE00CAFC23 /* AFHTTPSessionManager.m */; };
@@ -69,6 +70,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F00C44D180643A800E6A248 /* HelperTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelperTools.h; sourceTree = "<group>"; };
+		1F00C44E180643A800E6A248 /* HelperTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelperTools.m; sourceTree = "<group>"; };
 		1F0C54D5180269FE00CAFC23 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		1F0C54D6180269FE00CAFC23 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		1F0C54D7180269FE00CAFC23 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -277,6 +280,8 @@
 				1F1AFAE117FBF436001072F3 /* AboutViewController.h */,
 				1F1AFAE217FBF436001072F3 /* AboutViewController.m */,
 				1F1AFAE317FBF436001072F3 /* AboutViewController.xib */,
+				1F00C44D180643A800E6A248 /* HelperTools.h */,
+				1F00C44E180643A800E6A248 /* HelperTools.m */,
 			);
 			path = GitHubView;
 			sourceTree = "<group>";
@@ -439,6 +444,7 @@
 				827CA93E17EB088D00490E88 /* PKRevealController.m in Sources */,
 				1F1AFADB17FBE6E7001072F3 /* ConfigHelper.m in Sources */,
 				8233D77C1803CB0300942BB6 /* NewsFeedChannel.m in Sources */,
+				1F00C44F180643A800E6A248 /* HelperTools.m in Sources */,
 				827CA94017EB088D00490E88 /* UIViewController+PKRevealController.m in Sources */,
 				8233D77F1803CB6200942BB6 /* NewsFeedPost.m in Sources */,
 				1F0C54EC180269FE00CAFC23 /* AFSecurityPolicy.m in Sources */,

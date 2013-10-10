@@ -10,6 +10,7 @@
 #import "PKRevealController.h"
 #import "ConfigHelper.h"
 #import "AFNetworking.h"
+#import "HelperTools.h"
 
 @interface StarsViewController ()
 
@@ -18,7 +19,6 @@
 @implementation StarsViewController
 
 @synthesize starringList;
-@synthesize loginUserID;
 
 
 - (void)showLeftMenu:(id)sender
@@ -68,6 +68,8 @@
     [refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
     
+    self.starringList = [[NSMutableArray alloc] init];
+    
     [self refreshStarring];
 }
 
@@ -93,16 +95,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return self.starringList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -114,6 +114,7 @@
     }
     
     // Configure the cell...
+    cell.textLabel.text = [self.starringList[indexPath.row] valueForKey:@"full_name"];
     
     return cell;
 }
@@ -191,14 +192,14 @@
     NSDictionary *profileList = [ConfigHelper loadUserProfile];
     NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
     NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
-
-    NSURLCredential *credential = [NSURLCredential credentialWithUser:[userProfile valueForKey:@"user_id"] password:[userProfile valueForKey:@"password"] persistence:NSURLCredentialPersistenceForSession];
+    NSString *user_id = [userProfile valueForKey:@"user_id"];
+    NSString *password = [userProfile valueForKey:@"password"];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager setCredential:credential];
-    //manager.responseSerializer = [AFJSONResponseSerializer new];
     
-    NSLog(@"manager: %@", manager);
+    NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Basic %@", [HelperTools AFBase64EncodedStringFromString:basicAuthCredentials]] forHTTPHeaderField:@"Authorization"];
+
     [self startNetworkIndicator];
     [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
         NSLog(@"JSON: %@", JSON);

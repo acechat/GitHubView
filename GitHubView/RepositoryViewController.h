@@ -10,4 +10,6 @@
 
 @interface RepositoryViewController : UITableViewController
 
+@property (nonatomic, retain) NSMutableArray *reposList;
+
 @end

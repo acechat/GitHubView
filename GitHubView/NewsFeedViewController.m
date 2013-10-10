@@ -12,6 +12,7 @@
 #import "AFNetworking.h"
 #import "NewsFeedChannel.h"
 #import "NewsFeedPost.h"
+#import "HelperTools.h"
 
 #define kFeederReloadCompletedNotification  @"feedChanged"
 
@@ -25,8 +26,6 @@
 @implementation NewsFeedViewController
 
 @synthesize webView;
-@synthesize loginUserID;
-@synthesize password;
 @synthesize feedChannel;
 @synthesize feedPosts;
 @synthesize userIconDictionary;
@@ -208,14 +207,19 @@
     NSDictionary *profileList = [ConfigHelper loadUserProfile];
     NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
     NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
-
+    NSString *user_id = [userProfile valueForKey:@"user_id"];
+    NSString *password = [userProfile valueForKey:@"password"];
+    
     path = [NSString stringWithFormat:@"/%@.private.atom", selectedUserID];
 
-    NSURLCredential *credential = [NSURLCredential credentialWithUser:[userProfile valueForKey:@"user_id"] password:[userProfile valueForKey:@"password"] persistence:NSURLCredentialPersistenceForSession];
+    //NSURLCredential *credential = [NSURLCredential credentialWithUser:[userProfile valueForKey:@"user_id"] password:[userProfile valueForKey:@"password"] persistence:NSURLCredentialPersistenceForSession];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager setCredential:credential];
+    //[manager setCredential:credential];
     manager.responseSerializer = [AFXMLParserResponseSerializer new];
+    
+    NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Basic %@", [HelperTools AFBase64EncodedStringFromString:basicAuthCredentials]] forHTTPHeaderField:@"Authorization"];
     
     NSSet *mySet = [[NSSet alloc] initWithObjects:@"application/xml", @"text/xml", @"application/atom+xml", nil];
     manager.responseSerializer.acceptableContentTypes = mySet; // Adding custom content-type is not working so far.

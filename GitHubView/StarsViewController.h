@@ -11,6 +11,5 @@
 @interface StarsViewController : UITableViewController
 
 @property (nonatomic, retain) NSMutableArray *starringList;
-@property (nonatomic, retain) NSString *loginUserID;
 
 @end

@@ -10,4 +10,6 @@
 
 @interface IssuesViewController : UITableViewController
 
+@property (nonatomic, retain) NSMutableArray *issuesList;
+
 @end

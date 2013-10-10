@@ -8,12 +8,17 @@
 
 #import "RepositoryViewController.h"
 #import "PKRevealController.h"
+#import "AFNetworking.h"
+#import "ConfigHelper.h"
+#import "HelperTools.h"
 
 @interface RepositoryViewController ()
 
 @end
 
 @implementation RepositoryViewController
+
+@synthesize reposList;
 
 - (void)showLeftMenu:(id)sender
 {
@@ -61,11 +66,15 @@
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Updating Repository list"];
     [refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
+    
+    self.reposList = [[NSMutableArray alloc] init];
+    [self refreshRepoList];
 }
 
 - (void) pullToRefresh
 {
-    [self performSelector:@selector(updateTable) withObject:nil afterDelay:2];
+    [self refreshRepoList];
+    [self performSelector:@selector(updateTable) withObject:nil afterDelay:0];
 }
 
 - (void)updateTable
@@ -84,16 +93,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return self.reposList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -105,6 +112,8 @@
     }
     
     // Configure the cell...
+    NSDictionary *repo = self.reposList[indexPath.row];
+    cell.textLabel.text = [repo valueForKey:@"full_name"];
     
     return cell;
 }
@@ -165,5 +174,50 @@
 }
  
  */
+#pragma mark - Fetching Repository List
+
+- (void)startNetworkIndicator {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+}
+- (void)stopNetworkIndicator {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
+
+- (void)refreshRepoList
+{
+    NSString *hostAddr = @"https://api.github.com";
+    NSString *path = @"/repositories";
+    //NSString *path = @"/legacy/repos/search/:" + searchKeyword;
+    
+    NSDictionary *profileList = [ConfigHelper loadUserProfile];
+    NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
+    NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
+    NSString *user_id = [userProfile valueForKey:@"user_id"];
+    NSString *password = [userProfile valueForKey:@"password"];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Basic %@", [HelperTools AFBase64EncodedStringFromString:basicAuthCredentials]] forHTTPHeaderField:@"Authorization"];
+    
+    [self startNetworkIndicator];
+    [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+        NSLog(@"JSON: %@", JSON);
+        [self.reposList removeAllObjects];
+        [self.reposList addObjectsFromArray:JSON];
+        [self.tableView reloadData];
+        [self stopNetworkIndicator];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"ERROR: %@", error);
+        NSString *errorMessage = error.localizedDescription;
+        [self stopNetworkIndicator];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:errorMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Close"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
 
 @end
