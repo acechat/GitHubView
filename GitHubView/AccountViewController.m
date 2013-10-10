@@ -8,12 +8,17 @@
 
 #import "AccountViewController.h"
 #import "PKRevealController.h"
+#import "AFNetworking.h"
+#import "ConfigHelper.h"
+#import "HelperTools.h"
 
 @interface AccountViewController ()
 
 @end
 
 @implementation AccountViewController
+
+@synthesize userDetails;
 
 - (void)showLeftMenu:(id)sender
 {
@@ -61,11 +66,14 @@
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Updating My details"];
     [refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
+    
+    [self refreshAccountDetails];
 }
 
 - (void) pullToRefresh
 {
-    [self performSelector:@selector(updateTable) withObject:nil afterDelay:2];
+    [self refreshAccountDetails];
+    [self performSelector:@selector(updateTable) withObject:nil afterDelay:0];
 }
 
 - (void)updateTable
@@ -84,16 +92,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -105,6 +111,22 @@
     }
     
     // Configure the cell...
+    switch (indexPath.row) {
+        case 0:
+            cell.textLabel.text = [self.userDetails valueForKey:@"login"];
+            break;
+        case 1:
+            cell.textLabel.text = [self.userDetails valueForKey:@"name"];
+            break;
+        case 2:
+            cell.textLabel.text = [self.userDetails valueForKey:@"company"];
+            break;
+        case 3:
+            cell.textLabel.text = [self.userDetails valueForKey:@"email"];
+            break;
+        default:
+            break;
+    }
     
     return cell;
 }
@@ -165,5 +187,48 @@
 }
  
  */
+#pragma mark - Fetching User Details
+
+- (void)startNetworkIndicator {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+}
+- (void)stopNetworkIndicator {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
+
+- (void)refreshAccountDetails
+{
+    NSString *hostAddr = @"https://api.github.com";
+    NSString *path = @"/user";
+    
+    NSDictionary *profileList = [ConfigHelper loadUserProfile];
+    NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
+    NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
+    NSString *user_id = [userProfile valueForKey:@"user_id"];
+    NSString *password = [userProfile valueForKey:@"password"];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Basic %@", [HelperTools AFBase64EncodedStringFromString:basicAuthCredentials]] forHTTPHeaderField:@"Authorization"];
+    
+    [self startNetworkIndicator];
+    [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+        NSLog(@"JSON: %@", JSON);
+        userDetails = JSON;
+        [self.tableView reloadData];
+        [self stopNetworkIndicator];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"ERROR: %@", error);
+        NSString *errorMessage = error.localizedDescription;
+        [self stopNetworkIndicator];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:errorMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Close"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
 
 @end

@@ -10,4 +10,6 @@
 
 @interface AccountViewController : UITableViewController
 
+@property (nonatomic, retain) NSMutableDictionary *userDetails;
+
 @end
