@@ -13,4 +13,6 @@
 @property (nonatomic, retain) NSMutableDictionary *userDetails;
 @property (nonatomic, retain) UIImage *avatarImage;
 
+@property (nonatomic, retain) NSString *userToView;
+
 @end

@@ -20,6 +20,16 @@
 
 @synthesize userDetails;
 @synthesize avatarImage;
+@synthesize userToView = _userToView;
+
+- (void)setUserToView:(NSString *)userToView
+{
+    _userToView = userToView;
+    if (_userToView == nil)
+        self.title = @"Account";
+    else
+        self.title = @"User details";
+}
 
 - (void)showLeftMenu:(id)sender
 {
@@ -38,6 +48,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        self.userToView = nil;
     }
     return self;
 }
@@ -53,14 +64,15 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIImage *revealImagePortrait = [UIImage imageNamed:@"reveal_menu_icon_portrait"];
-    UIImage *revealImageLandscape = [UIImage imageNamed:@"reveal_menu_icon_landscape"];
-    
-    if (self.navigationController.revealController.type & PKRevealControllerTypeLeft)
-    {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showLeftMenu:)];
+    if (self.userToView == nil) {
+        UIImage *revealImagePortrait = [UIImage imageNamed:@"reveal_menu_icon_portrait"];
+        UIImage *revealImageLandscape = [UIImage imageNamed:@"reveal_menu_icon_landscape"];
+        
+        if (self.navigationController.revealController.type & PKRevealControllerTypeLeft)
+        {
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showLeftMenu:)];
+        }
     }
-    self.title = @"Account";
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.tintColor = [UIColor grayColor];
@@ -216,7 +228,13 @@
 - (void)refreshAccountDetails
 {
     NSString *hostAddr = @"https://api.github.com";
-    NSString *path = @"/user";
+    NSString *path = nil;
+    
+    if (self.userToView == nil) {
+        path = @"/user";
+    } else {
+        path = [NSString stringWithFormat:@"/users/%@", self.userToView];
+    }
     
     NSDictionary *profileList = [ConfigHelper loadUserProfile];
     NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
