@@ -57,6 +57,8 @@
 		827CA94F17EB0A0C00490E88 /* NewsFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 827CA94D17EB0A0C00490E88 /* NewsFeedViewController.xib */; };
 		82E6513017F57E93000653F2 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E6512E17F57E93000653F2 /* AccountViewController.m */; };
 		82E6513117F57E93000653F2 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E6512F17F57E93000653F2 /* AccountViewController.xib */; };
+		82F26C12180775A80069B9D7 /* RepoInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F26C10180775A80069B9D7 /* RepoInfoViewController.m */; };
+		82F26C13180775A80069B9D7 /* RepoInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82F26C11180775A80069B9D7 /* RepoInfoViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +153,9 @@
 		82E6512D17F57E93000653F2 /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
 		82E6512E17F57E93000653F2 /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
 		82E6512F17F57E93000653F2 /* AccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
+		82F26C0F180775A80069B9D7 /* RepoInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepoInfoViewController.h; sourceTree = "<group>"; };
+		82F26C10180775A80069B9D7 /* RepoInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepoInfoViewController.m; sourceTree = "<group>"; };
+		82F26C11180775A80069B9D7 /* RepoInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepoInfoViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +259,9 @@
 				8233D77B1803CB0300942BB6 /* NewsFeedChannel.m */,
 				8233D77D1803CB6200942BB6 /* NewsFeedPost.h */,
 				8233D77E1803CB6200942BB6 /* NewsFeedPost.m */,
+				82F26C0F180775A80069B9D7 /* RepoInfoViewController.h */,
+				82F26C10180775A80069B9D7 /* RepoInfoViewController.m */,
+				82F26C11180775A80069B9D7 /* RepoInfoViewController.xib */,
 				8215E4DC17FAB6EC00B0F43C /* StarsViewController.h */,
 				8215E4DD17FAB6EC00B0F43C /* StarsViewController.m */,
 				8215E4DE17FAB6EC00B0F43C /* StarsViewController.xib */,
@@ -417,6 +425,7 @@
 				8215E4EF17FAB71300B0F43C /* UsersViewController.xib in Resources */,
 				82E6513117F57E93000653F2 /* AccountViewController.xib in Resources */,
 				8215E4F417FAB72100B0F43C /* SettingsViewController.xib in Resources */,
+				82F26C13180775A80069B9D7 /* RepoInfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,6 +456,7 @@
 				1F00C44F180643A800E6A248 /* HelperTools.m in Sources */,
 				827CA94017EB088D00490E88 /* UIViewController+PKRevealController.m in Sources */,
 				8233D77F1803CB6200942BB6 /* NewsFeedPost.m in Sources */,
+				82F26C12180775A80069B9D7 /* RepoInfoViewController.m in Sources */,
 				1F0C54EC180269FE00CAFC23 /* AFSecurityPolicy.m in Sources */,
 				8215E4DF17FAB6EC00B0F43C /* StarsViewController.m in Sources */,
 				827CA91917EB07A800490E88 /* AppDelegate.m in Sources */,

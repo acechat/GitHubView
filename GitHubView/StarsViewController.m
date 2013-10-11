@@ -11,6 +11,7 @@
 #import "ConfigHelper.h"
 #import "AFNetworking.h"
 #import "HelperTools.h"
+#import "RepoInfoViewController.h"
 
 @interface StarsViewController ()
 
@@ -107,7 +108,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"StarsCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -158,7 +159,6 @@
 }
 */
 
-/*
 #pragma mark - Table view delegate
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
@@ -166,15 +166,15 @@
 {
     // Navigation logic may go here, for example:
     // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+    RepoInfoViewController *repoInfoViewController = [[RepoInfoViewController alloc] initWithNibName:@"RepoInfoViewController" bundle:nil];
 
-    // Pass the selected object to the new view controller.
+    NSDictionary *repo = self.starringList[indexPath.row];
+    repoInfoViewController.repoURLString = [repo valueForKey:@"url"];
     
     // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    [self.navigationController pushViewController:repoInfoViewController animated:YES];
 }
  
- */
 #pragma mark - Fetching Starring
 
 - (void)startNetworkIndicator {

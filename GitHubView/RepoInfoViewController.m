@@ -1,37 +1,24 @@
 //
-//  RepositoryViewController.m
+//  RepoInfoViewController.m
 //  GitHubView
 //
-//  Created by Sungju Kwon on 1/10/13.
+//  Created by Sungju Kwon on 11/10/13.
 //  Copyright (c) 2013 Sungju Kwon. All rights reserved.
 //
 
-#import "RepositoryViewController.h"
-#import "PKRevealController.h"
-#import "AFNetworking.h"
-#import "ConfigHelper.h"
-#import "HelperTools.h"
 #import "RepoInfoViewController.h"
+#import "ConfigHelper.h"
+#import "AFNetworking.h"
+#import "HelperTools.h"
 
-@interface RepositoryViewController ()
+@interface RepoInfoViewController ()
 
 @end
 
-@implementation RepositoryViewController
+@implementation RepoInfoViewController
 
-@synthesize reposList;
-
-- (void)showLeftMenu:(id)sender
-{
-    if (self.navigationController.revealController.focusedController == self.navigationController.revealController.leftViewController)
-    {
-        [self.navigationController.revealController showViewController:self.navigationController.revealController.frontViewController];
-    }
-    else
-    {
-        [self.navigationController.revealController showViewController:self.navigationController.revealController.leftViewController];
-    }
-}
+@synthesize repoInfo;
+@synthesize repoURLString;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -51,30 +38,21 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.view.backgroundColor = [UIColor whiteColor];
     
-    UIImage *revealImagePortrait = [UIImage imageNamed:@"reveal_menu_icon_portrait"];
-    UIImage *revealImageLandscape = [UIImage imageNamed:@"reveal_menu_icon_landscape"];
-    
-    if (self.navigationController.revealController.type & PKRevealControllerTypeLeft)
-    {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showLeftMenu:)];
-    }
-    self.title = @"Repository";
+    self.title = @"Repo Info";
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.tintColor = [UIColor grayColor];
-    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Updating Repository list"];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Updating News Feed"];
     [refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
     
-    self.reposList = [[NSMutableArray alloc] init];
     [self pullToRefresh];
 }
 
 - (void) pullToRefresh
 {
-    [self refreshRepoList];
+    [self refreshRepoInfo];
     [self performSelector:@selector(updateTable) withObject:nil afterDelay:0];
 }
 
@@ -101,20 +79,47 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return self.reposList.count;
+    return 5;
+}
+
+- (NSString *)getStringFor:(NSString *)key From:(NSDictionary *)dictonary
+{
+    NSString *result = [dictonary valueForKey:key];
+    if (result == (id)[NSNull null] || result.length == 0 || [result isEqualToString:@"null"] )
+        result = @"";
+    
+    return result;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"RepoInfoCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
     // Configure the cell...
-    NSDictionary *repo = self.reposList[indexPath.row];
-    cell.textLabel.text = [repo valueForKey:@"full_name"];
+    switch (indexPath.row) {
+        case 0:
+            cell.textLabel.text = [self getStringFor:@"name" From:self.repoInfo];
+            break;
+        case 1:
+            cell.textLabel.text = [self getStringFor:@"description" From:self.repoInfo];
+            break;
+        case 2:
+            cell.textLabel.text = [self getStringFor:@"login" From:[self.repoInfo valueForKey:@"owner"]];
+            break;
+        case 3:
+            cell.textLabel.text = [self getStringFor:@"homepage" From:self.repoInfo];
+            break;
+        case 4:
+            cell.textLabel.text = [self getStringFor:@"language" From:self.repoInfo];
+            break;
+            
+        default:
+            break;
+    }
     
     return cell;
 }
@@ -158,6 +163,7 @@
 }
 */
 
+/*
 #pragma mark - Table view delegate
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
@@ -165,16 +171,17 @@
 {
     // Navigation logic may go here, for example:
     // Create the next view controller.
-    RepoInfoViewController *repoInfoViewController = [[RepoInfoViewController alloc] initWithNibName:@"RepoInfoViewController" bundle:nil];
-    
-    NSDictionary *repo = self.reposList[indexPath.row];
-    repoInfoViewController.repoURLString = [repo valueForKey:@"url"];
+    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+
+    // Pass the selected object to the new view controller.
     
     // Push the view controller.
-    [self.navigationController pushViewController:repoInfoViewController animated:YES];
+    [self.navigationController pushViewController:detailViewController animated:YES];
 }
+ 
+ */
 
-#pragma mark - Fetching Repository List
+#pragma mark - Fetching Repo Info
 
 - (void)startNetworkIndicator {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
@@ -183,12 +190,8 @@
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
-- (void)refreshRepoList
+- (void)refreshRepoInfo
 {
-    NSString *hostAddr = @"https://api.github.com";
-    NSString *path = @"/repositories";
-    //NSString *path = @"/legacy/repos/search/:" + searchKeyword;
-    
     NSDictionary *profileList = [ConfigHelper loadUserProfile];
     NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
     NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
@@ -196,19 +199,17 @@
     NSString *password = [userProfile valueForKey:@"password"];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
+
     NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"Basic %@", [HelperTools AFBase64EncodedStringFromString:basicAuthCredentials]] forHTTPHeaderField:@"Authorization"];
     
     [self startNetworkIndicator];
-    [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
-        NSLog(@"JSON: %@", JSON);
-        [self.reposList removeAllObjects];
-        [self.reposList addObjectsFromArray:JSON];
+    [manager GET:self.repoURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+        NSLog(@"REPOINFO : %@", JSON);
+        self.repoInfo = JSON;
         [self.tableView reloadData];
         [self stopNetworkIndicator];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"ERROR: %@", error);
         NSString *errorMessage = error.localizedDescription;
         [self stopNetworkIndicator];
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
