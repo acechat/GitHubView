@@ -10,6 +10,7 @@
 #import "ConfigHelper.h"
 #import "AFNetworking.h"
 #import "HelperTools.h"
+#import "AccountViewController.h"
 
 @interface RepoInfoViewController ()
 
@@ -19,6 +20,10 @@
 
 @synthesize repoInfo;
 @synthesize repoURLString;
+@synthesize titleOfCell;
+@synthesize branches;
+@synthesize branchHashList;
+@synthesize branchNameList;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -46,6 +51,13 @@
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Updating News Feed"];
     [refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
+    self.branches = [[NSMutableArray alloc] initWithCapacity:10];
+    self.branchNameList = [[NSMutableArray alloc] initWithCapacity:10];
+    self.branchHashList = [[NSMutableArray alloc] initWithCapacity:10];
+    
+    NSArray *firstSection = [[NSArray alloc] initWithObjects:@"name", @"description", @"owner", nil];
+    NSArray *secondSection = [[NSArray alloc] initWithObjects:@"url", @"homepage", @"created_at", @"pushed_at", @"watchers", @"size", nil];
+    self.titleOfCell = [[NSArray alloc] initWithObjects:firstSection, secondSection, nil];
     
     [self pullToRefresh];
 }
@@ -73,46 +85,160 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 5;
+    if (section == 2) {
+        return [self.branches count];
+    }
+    
+    NSArray *data = [self.titleOfCell objectAtIndex:section];
+    return [data count];
 }
+
+- (NSString *)titleOfCellAtRow:(int)row InSection:(int)section
+{
+    if (section == 2) {
+        return [HelperTools getStringAt:row From:self.branchNameList];
+    }
+    
+    NSArray *data = [self.titleOfCell objectAtIndex:section];
+    
+    return [data objectAtIndex:row];
+}
+
+- (NSString *)shortDateString:(NSDate *)origDate
+{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    NSString *theDate = [dateFormat stringFromDate:origDate];
+    
+    return theDate;
+}
+
+-(NSString *)dateDiff:(NSString *)origDate {
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+    NSDate *convertedDate = [df dateFromString:origDate];
+    
+    NSDate *todayDate = [NSDate date];
+    double ti = [convertedDate timeIntervalSinceDate:todayDate];
+    ti = ti * -1;
+    NSString *result = @"";
+    if(ti < 1) {
+        result = origDate;
+    } else if (ti < 60) {
+        result = @"less than a minute ago";
+    } else if (ti < 3600) {
+        int diff = round(ti / 60);
+        result = [NSString stringWithFormat:@"%d minutes ago", diff];
+    } else if (ti < 86400) {
+        int diff = round(ti / 60 / 60);
+        result = [NSString stringWithFormat:@"%d hours ago", diff];
+    } else if (ti < 2629743) {
+        int diff = round(ti / 60 / 60 / 24);
+        result = [NSString stringWithFormat:@"%d days ago", diff];
+    } else {
+        result = [NSString stringWithFormat:@"%@", [self shortDateString:convertedDate]];
+    }
+    return result;
+}
+
+- (NSString *)dataOfCellAtRow:(int)row InSection:(int)section
+{
+    NSString *data = nil;
+    if (section == 1) {
+        if (row == 0) {
+            data = [HelperTools getStringFor:@"url" From:self.repoInfo];
+        } else if (row == 2 || row == 3) {
+            data = [self dateDiff:[repoInfo objectForKey:[self titleOfCellAtRow:row InSection:section]]];
+        } else if (row == 4) {
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+            
+            data = [NSString stringWithFormat:@"%@ Users  ", [formatter stringFromNumber:[NSNumber numberWithInt:[[repoInfo objectForKey:[self titleOfCellAtRow:row InSection:section]] intValue]]]];
+        } else if (row == 5) {
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+            
+            data = [NSString stringWithFormat:@"%@ Bytes  ", [formatter stringFromNumber:[NSNumber numberWithInt:[[repoInfo objectForKey:[self titleOfCellAtRow:row InSection:section]] intValue]]]];
+        } else {
+            data = [repoInfo objectForKey:[self titleOfCellAtRow:row InSection:section]];
+        }
+    } else if (section == 2) {
+        data = [self.branchHashList objectAtIndex:row];
+    } else {
+        if (row == 2)
+            data = [HelperTools getStringFor:@"login" From:[self.repoInfo valueForKey:@"owner"]];
+        else
+            data = [repoInfo objectForKey:[self titleOfCellAtRow:row InSection:section]];
+    }
+    if (data == nil || [data isKindOfClass:[NSNull class]])
+        data = @"";
+    
+    return data;
+}
+
+- (NSString *)changeUnderscore:(NSString *)data
+{
+    NSMutableString *str = [[NSMutableString alloc] init];
+    
+    [str appendString:data];
+    [str replaceOccurrencesOfString:@"_" withString:@" " options:NSCaseInsensitiveSearch range:NSMakeRange(0, [str length])];
+    
+    return str;
+}
+
+#define BRANCH_SECTION  2
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"RepoInfoCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *BranchCellIdentifier = @"RepoInfoBranchCell";
+    long section = indexPath.section;
+    long row = indexPath.row;
+    
+    UITableViewCell *cell = nil;
+    
+    cell = [tableView dequeueReusableCellWithIdentifier:
+            (section == BRANCH_SECTION) ? BranchCellIdentifier : CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:(section == BRANCH_SECTION) ? UITableViewCellStyleDefault : UITableViewCellStyleValue2
+                                      reuseIdentifier:(section == BRANCH_SECTION) ? BranchCellIdentifier : CellIdentifier];
     }
     
     // Configure the cell...
-    switch (indexPath.row) {
-        case 0:
-            cell.textLabel.text = [HelperTools getStringFor:@"name" From:self.repoInfo];
-            break;
-        case 1:
-            cell.textLabel.text = [HelperTools getStringFor:@"description" From:self.repoInfo];
-            break;
-        case 2:
-            cell.textLabel.text = [HelperTools getStringFor:@"login" From:[self.repoInfo valueForKey:@"owner"]];
-            break;
-        case 3:
-            cell.textLabel.text = [HelperTools getStringFor:@"homepage" From:self.repoInfo];
-            break;
-        case 4:
-            cell.textLabel.text = [HelperTools getStringFor:@"language" From:self.repoInfo];
-            break;
-            
-        default:
-            break;
+    
+    if (section == BRANCH_SECTION) { // Branches
+        cell.textLabel.text = [self titleOfCellAtRow:row InSection:section];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    } else {
+        cell.textLabel.text = [self changeUnderscore:[self titleOfCellAtRow:row InSection:section]];
+        cell.detailTextLabel.text = [self dataOfCellAtRow:row InSection:section];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        if (cell.detailTextLabel.text.length > 0) {
+            if ((section == 0 && row == 2) || ((section == 1 && (row == 0 || row == 1)))) {
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
+        }
     }
     
     return cell;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    switch (section) {
+        case 0: return @"Basic";
+        case 1: return @"Details";
+        case 2: return @"Branches";
+    }
+    return @"";
 }
 
 /*
@@ -154,23 +280,24 @@
 }
 */
 
-/*
 #pragma mark - Table view delegate
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here, for example:
-    // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-
-    // Pass the selected object to the new view controller.
+    long section = indexPath.section;
+    long row = indexPath.row;
     
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    if (section == 0 && row == 2) { // Selected owner info
+        AccountViewController *userDetailViewController = [[AccountViewController alloc]
+                                                              initWithNibName:@"AccountViewController" bundle:nil];
+        
+        userDetailViewController.userToView = [HelperTools getStringFor:@"login" From:[self.repoInfo valueForKey:@"owner"]];
+        
+        [self.navigationController pushViewController:userDetailViewController animated:YES];
+    }
+
 }
- 
- */
 
 #pragma mark - Fetching Repo Info
 
@@ -198,6 +325,38 @@
     [manager GET:self.repoURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
         NSLog(@"REPOINFO : %@", JSON);
         self.repoInfo = JSON;
+        [self.tableView reloadData];
+        [self stopNetworkIndicator];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSString *errorMessage = error.localizedDescription;
+        [self stopNetworkIndicator];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:errorMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Close"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+
+    [manager GET:[NSString stringWithFormat:@"%@/branches", repoURLString] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+        NSLog(@"BRANCHES : %@", JSON);        
+        NSMutableArray *branchList = [[NSMutableArray alloc] init];
+        for (NSDictionary *dic in JSON) {
+            [branchList addObject:dic];
+        }
+        BOOL reverseSort = NO;
+        self.branches = [[branchList sortedArrayUsingFunction:alphabeticBranchSort context:&reverseSort] mutableCopy];
+        
+        [self.branchHashList removeAllObjects];
+        [self.branchNameList removeAllObjects];
+        
+        NSMutableDictionary *data;
+        for (int i = 0; i < self.branches.count; i++) {
+            data = self.branches[i];
+            [self.branchNameList addObject:[data valueForKey:@"name"]];
+            [self.branchHashList addObject:[[data valueForKey:@"commit"] valueForKey:@"sha"]];
+        }
+        
         [self.tableView reloadData];
         [self stopNetworkIndicator];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

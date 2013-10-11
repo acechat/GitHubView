@@ -48,6 +48,26 @@
     return result;
 }
 
++ (NSString *)getStringAt:(int)index From:(NSArray *)array
+{
+    NSString *result = array[index];
+    if (result == (id)[NSNull null] || result.length == 0 || [result isEqualToString:@"null"] )
+        result = @"";
+    
+    return result;
+}
+
+
+NSInteger alphabeticBranchSort(id branch1, id branch2, void *reverse)
+{
+    NSString *branch1Name = [branch1 valueForKey:@"name"];
+    NSString *branch2Name = [branch2 valueForKey:@"name"];
+    
+    if (*(BOOL *)reverse == YES) {
+        return [branch2Name localizedCaseInsensitiveCompare:branch1Name];
+    }
+    return [branch1Name localizedCaseInsensitiveCompare:branch2Name];
+}
 
 
 @end

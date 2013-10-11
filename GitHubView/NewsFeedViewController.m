@@ -212,10 +212,7 @@
     
     path = [NSString stringWithFormat:@"/%@.private.atom", selectedUserID];
 
-    //NSURLCredential *credential = [NSURLCredential credentialWithUser:[userProfile valueForKey:@"user_id"] password:[userProfile valueForKey:@"password"] persistence:NSURLCredentialPersistenceForSession];
-    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    //[manager setCredential:credential];
     manager.responseSerializer = [AFXMLParserResponseSerializer new];
     
     NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];

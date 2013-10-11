@@ -12,4 +12,10 @@
 
 @property (nonatomic, retain) NSDictionary *repoInfo;
 @property (nonatomic, retain) NSString *repoURLString;
+
+@property (nonatomic, retain) NSArray *titleOfCell;
+
+@property (nonatomic, retain) NSMutableArray *branches;
+@property (nonatomic, retain) NSMutableArray *branchNameList;
+@property (nonatomic, retain) NSMutableArray *branchHashList;
 @end
