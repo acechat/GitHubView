@@ -19,6 +19,7 @@
 @implementation AccountViewController
 
 @synthesize userDetails;
+@synthesize avatarImage;
 
 - (void)showLeftMenu:(id)sender
 {
@@ -66,8 +67,9 @@
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Updating My details"];
     [refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
+    self.avatarImage = nil;
     
-    [self refreshAccountDetails];
+    [self pullToRefresh];
 }
 
 - (void) pullToRefresh
@@ -114,6 +116,21 @@
     switch (indexPath.row) {
         case 0:
             cell.textLabel.text = [self.userDetails valueForKey:@"login"];
+            if (self.avatarImage == nil) {
+                dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+                dispatch_async(queue, ^(void) {
+                    self.avatarImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self.userDetails valueForKey:@"avatar_url"]]]];
+                    if (self.avatarImage) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (cell.tag == indexPath.row) {
+                                cell.imageView.image = self.avatarImage;
+                                [cell setNeedsLayout];
+                            }
+                        });
+                    }
+                });
+            }
+            cell.imageView.image = self.avatarImage;
             break;
         case 1:
             cell.textLabel.text = [self.userDetails valueForKey:@"name"];

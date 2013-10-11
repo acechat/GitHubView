@@ -11,5 +11,6 @@
 @interface AccountViewController : UITableViewController
 
 @property (nonatomic, retain) NSMutableDictionary *userDetails;
+@property (nonatomic, retain) UIImage *avatarImage;
 
 @end
