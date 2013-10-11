@@ -68,7 +68,7 @@
     self.refreshControl = refreshControl;
     
     self.reposList = [[NSMutableArray alloc] init];
-    [self refreshRepoList];
+    [self pullToRefresh];
 }
 
 - (void) pullToRefresh

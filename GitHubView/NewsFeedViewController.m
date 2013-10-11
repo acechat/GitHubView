@@ -84,7 +84,7 @@
     self.feedPosts = [[NSMutableArray alloc] init];
     self.userIconDictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
     
-    [self refreshNewsFeed];
+    [self pullToRefresh];
 }
 
 - (void) pullToRefresh

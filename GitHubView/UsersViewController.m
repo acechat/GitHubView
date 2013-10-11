@@ -71,7 +71,7 @@
     self.usersList = [[NSMutableArray alloc] init];
     self.userImageList = [[NSMutableDictionary alloc] init];
     
-    [self refreshUsersList];
+    [self pullToRefresh];
 }
 
 - (void) pullToRefresh

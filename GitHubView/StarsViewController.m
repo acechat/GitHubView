@@ -70,7 +70,7 @@
     
     self.starringList = [[NSMutableArray alloc] init];
     
-    [self refreshStarring];
+    [self pullToRefresh];
 }
 
 - (void) pullToRefresh

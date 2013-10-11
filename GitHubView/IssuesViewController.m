@@ -69,7 +69,7 @@
 
     self.issuesList = [[NSMutableArray alloc] init];
     
-    [self refreshIssues];
+    [self pullToRefresh];
 }
 
 - (void) pullToRefresh
