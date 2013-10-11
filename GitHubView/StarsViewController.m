@@ -115,7 +115,8 @@
     }
     
     // Configure the cell...
-    cell.textLabel.text = [self.starringList[indexPath.row] valueForKey:@"full_name"];
+    NSDictionary *star = self.starringList[indexPath.row];
+    cell.textLabel.text = [HelperTools getStringFor:@"full_name" From:star];
     
     return cell;
 }
@@ -169,7 +170,7 @@
     RepoInfoViewController *repoInfoViewController = [[RepoInfoViewController alloc] initWithNibName:@"RepoInfoViewController" bundle:nil];
 
     NSDictionary *repo = self.starringList[indexPath.row];
-    repoInfoViewController.repoURLString = [repo valueForKey:@"url"];
+    repoInfoViewController.repoURLString = [HelperTools getStringFor:@"url" From:repo];
     
     // Push the view controller.
     [self.navigationController pushViewController:repoInfoViewController animated:YES];

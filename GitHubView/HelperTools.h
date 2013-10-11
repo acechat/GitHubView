@@ -11,5 +11,6 @@
 @interface HelperTools : NSObject
 
 + (NSString *)AFBase64EncodedStringFromString:(NSString *)string;
++ (NSString *)getStringFor:(NSString *)key From:(NSDictionary *)dictonary;
 
 @end

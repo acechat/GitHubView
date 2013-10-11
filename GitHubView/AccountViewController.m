@@ -145,13 +145,12 @@
             cell.imageView.image = self.avatarImage;
             break;
         case 1:
-            cell.textLabel.text = [self.userDetails valueForKey:@"name"];
+            cell.textLabel.text = [HelperTools getStringFor:@"name" From:self.userDetails];
             break;
         case 2:
-            cell.textLabel.text = [self.userDetails valueForKey:@"company"];
-            break;
+            cell.textLabel.text = [HelperTools getStringFor:@"company" From:self.userDetails];            break;
         case 3:
-            cell.textLabel.text = [self.userDetails valueForKey:@"email"];
+            cell.textLabel.text = [HelperTools getStringFor:@"email" From:self.userDetails];
             break;
         default:
             break;

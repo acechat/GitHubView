@@ -117,7 +117,7 @@
     
     // Configure the cell...
     NSDictionary *user = self.usersList[indexPath.row];
-    NSString *loginID = [user valueForKey:@"login"];
+    NSString *loginID = [HelperTools getStringFor:@"login" From:user];
     cell.textLabel.text = loginID;
     UIImage *image = [self.userImageList valueForKey:loginID];
     if (image == nil) {

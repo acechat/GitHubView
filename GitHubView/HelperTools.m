@@ -39,5 +39,15 @@
     return [[NSString alloc] initWithData:mutableData encoding:NSASCIIStringEncoding];
 }
 
++ (NSString *)getStringFor:(NSString *)key From:(NSDictionary *)dictonary
+{
+    NSString *result = [dictonary valueForKey:key];
+    if (result == (id)[NSNull null] || result.length == 0 || [result isEqualToString:@"null"] )
+        result = @"";
+    
+    return result;
+}
+
+
 
 @end

@@ -114,7 +114,7 @@
     
     // Configure the cell...
     NSDictionary *repo = self.reposList[indexPath.row];
-    cell.textLabel.text = [repo valueForKey:@"full_name"];
+    cell.textLabel.text = [HelperTools getStringFor:@"full_name" From:repo];
     
     return cell;
 }

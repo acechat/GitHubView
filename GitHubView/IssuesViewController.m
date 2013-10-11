@@ -114,7 +114,7 @@
     
     // Configure the cell...
     NSDictionary *issue = self.issuesList[indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@:%@", [issue valueForKey:@"title"], [issue valueForKey:@"body"]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@:%@", [HelperTools getStringFor:@"title" From:issue], [HelperTools getStringFor:@"body" From:issue]];
     
     return cell;
 }

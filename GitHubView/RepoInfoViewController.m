@@ -82,15 +82,6 @@
     return 5;
 }
 
-- (NSString *)getStringFor:(NSString *)key From:(NSDictionary *)dictonary
-{
-    NSString *result = [dictonary valueForKey:key];
-    if (result == (id)[NSNull null] || result.length == 0 || [result isEqualToString:@"null"] )
-        result = @"";
-    
-    return result;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"RepoInfoCell";
@@ -102,19 +93,19 @@
     // Configure the cell...
     switch (indexPath.row) {
         case 0:
-            cell.textLabel.text = [self getStringFor:@"name" From:self.repoInfo];
+            cell.textLabel.text = [HelperTools getStringFor:@"name" From:self.repoInfo];
             break;
         case 1:
-            cell.textLabel.text = [self getStringFor:@"description" From:self.repoInfo];
+            cell.textLabel.text = [HelperTools getStringFor:@"description" From:self.repoInfo];
             break;
         case 2:
-            cell.textLabel.text = [self getStringFor:@"login" From:[self.repoInfo valueForKey:@"owner"]];
+            cell.textLabel.text = [HelperTools getStringFor:@"login" From:[self.repoInfo valueForKey:@"owner"]];
             break;
         case 3:
-            cell.textLabel.text = [self getStringFor:@"homepage" From:self.repoInfo];
+            cell.textLabel.text = [HelperTools getStringFor:@"homepage" From:self.repoInfo];
             break;
         case 4:
-            cell.textLabel.text = [self getStringFor:@"language" From:self.repoInfo];
+            cell.textLabel.text = [HelperTools getStringFor:@"language" From:self.repoInfo];
             break;
             
         default:
