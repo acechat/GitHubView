@@ -34,6 +34,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self buttonCheckForGo];
 }
 
 - (void)loadURL
@@ -158,6 +159,7 @@
                                                   cancelButtonTitle:@"Close"
                                                   otherButtonTitles:nil];
         [alertView show];
+        self.navigationItem.title = @"ERROR";
     }
 }
 
