@@ -31,13 +31,13 @@
                     <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <items>
-                        <barButtonItem systemItem="rewind" id="yE5-sk-GBP">
+                        <barButtonItem image="left_arrow.png" id="yE5-sk-GBP">
                             <connections>
                                 <action selector="goBack:" destination="-1" id="KNT-Wq-aZY"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem width="27" style="plain" systemItem="fixedSpace" id="99c-ht-iIV"/>
-                        <barButtonItem systemItem="fastForward" id="69J-XT-Qcj">
+                        <barButtonItem image="right_arrow.png" id="69J-XT-Qcj">
                             <connections>
                                 <action selector="goForward:" destination="-1" id="gzK-Ya-kwn"/>
                             </connections>
@@ -71,4 +71,8 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
+    <resources>
+        <image name="left_arrow.png" width="32" height="32"/>
+        <image name="right_arrow.png" width="32" height="32"/>
+    </resources>
 </document>
