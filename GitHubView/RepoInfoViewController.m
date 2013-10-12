@@ -292,16 +292,19 @@
     long row = indexPath.row;
     
     if (section == 0 && row == 2) { // Selected owner info
-        AccountViewController *userDetailViewController = [[AccountViewController alloc]
-                                                              initWithNibName:@"AccountViewController" bundle:nil];
-        
-        userDetailViewController.userToView = [HelperTools getStringFor:@"login" From:[self.repoInfo valueForKey:@"owner"]];
-        
-        [self.navigationController pushViewController:userDetailViewController animated:YES];
+        NSString *user = [HelperTools getStringFor:@"login" From:[self.repoInfo valueForKey:@"owner"]];
+        if (user != nil && user.length > 0) {
+            AccountViewController *userDetailViewController = [[AccountViewController alloc]
+                                                                  initWithNibName:@"AccountViewController" bundle:nil];
+            
+            userDetailViewController.userToView = user;
+            
+            [self.navigationController pushViewController:userDetailViewController animated:YES];
+        }
     } else if (section == 1) { // Details
         if (row == 0 || row == 1) { // Repo URL or HomePage
             NSString *url = [self dataOfCellAtRow:row InSection:section];
-            if (url != nil) {
+            if (url != nil && url.length > 0) {
                 WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
                 webViewController.webURLString = url;
                 [self.navigationController pushViewController:webViewController animated:YES];
