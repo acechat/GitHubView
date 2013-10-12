@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
 
-@interface AccountViewController : UITableViewController
+@interface AccountViewController : UITableViewController <MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, retain) NSMutableDictionary *userDetails;
 @property (nonatomic, retain) UIImage *avatarImage;

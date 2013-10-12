@@ -12,6 +12,7 @@
 #import "ConfigHelper.h"
 #import "HelperTools.h"
 #import "WebViewController.h"
+#import "RepoInfoViewController.h"
 
 @interface AccountViewController ()
 
@@ -246,7 +247,7 @@
             cell.textLabel.text = [self changeUnderscore:[self titleOfCellAtRow:row InSection:section]];
             cell.detailTextLabel.text = [self dataOfCellAtRow:row InSection:section];
         }
-        if (section == 0 && row == 5 && cell.detailTextLabel.text.length > 0)
+        if (section == 0 && (row == 2 || row == 5) && cell.detailTextLabel.text.length > 0)
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         else
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -310,6 +311,42 @@
 }
 */
 
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError*)error;
+{
+    if (result == MFMailComposeResultSent) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Sent email" delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
+        [alert show];
+        
+        // Create the perform selector method with alert view object and time-period
+        [self performSelector:@selector(dismissAlertView:) withObject:alert afterDelay:0.7];
+    }
+    [controller dismissViewControllerAnimated:YES completion:^{
+    }];
+}
+
+// Dismiss the alert view after time-Period
+-(void)dismissAlertView:(UIAlertView *)alert
+{
+    [alert dismissWithClickedButtonIndex:-1 animated:YES];
+    
+}
+
+- (void)sendEMail:(NSString *)recipient
+{
+    NSString *bodyText = [NSString stringWithFormat:@"Hello %@,\n", [self dataOfCellAtRow:1 InSection:0]];
+    MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
+    controller.mailComposeDelegate = self;
+    [controller setToRecipients:[NSArray arrayWithObjects:recipient, nil]];
+    [controller setSubject:@"Hello"];
+    [controller setMessageBody:bodyText isHTML:NO];
+    if (controller)
+        [self presentViewController:controller animated:YES completion:^{
+        }];
+}
+
 #pragma mark - Table view delegate
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
@@ -319,7 +356,11 @@
     long row = indexPath.row;
     
     if (section == 0) { // Basic
-        if (row == 5) { // Blog URL
+        if (row == 2) { // email
+            NSString *recipient = [self dataOfCellAtRow:2 InSection:0];
+            if (recipient != nil && recipient.length > 0)
+                [self sendEMail:recipient];
+        } else if (row == 5) { // Blog URL
             NSString *url = [self dataOfCellAtRow:row InSection:section];
             if (url != nil && url.length > 0) {
                 WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
@@ -327,6 +368,13 @@
                 [self.navigationController pushViewController:webViewController animated:YES];
             }
         }
+    } else if (section == 2) { // Repo Info
+        RepoInfoViewController *repoInfoViewController = [[RepoInfoViewController alloc] initWithNibName:@"RepoInfoViewController" bundle:nil];
+        
+        NSDictionary *repo = self.repoList[indexPath.row];
+        repoInfoViewController.repoURLString = [HelperTools getStringFor:@"url" From:repo];
+        
+        [self.navigationController pushViewController:repoInfoViewController animated:YES];
     }
 }
 
