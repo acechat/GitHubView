@@ -57,7 +57,7 @@
     self.branchHashList = [[NSMutableArray alloc] initWithCapacity:10];
     
     NSArray *firstSection = [[NSArray alloc] initWithObjects:@"name", @"description", @"owner", nil];
-    NSArray *secondSection = [[NSArray alloc] initWithObjects:@"url", @"homepage", @"created_at", @"pushed_at", @"watchers", @"size", nil];
+    NSArray *secondSection = [[NSArray alloc] initWithObjects:@"html_url", @"homepage", @"created_at", @"pushed_at", @"watchers", @"size", nil];
     self.titleOfCell = [[NSArray alloc] initWithObjects:firstSection, secondSection, nil];
     
     [self pullToRefresh];
@@ -153,9 +153,11 @@
 - (NSString *)dataOfCellAtRow:(int)row InSection:(int)section
 {
     NSString *data = nil;
+    NSString *title = [self titleOfCellAtRow:row InSection:section];
+    
     if (section == 1) {
         if (row == 0) {
-            data = [HelperTools getStringFor:@"url" From:self.repoInfo];
+            data = [HelperTools getStringFor:title From:self.repoInfo];
         } else if (row == 2 || row == 3) {
             data = [self dateDiff:[repoInfo objectForKey:[self titleOfCellAtRow:row InSection:section]]];
         } else if (row == 4) {
@@ -175,9 +177,9 @@
         data = [self.branchHashList objectAtIndex:row];
     } else {
         if (row == 2)
-            data = [HelperTools getStringFor:@"login" From:[self.repoInfo valueForKey:@"owner"]];
+            data = [HelperTools getStringFor:@"login" From:[self.repoInfo valueForKey:title]];
         else
-            data = [repoInfo objectForKey:[self titleOfCellAtRow:row InSection:section]];
+            data = [repoInfo objectForKey:title];
     }
     if (data == nil || [data isKindOfClass:[NSNull class]])
         data = @"";

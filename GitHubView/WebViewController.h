@@ -7,11 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
 
-@interface WebViewController : UIViewController
+@interface WebViewController : UIViewController <UIWebViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 
 @property (nonatomic, retain) NSString *webURLString;
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *goBackButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *goForwardButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *reloadURLButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *doActionButton;
+
+
+- (IBAction)goBack:(id)sender;
+- (IBAction)goForward:(id)sender;
+- (IBAction)reloadURL:(id)sender;
+- (IBAction)doBrowseAction:(id)sender;
+
 
 @end

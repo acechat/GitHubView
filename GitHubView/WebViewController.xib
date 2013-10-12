@@ -6,6 +6,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WebViewController">
             <connections>
+                <outlet property="doActionButton" destination="1AF-sm-L0k" id="Vky-Ly-NrO"/>
+                <outlet property="goBackButton" destination="yE5-sk-GBP" id="CWM-tJ-X1r"/>
+                <outlet property="goForwardButton" destination="69J-XT-Qcj" id="qdl-Da-XN6"/>
+                <outlet property="reloadURLButton" destination="xq3-0m-g7Z" id="Nxp-D5-tqu"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="webView" destination="5Kh-3z-9wG" id="elu-mN-i1S"/>
             </connections>
@@ -15,22 +19,54 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <webView contentMode="scaleToFill" fixedFrame="YES" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Kh-3z-9wG">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Kh-3z-9wG">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="bny-zh-hjq"/>
+                    </connections>
                 </webView>
-                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OFg-af-bAp">
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OFg-af-bAp">
                     <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <items>
-                        <barButtonItem systemItem="stop" id="yE5-sk-GBP"/>
-                        <barButtonItem systemItem="redo" id="69J-XT-Qcj"/>
-                        <barButtonItem title="Item" id="xq3-0m-g7Z"/>
+                        <barButtonItem systemItem="rewind" id="yE5-sk-GBP">
+                            <connections>
+                                <action selector="goBack:" destination="-1" id="KNT-Wq-aZY"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="27" style="plain" systemItem="fixedSpace" id="99c-ht-iIV"/>
+                        <barButtonItem systemItem="fastForward" id="69J-XT-Qcj">
+                            <connections>
+                                <action selector="goForward:" destination="-1" id="gzK-Ya-kwn"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="27" style="plain" systemItem="fixedSpace" id="fxK-g5-2UZ"/>
+                        <barButtonItem systemItem="refresh" id="xq3-0m-g7Z">
+                            <connections>
+                                <action selector="reloadURL:" destination="-1" id="MU4-V8-DVq"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="iBZ-TT-3rK"/>
+                        <barButtonItem systemItem="action" id="1AF-sm-L0k">
+                            <connections>
+                                <action selector="doBrowseAction:" destination="-1" id="8qm-9c-5qy"/>
+                            </connections>
+                        </barButtonItem>
                     </items>
                 </toolbar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="5Kh-3z-9wG" firstAttribute="bottom" secondItem="OFg-af-bAp" secondAttribute="top" id="1fc-I4-K0S"/>
+                <constraint firstAttribute="bottom" secondItem="OFg-af-bAp" secondAttribute="bottom" id="4wU-PC-8ZK"/>
+                <constraint firstItem="5Kh-3z-9wG" firstAttribute="leading" secondItem="OFg-af-bAp" secondAttribute="leading" id="Fq1-xS-lhM"/>
+                <constraint firstItem="5Kh-3z-9wG" firstAttribute="trailing" secondItem="OFg-af-bAp" secondAttribute="trailing" id="Ihv-YL-HbO"/>
+                <constraint firstAttribute="trailing" secondItem="OFg-af-bAp" secondAttribute="trailing" id="fbE-LT-PaK"/>
+                <constraint firstItem="5Kh-3z-9wG" firstAttribute="top" secondItem="1" secondAttribute="top" id="rUJ-Dx-Env"/>
+                <constraint firstItem="OFg-af-bAp" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="xdU-4U-jmZ"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
