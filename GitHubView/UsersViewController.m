@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Sungju Kwon. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "UsersViewController.h"
 #import "PKRevealController.h"
 #import "AFNetworking.h"
@@ -120,20 +122,24 @@
     NSString *loginID = [HelperTools getStringFor:@"login" From:user];
     cell.textLabel.text = loginID;
     cell.detailTextLabel.text = [HelperTools getStringFor:@"html_url" From:user];
+    
+    cell.imageView.layer.masksToBounds = YES;
+    cell.imageView.layer.cornerRadius = 10;
+    
     UIImage *image = [self.userImageList valueForKey:loginID];
     if (image == nil) {
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
         dispatch_async(queue, ^(void) {
             UIImage *myimage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[user valueForKey:@"avatar_url"]]]];
             if (myimage) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        if (cell.tag == indexPath.row) {
-                            cell.imageView.image = myimage;
-                            [cell setNeedsLayout];
-                        }
-                    });
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (cell.tag == indexPath.row) {
+                        cell.imageView.image = myimage;
+                        [cell setNeedsLayout];
+                    }
+                });
+                [self.userImageList setValue:myimage forKey:loginID];
             }
-            [self.userImageList setValue:myimage forKey:loginID];
         });
     }
     cell.imageView.image = image;

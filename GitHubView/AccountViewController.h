@@ -15,4 +15,7 @@
 
 @property (nonatomic, retain) NSString *userToView;
 
+@property (nonatomic, retain) NSArray *titleOfCell;
+@property (nonatomic, retain) NSMutableArray *repoList;
+
 @end

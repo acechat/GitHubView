@@ -11,6 +11,7 @@
 #import "AFNetworking.h"
 #import "ConfigHelper.h"
 #import "HelperTools.h"
+#import "WebViewController.h"
 
 @interface AccountViewController ()
 
@@ -21,6 +22,8 @@
 @synthesize userDetails;
 @synthesize avatarImage;
 @synthesize userToView = _userToView;
+@synthesize repoList;
+@synthesize titleOfCell;
 
 - (void)setUserToView:(NSString *)userToView
 {
@@ -81,6 +84,10 @@
     self.refreshControl = refreshControl;
     self.avatarImage = nil;
     
+    NSArray *firstSection = [[NSArray alloc] initWithObjects:@"login", @"name", @"email", @"company", @"location", @"blog", nil];
+    NSArray *secondSection = [[NSArray alloc] initWithObjects:@"followers", @"following", @"created_at", nil];
+    self.titleOfCell = [[NSArray alloc] initWithObjects:firstSection, secondSection, nil];
+    
     [self pullToRefresh];
 }
 
@@ -107,56 +114,160 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return 4;
+    switch (section) {
+        case 0:
+        case 1: return [self.titleOfCell[section] count];
+        case 2: return [self.repoList count];
+    }
+    return 0;
+}
+
+- (NSString *)titleOfCellAtRow:(int)row InSection:(int)section
+{
+    if (section == 2) {
+        NSDictionary *dic = [self.repoList objectAtIndex:row];
+        return [dic objectForKey:@"name"];
+    }
+    
+    NSArray *data = [self.titleOfCell objectAtIndex:section];
+    
+    return [data objectAtIndex:row];
+}
+
+- (NSString *)shortDateString:(NSDate *)origDate
+{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    NSString *theDate = [dateFormat stringFromDate:origDate];
+    
+    return theDate;
+}
+
+-(NSString *)dateDiff:(NSString *)origDate {
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+    NSDate *convertedDate = [df dateFromString:origDate];
+    
+    NSDate *todayDate = [NSDate date];
+    double ti = [convertedDate timeIntervalSinceDate:todayDate];
+    ti = ti * -1;
+    if(ti < 1) {
+        return origDate;
+    } else      if (ti < 60) {
+        return @"less than a minute ago";
+    } else if (ti < 3600) {
+        int diff = round(ti / 60);
+        return [NSString stringWithFormat:@"%d minutes ago", diff];
+    } else if (ti < 86400) {
+        int diff = round(ti / 60 / 60);
+        return[NSString stringWithFormat:@"%d hours ago", diff];
+    } else if (ti < 2629743) {
+        int diff = round(ti / 60 / 60 / 24);
+        return[NSString stringWithFormat:@"%d days ago", diff];
+    } else {
+        return [NSString stringWithFormat:@"%@", [self shortDateString:convertedDate]];
+    }
+}
+
+- (NSString *)dataOfCellAtRow:(int)row InSection:(int)section
+{
+    NSString *data = nil;
+    if (section == 1) {
+        if (row == 0 || row == 1) {
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+            
+            data = [NSString stringWithFormat:@"%@ Users", [formatter stringFromNumber:[NSNumber numberWithInt:[[self.userDetails objectForKey:[self titleOfCellAtRow:row InSection:section]] intValue]]]];
+        } else if (row == 2) {
+            data = [NSString stringWithFormat:@"%@", [self dateDiff:[self.userDetails objectForKey:[self titleOfCellAtRow:row InSection:section]]]];
+        }
+    } else if (section == 0) {
+        data = [HelperTools getStringFor:[self titleOfCellAtRow:row InSection:section] From:self.userDetails];
+    }
+    if (data == nil || [data isKindOfClass:[NSNull class]] || data.length == 0)
+        data = @"";
+    
+    return data;
+}
+
+- (NSString *)changeUnderscore:(NSString *)data
+{
+    NSMutableString *str = [[NSMutableString alloc] init];
+    
+    [str appendString:data];
+    [str replaceOccurrencesOfString:@"_" withString:@" " options:NSCaseInsensitiveSearch range:NSMakeRange(0, [str length])];
+    
+    return str;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"AccountCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     
+    cell.imageView.image = nil;
+    cell.imageView.layer.masksToBounds = YES;
+    cell.imageView.layer.cornerRadius = 10;
+    
+    long section = indexPath.section;
+    long row = indexPath.row;
+    
     // Configure the cell...
-    switch (indexPath.row) {
-        case 0:
-            cell.textLabel.text = [self.userDetails valueForKey:@"login"];
-            if (self.avatarImage == nil) {
-                dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
-                dispatch_async(queue, ^(void) {
-                    self.avatarImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self.userDetails valueForKey:@"avatar_url"]]]];
-                    if (self.avatarImage) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            if (cell.tag == indexPath.row) {
-                                cell.imageView.image = self.avatarImage;
-                                [cell setNeedsLayout];
-                            }
-                        });
-                    }
-                });
-            }
-            cell.imageView.image = self.avatarImage;
-            break;
-        case 1:
-            cell.textLabel.text = [HelperTools getStringFor:@"name" From:self.userDetails];
-            break;
-        case 2:
-            cell.textLabel.text = [HelperTools getStringFor:@"company" From:self.userDetails];            break;
-        case 3:
-            cell.textLabel.text = [HelperTools getStringFor:@"email" From:self.userDetails];
-            break;
-        default:
-            break;
+    if (section == 0 || section == 1) { // Basic, Additional
+        if (section == 0 && row == 0) {
+                cell.textLabel.text = @"";
+                cell.detailTextLabel.text = [HelperTools getStringFor:@"login" From:self.userDetails];
+                if (self.avatarImage == nil) {
+                    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+                    dispatch_async(queue, ^(void) {
+                        self.avatarImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self.userDetails valueForKey:@"avatar_url"]]]];
+                        if (self.avatarImage) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                if (cell.tag == indexPath.row) {
+                                    cell.imageView.image = self.avatarImage;
+                                    [cell setNeedsLayout];
+                                }
+                            });
+                        }
+                    });
+                }
+                cell.imageView.image = self.avatarImage;
+        } else {
+            cell.textLabel.text = [self changeUnderscore:[self titleOfCellAtRow:row InSection:section]];
+            cell.detailTextLabel.text = [self dataOfCellAtRow:row InSection:section];
+        }
+        if (section == 0 && row == 5 && cell.detailTextLabel.text.length > 0)
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        else
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        
+    } else if (section == 2) {
+        NSDictionary *repo = self.repoList[row];
+        cell.textLabel.text = [HelperTools getStringFor:@"name" From:repo];
+        cell.detailTextLabel.text = [HelperTools getStringFor:@"description" From:repo];
     }
     
     return cell;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    switch (section) {
+        case 0: return @"Basic";
+        case 1: return @"Additional";
+        case 2: return @"Repositories";
+    }
+    return @"";
 }
 
 /*
@@ -198,23 +309,26 @@
 }
 */
 
-/*
 #pragma mark - Table view delegate
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here, for example:
-    // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-
-    // Pass the selected object to the new view controller.
+    long section = indexPath.section;
+    long row = indexPath.row;
     
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    if (section == 0) { // Basic
+        if (row == 5) { // Blog URL
+            NSString *url = [self dataOfCellAtRow:row InSection:section];
+            if (url != nil && url.length > 0) {
+                WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+                webViewController.webURLString = url;
+                [self.navigationController pushViewController:webViewController animated:YES];
+            }
+        }
+    }
 }
- 
- */
+
 #pragma mark - Fetching User Details
 
 - (void)startNetworkIndicator {
@@ -222,6 +336,39 @@
 }
 - (void)stopNetworkIndicator {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
+
+- (void)refreshRepoList
+{
+    NSString *repoPath = [HelperTools getStringFor:@"repos_url" From:self.userDetails];
+    
+    NSDictionary *profileList = [ConfigHelper loadUserProfile];
+    NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
+    NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
+    NSString *user_id = [userProfile valueForKey:@"user_id"];
+    NSString *password = [userProfile valueForKey:@"password"];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Basic %@", [HelperTools AFBase64EncodedStringFromString:basicAuthCredentials]] forHTTPHeaderField:@"Authorization"];
+    
+    [self startNetworkIndicator];
+    [manager GET:repoPath parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+        self.repoList = JSON;
+        [self.tableView reloadData];
+        [self stopNetworkIndicator];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"ERROR: %@", error);
+        NSString *errorMessage = error.localizedDescription;
+        [self stopNetworkIndicator];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:errorMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Close"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
 }
 
 - (void)refreshAccountDetails
@@ -252,6 +399,8 @@
         userDetails = JSON;
         [self.tableView reloadData];
         [self stopNetworkIndicator];
+        
+        [self refreshRepoList];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"ERROR: %@", error);
         NSString *errorMessage = error.localizedDescription;

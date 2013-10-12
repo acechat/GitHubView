@@ -300,7 +300,7 @@
         [self.navigationController pushViewController:userDetailViewController animated:YES];
     } else if (section == 1) { // Details
         if (row == 0 || row == 1) { // Repo URL or HomePage
-            NSString *url = [self changeUnderscore:[self dataOfCellAtRow:row InSection:section]];
+            NSString *url = [self dataOfCellAtRow:row InSection:section];
             if (url != nil) {
                 WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
                 webViewController.webURLString = url;
