@@ -255,6 +255,7 @@
         NSDictionary *repo = self.repoList[row];
         cell.textLabel.text = [HelperTools getStringFor:@"name" From:repo];
         cell.detailTextLabel.text = [HelperTools getStringFor:@"description" From:repo];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
     return cell;
