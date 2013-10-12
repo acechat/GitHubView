@@ -11,6 +11,7 @@
 #import "AFNetworking.h"
 #import "HelperTools.h"
 #import "AccountViewController.h"
+#import "WebViewController.h"
 
 @interface RepoInfoViewController ()
 
@@ -295,8 +296,16 @@
         userDetailViewController.userToView = [HelperTools getStringFor:@"login" From:[self.repoInfo valueForKey:@"owner"]];
         
         [self.navigationController pushViewController:userDetailViewController animated:YES];
+    } else if (section == 1) { // Details
+        if (row == 0 || row == 1) { // Repo URL or HomePage
+            NSString *url = [self changeUnderscore:[self dataOfCellAtRow:row InSection:section]];
+            if (url != nil) {
+                WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+                webViewController.webURLString = url;
+                [self.navigationController pushViewController:webViewController animated:YES];
+            }
+        }
     }
-
 }
 
 #pragma mark - Fetching Repo Info

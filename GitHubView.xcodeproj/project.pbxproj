@@ -34,6 +34,8 @@
 		8215E4F417FAB72100B0F43C /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8215E4F217FAB72100B0F43C /* SettingsViewController.xib */; };
 		82170D4E17FBA1EB00F311BA /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 82170D4D17FBA1EB00F311BA /* .gitignore */; };
 		82170D5017FBA21500F311BA /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 82170D4F17FBA21500F311BA /* LICENSE */; };
+		821F6E7C1808AAFF00BE0B74 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 821F6E7A1808AAFF00BE0B74 /* WebViewController.m */; };
+		821F6E7D1808AAFF00BE0B74 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 821F6E7B1808AAFF00BE0B74 /* WebViewController.xib */; };
 		8233D77C1803CB0300942BB6 /* NewsFeedChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8233D77B1803CB0300942BB6 /* NewsFeedChannel.m */; };
 		8233D77F1803CB6200942BB6 /* NewsFeedPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 8233D77E1803CB6200942BB6 /* NewsFeedPost.m */; };
 		827CA90917EB07A800490E88 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827CA90817EB07A800490E88 /* Foundation.framework */; };
@@ -118,6 +120,9 @@
 		8215E4F217FAB72100B0F43C /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		82170D4D17FBA1EB00F311BA /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		82170D4F17FBA21500F311BA /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		821F6E791808AAFF00BE0B74 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		821F6E7A1808AAFF00BE0B74 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		821F6E7B1808AAFF00BE0B74 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
 		8233D77A1803CB0300942BB6 /* NewsFeedChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsFeedChannel.h; sourceTree = "<group>"; };
 		8233D77B1803CB0300942BB6 /* NewsFeedChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsFeedChannel.m; sourceTree = "<group>"; };
 		8233D77D1803CB6200942BB6 /* NewsFeedPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsFeedPost.h; sourceTree = "<group>"; };
@@ -290,6 +295,9 @@
 				1F1AFAE317FBF436001072F3 /* AboutViewController.xib */,
 				1F00C44D180643A800E6A248 /* HelperTools.h */,
 				1F00C44E180643A800E6A248 /* HelperTools.m */,
+				821F6E791808AAFF00BE0B74 /* WebViewController.h */,
+				821F6E7A1808AAFF00BE0B74 /* WebViewController.m */,
+				821F6E7B1808AAFF00BE0B74 /* WebViewController.xib */,
 			);
 			path = GitHubView;
 			sourceTree = "<group>";
@@ -414,6 +422,7 @@
 				827CA91317EB07A800490E88 /* InfoPlist.strings in Resources */,
 				827CA91B17EB07A800490E88 /* Images.xcassets in Resources */,
 				8215E4E017FAB6EC00B0F43C /* StarsViewController.xib in Resources */,
+				821F6E7D1808AAFF00BE0B74 /* WebViewController.xib in Resources */,
 				8215E4E517FAB6FF00B0F43C /* IssuesViewController.xib in Resources */,
 				82170D4E17FBA1EB00F311BA /* .gitignore in Resources */,
 				8215E4EA17FAB70A00B0F43C /* RepositoryViewController.xib in Resources */,
@@ -445,6 +454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F0C54F0180269FE00CAFC23 /* AFURLSessionManager.m in Sources */,
+				821F6E7C1808AAFF00BE0B74 /* WebViewController.m in Sources */,
 				1F0C54ED180269FE00CAFC23 /* AFURLConnectionOperation.m in Sources */,
 				827CA93F17EB088D00490E88 /* PKRevealControllerContainerView.m in Sources */,
 				1F0C54EA180269FE00CAFC23 /* AFHTTPSessionManager.m in Sources */,
