@@ -112,13 +112,14 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     // Configure the cell...
     NSDictionary *user = self.usersList[indexPath.row];
     NSString *loginID = [HelperTools getStringFor:@"login" From:user];
     cell.textLabel.text = loginID;
+    cell.detailTextLabel.text = [HelperTools getStringFor:@"html_url" From:user];
     UIImage *image = [self.userImageList valueForKey:loginID];
     if (image == nil) {
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);

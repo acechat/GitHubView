@@ -111,12 +111,13 @@
     static NSString *CellIdentifier = @"StarsCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     // Configure the cell...
     NSDictionary *star = self.starringList[indexPath.row];
     cell.textLabel.text = [HelperTools getStringFor:@"full_name" From:star];
+    cell.detailTextLabel.text = [HelperTools getStringFor:@"description" From:star];
     
     return cell;
 }
