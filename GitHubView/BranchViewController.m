@@ -21,12 +21,14 @@
 @synthesize repoNameString;
 @synthesize branchNameString;
 @synthesize treesPath;
+@synthesize viewMode;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        self.viewMode = 0;
     }
     return self;
 }
@@ -40,6 +42,15 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.headerView = [[UIView alloc] init];
+    NSArray *itemArray = [NSArray arrayWithObjects: @"File Tree", @"Commits", nil];
+    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+    [self.segmentedControl setEnabled:YES];
+    [self.segmentedControl setOpaque:YES];
+    [self.segmentedControl addTarget:self action:@selector(changeView:) forControlEvents:UIControlEventValueChanged];
+    
+    [self.headerView addSubview:self.segmentedControl];
+    
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.tintColor = [UIColor grayColor];
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Updating News Feed"];
@@ -52,6 +63,7 @@
 - (void) pullToRefresh
 {
     [self refreshBranchFileList];
+    [self refreshCommitList];
     [self performSelector:@selector(updateTable) withObject:nil afterDelay:0];
 }
 
@@ -65,6 +77,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self updateTable];
 }
 
 #pragma mark - Table view data source
@@ -83,20 +100,47 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"FileListCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *FileListCellIdentifier = @"FileListCell";
+    static NSString *CommitsCellIdentifier = @"CommitsCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(self.viewMode == 0) ? FileListCellIdentifier : CommitsCellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:(self.viewMode == 0) ? FileListCellIdentifier : CommitsCellIdentifier];
     }
     
     // Configure the cell...
     long row = indexPath.row;
     
-    NSDictionary *file = [self.fileList valueForKey:@"tree"][row];
-    
-    cell.textLabel.text = [HelperTools getStringFor:@"path" From:file];
-    
+    if (self.viewMode == 0) {
+        NSDictionary *file = [self.fileList valueForKey:@"tree"][row];
+        
+        cell.textLabel.text = [HelperTools getStringFor:@"path" From:file];
+    } else {
+        NSDictionary *commitInfo = self.commitList[row];
+        NSDictionary *commit = [commitInfo valueForKey:@"commit"];
+        cell.textLabel.text = [HelperTools getStringFor:@"message" From:commit];
+    }
     return cell;
+}
+
+- (void)changeView:(id)sender
+{
+    self.viewMode = ((UISegmentedControl *)sender).selectedSegmentIndex;
+    [self.tableView reloadData];
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+}
+
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    [self.segmentedControl setFrame:CGRectMake(0.0, 0, self.tableView.frame.size.width, 40.0)];
+    [self.segmentedControl setSelectedSegmentIndex:self.viewMode];
+
+    return self.headerView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 44.f;
 }
 
 /*
@@ -222,7 +266,7 @@
     [self startNetworkIndicator];
     path = [NSString stringWithFormat:@"/repos/%@/%@/commits", self.repoOwnerString, self.repoNameString];
     [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
-        //NSLog(@"COMMITS : %@", JSON);
+        NSLog(@"COMMITS : %@", JSON);
         self.commitList = JSON;
         [self.tableView reloadData];
         [self stopNetworkIndicator];

@@ -18,4 +18,9 @@
 @property (nonatomic, retain) NSArray *fileList;
 @property (nonatomic, retain) NSArray *commitList;
 
+@property (nonatomic, assign) NSInteger viewMode; // File or Commit
+
+@property (nonatomic, retain) UIView *headerView;
+@property (nonatomic, retain) UISegmentedControl *segmentedControl;
+
 @end

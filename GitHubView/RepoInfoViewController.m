@@ -312,11 +312,17 @@
             }
         }
     } else if (section == 2) { // Branches
+        NSString *repoOwner = [HelperTools getStringFor:@"login" From:[self.repoInfo valueForKey:@"owner"]];
+        NSString *repoName = [HelperTools getStringFor:@"name" From:self.repoInfo];
+        NSString *branchName = [self titleOfCellAtRow:row InSection:section];
         NSString *treeHash = [NSString stringWithFormat:@"/%@", self.branchHashList[row]];
         NSString *treesPath = [[HelperTools getStringFor:@"trees_url" From:self.repoInfo] stringByReplacingOccurrencesOfString:@"{/sha}" withString:treeHash];
         
         BranchViewController *branchViewController = [[BranchViewController alloc] initWithNibName:@"BranchViewController" bundle:nil];
 
+        branchViewController.repoOwnerString = repoOwner;
+        branchViewController.repoNameString = repoName;
+        branchViewController.branchNameString = branchName;
         branchViewController.treesPath = treesPath;
         [self.navigationController pushViewController:branchViewController animated:YES];
     }
