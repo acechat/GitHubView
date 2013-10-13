@@ -12,6 +12,7 @@
 #import "HelperTools.h"
 #import "AccountViewController.h"
 #import "WebViewController.h"
+#import "BranchViewController.h"
 
 @interface RepoInfoViewController ()
 
@@ -310,6 +311,14 @@
                 [self.navigationController pushViewController:webViewController animated:YES];
             }
         }
+    } else if (section == 2) { // Branches
+        NSString *treeHash = [NSString stringWithFormat:@"/%@", self.branchHashList[row]];
+        NSString *treesPath = [[HelperTools getStringFor:@"trees_url" From:self.repoInfo] stringByReplacingOccurrencesOfString:@"{/sha}" withString:treeHash];
+        
+        BranchViewController *branchViewController = [[BranchViewController alloc] initWithNibName:@"BranchViewController" bundle:nil];
+
+        branchViewController.treesPath = treesPath;
+        [self.navigationController pushViewController:branchViewController animated:YES];
     }
 }
 

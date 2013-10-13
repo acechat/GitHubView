@@ -59,6 +59,8 @@
 		827CA94F17EB0A0C00490E88 /* NewsFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 827CA94D17EB0A0C00490E88 /* NewsFeedViewController.xib */; };
 		8283CA2B1809117900080905 /* left_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8283CA291809117900080905 /* left_arrow.png */; };
 		8283CA2C1809117900080905 /* right_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8283CA2A1809117900080905 /* right_arrow.png */; };
+		82C593E4180A0966007DD85F /* BranchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C593E2180A0966007DD85F /* BranchViewController.m */; };
+		82C593E5180A0966007DD85F /* BranchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82C593E3180A0966007DD85F /* BranchViewController.xib */; };
 		82E6513017F57E93000653F2 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E6512E17F57E93000653F2 /* AccountViewController.m */; };
 		82E6513117F57E93000653F2 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E6512F17F57E93000653F2 /* AccountViewController.xib */; };
 		82F26C12180775A80069B9D7 /* RepoInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F26C10180775A80069B9D7 /* RepoInfoViewController.m */; };
@@ -159,6 +161,9 @@
 		827CA94D17EB0A0C00490E88 /* NewsFeedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsFeedViewController.xib; sourceTree = "<group>"; };
 		8283CA291809117900080905 /* left_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_arrow.png; sourceTree = "<group>"; };
 		8283CA2A1809117900080905 /* right_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_arrow.png; sourceTree = "<group>"; };
+		82C593E1180A0966007DD85F /* BranchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BranchViewController.h; sourceTree = "<group>"; };
+		82C593E2180A0966007DD85F /* BranchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BranchViewController.m; sourceTree = "<group>"; };
+		82C593E3180A0966007DD85F /* BranchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BranchViewController.xib; sourceTree = "<group>"; };
 		82E6512D17F57E93000653F2 /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
 		82E6512E17F57E93000653F2 /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
 		82E6512F17F57E93000653F2 /* AccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
@@ -272,6 +277,9 @@
 				82F26C0F180775A80069B9D7 /* RepoInfoViewController.h */,
 				82F26C10180775A80069B9D7 /* RepoInfoViewController.m */,
 				82F26C11180775A80069B9D7 /* RepoInfoViewController.xib */,
+				82C593E1180A0966007DD85F /* BranchViewController.h */,
+				82C593E2180A0966007DD85F /* BranchViewController.m */,
+				82C593E3180A0966007DD85F /* BranchViewController.xib */,
 				8215E4DC17FAB6EC00B0F43C /* StarsViewController.h */,
 				8215E4DD17FAB6EC00B0F43C /* StarsViewController.m */,
 				8215E4DE17FAB6EC00B0F43C /* StarsViewController.xib */,
@@ -442,6 +450,7 @@
 				8215E4E517FAB6FF00B0F43C /* IssuesViewController.xib in Resources */,
 				82170D4E17FBA1EB00F311BA /* .gitignore in Resources */,
 				8215E4EA17FAB70A00B0F43C /* RepositoryViewController.xib in Resources */,
+				82C593E5180A0966007DD85F /* BranchViewController.xib in Resources */,
 				82170D5017FBA21500F311BA /* LICENSE in Resources */,
 				827CA94A17EB09B200490E88 /* LeftMenuViewController.xib in Resources */,
 				1F1AFAE517FBF436001072F3 /* AboutViewController.xib in Resources */,
@@ -472,6 +481,7 @@
 				1F0C54F0180269FE00CAFC23 /* AFURLSessionManager.m in Sources */,
 				821F6E7C1808AAFF00BE0B74 /* WebViewController.m in Sources */,
 				1F0C54ED180269FE00CAFC23 /* AFURLConnectionOperation.m in Sources */,
+				82C593E4180A0966007DD85F /* BranchViewController.m in Sources */,
 				827CA93F17EB088D00490E88 /* PKRevealControllerContainerView.m in Sources */,
 				1F0C54EA180269FE00CAFC23 /* AFHTTPSessionManager.m in Sources */,
 				1F0C54EB180269FE00CAFC23 /* AFNetworkReachabilityManager.m in Sources */,
