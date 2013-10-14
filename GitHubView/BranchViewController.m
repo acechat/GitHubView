@@ -46,10 +46,11 @@
     NSArray *itemArray = [NSArray arrayWithObjects: @"File Tree", @"Commits", nil];
     self.segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
     [self.segmentedControl setEnabled:YES];
-    [self.segmentedControl setOpaque:YES];
+    self.segmentedControl.backgroundColor = [UIColor whiteColor]; //
     [self.segmentedControl addTarget:self action:@selector(changeView:) forControlEvents:UIControlEventValueChanged];
     
     [self.headerView addSubview:self.segmentedControl];
+
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.tintColor = [UIColor grayColor];
