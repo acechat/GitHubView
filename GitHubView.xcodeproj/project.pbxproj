@@ -36,6 +36,12 @@
 		82170D5017FBA21500F311BA /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 82170D4F17FBA21500F311BA /* LICENSE */; };
 		821F6E7C1808AAFF00BE0B74 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 821F6E7A1808AAFF00BE0B74 /* WebViewController.m */; };
 		821F6E7D1808AAFF00BE0B74 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 821F6E7B1808AAFF00BE0B74 /* WebViewController.xib */; };
+		822F05B1180BCAB800C6FD0E /* mime_audio.png in Resources */ = {isa = PBXBuildFile; fileRef = 822F05AC180BCAB800C6FD0E /* mime_audio.png */; };
+		822F05B2180BCAB800C6FD0E /* mime_exec.png in Resources */ = {isa = PBXBuildFile; fileRef = 822F05AD180BCAB800C6FD0E /* mime_exec.png */; };
+		822F05B3180BCAB800C6FD0E /* mime_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 822F05AE180BCAB800C6FD0E /* mime_image.png */; };
+		822F05B4180BCAB800C6FD0E /* mime_text.png in Resources */ = {isa = PBXBuildFile; fileRef = 822F05AF180BCAB800C6FD0E /* mime_text.png */; };
+		822F05B5180BCAB800C6FD0E /* mime_video.png in Resources */ = {isa = PBXBuildFile; fileRef = 822F05B0180BCAB800C6FD0E /* mime_video.png */; };
+		822F05B7180BCAC100C6FD0E /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 822F05B6180BCAC100C6FD0E /* folder.png */; };
 		8233D77C1803CB0300942BB6 /* NewsFeedChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8233D77B1803CB0300942BB6 /* NewsFeedChannel.m */; };
 		8233D77F1803CB6200942BB6 /* NewsFeedPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 8233D77E1803CB6200942BB6 /* NewsFeedPost.m */; };
 		827CA90917EB07A800490E88 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827CA90817EB07A800490E88 /* Foundation.framework */; };
@@ -127,6 +133,12 @@
 		821F6E791808AAFF00BE0B74 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		821F6E7A1808AAFF00BE0B74 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		821F6E7B1808AAFF00BE0B74 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
+		822F05AC180BCAB800C6FD0E /* mime_audio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mime_audio.png; sourceTree = "<group>"; };
+		822F05AD180BCAB800C6FD0E /* mime_exec.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mime_exec.png; sourceTree = "<group>"; };
+		822F05AE180BCAB800C6FD0E /* mime_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mime_image.png; sourceTree = "<group>"; };
+		822F05AF180BCAB800C6FD0E /* mime_text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mime_text.png; sourceTree = "<group>"; };
+		822F05B0180BCAB800C6FD0E /* mime_video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mime_video.png; sourceTree = "<group>"; };
+		822F05B6180BCAC100C6FD0E /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
 		8233D77A1803CB0300942BB6 /* NewsFeedChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsFeedChannel.h; sourceTree = "<group>"; };
 		8233D77B1803CB0300942BB6 /* NewsFeedChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsFeedChannel.m; sourceTree = "<group>"; };
 		8233D77D1803CB6200942BB6 /* NewsFeedPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsFeedPost.h; sourceTree = "<group>"; };
@@ -360,6 +372,12 @@
 		8283CA1C18090F4500080905 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				822F05B6180BCAC100C6FD0E /* folder.png */,
+				822F05AC180BCAB800C6FD0E /* mime_audio.png */,
+				822F05AD180BCAB800C6FD0E /* mime_exec.png */,
+				822F05AE180BCAB800C6FD0E /* mime_image.png */,
+				822F05AF180BCAB800C6FD0E /* mime_text.png */,
+				822F05B0180BCAB800C6FD0E /* mime_video.png */,
 				8283CA291809117900080905 /* left_arrow.png */,
 				8283CA2A1809117900080905 /* right_arrow.png */,
 			);
@@ -442,22 +460,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				8283CA2B1809117900080905 /* left_arrow.png in Resources */,
+				822F05B4180BCAB800C6FD0E /* mime_text.png in Resources */,
 				827CA91317EB07A800490E88 /* InfoPlist.strings in Resources */,
 				8283CA2C1809117900080905 /* right_arrow.png in Resources */,
 				827CA91B17EB07A800490E88 /* Images.xcassets in Resources */,
 				8215E4E017FAB6EC00B0F43C /* StarsViewController.xib in Resources */,
 				821F6E7D1808AAFF00BE0B74 /* WebViewController.xib in Resources */,
+				822F05B2180BCAB800C6FD0E /* mime_exec.png in Resources */,
+				822F05B1180BCAB800C6FD0E /* mime_audio.png in Resources */,
 				8215E4E517FAB6FF00B0F43C /* IssuesViewController.xib in Resources */,
 				82170D4E17FBA1EB00F311BA /* .gitignore in Resources */,
 				8215E4EA17FAB70A00B0F43C /* RepositoryViewController.xib in Resources */,
 				82C593E5180A0966007DD85F /* BranchViewController.xib in Resources */,
 				82170D5017FBA21500F311BA /* LICENSE in Resources */,
 				827CA94A17EB09B200490E88 /* LeftMenuViewController.xib in Resources */,
+				822F05B5180BCAB800C6FD0E /* mime_video.png in Resources */,
 				1F1AFAE517FBF436001072F3 /* AboutViewController.xib in Resources */,
 				827CA94F17EB0A0C00490E88 /* NewsFeedViewController.xib in Resources */,
 				1F1AFAE017FBF419001072F3 /* HelpViewController.xib in Resources */,
+				822F05B7180BCAC100C6FD0E /* folder.png in Resources */,
 				8215E4EF17FAB71300B0F43C /* UsersViewController.xib in Resources */,
 				82E6513117F57E93000653F2 /* AccountViewController.xib in Resources */,
+				822F05B3180BCAB800C6FD0E /* mime_image.png in Resources */,
 				8215E4F417FAB72100B0F43C /* SettingsViewController.xib in Resources */,
 				82F26C13180775A80069B9D7 /* RepoInfoViewController.xib in Resources */,
 			);

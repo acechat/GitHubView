@@ -13,6 +13,13 @@
 
 @interface BranchViewController ()
 
+@property UIImage *folderImage;
+@property UIImage *textImage;
+@property UIImage *audioImage;
+@property UIImage *execImage;
+@property UIImage *imageImage;
+@property UIImage *videoImage;
+
 @end
 
 @implementation BranchViewController
@@ -50,6 +57,13 @@
     [self.segmentedControl addTarget:self action:@selector(changeView:) forControlEvents:UIControlEventValueChanged];
     
     [self.headerView addSubview:self.segmentedControl];
+    
+    self.folderImage = [UIImage imageNamed:@"folder.png"];
+    self.textImage = [UIImage imageNamed:@"mime_text.png"];
+    self.audioImage = [UIImage imageNamed:@"mime_audio.png"];
+    self.execImage = [UIImage imageNamed:@"mime_exec.png"];
+    self.videoImage = [UIImage imageNamed:@"mime_video.png"];
+    self.imageImage = [UIImage imageNamed:@"mime_image.png"];
 
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -99,6 +113,29 @@
     return [[self.fileList valueForKey:@"tree"] count];
 }
 
+- (UIImage *)imageForType:(NSString *)type WithPath:(NSString *)path
+{
+    NSArray *textTypeList = [[NSArray alloc] initWithObjects:@".jpg",
+                             @".rb", @".txt", @".c", @".md", nil];
+    NSArray *imageTypeList = [[NSArray alloc] initWithObjects:@".jpg",
+                              @".png", @".jpeg", nil];
+    
+    if ([type isEqualToString:@"tree"])
+        return self.folderImage;
+    
+    for (NSString *fileType in textTypeList) {
+        if ([path hasSuffix:fileType])
+            return self.textImage;
+    }
+    
+    for (NSString *fileType in imageTypeList) {
+        if ([path hasSuffix:fileType])
+            return self.imageImage;
+    }
+    
+    return self.execImage;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *FileListCellIdentifier = @"FileListCell";
@@ -111,11 +148,13 @@
     
     // Configure the cell...
     long row = indexPath.row;
-    
+    cell.imageView.image = nil;
     if (self.viewMode == 0) {
         NSDictionary *file = [self.fileList valueForKey:@"tree"][row];
-        
-        cell.textLabel.text = [HelperTools getStringFor:@"path" From:file];
+        NSString *path = [HelperTools getStringFor:@"path" From:file];
+        NSString *type = [HelperTools getStringFor:@"type" From:file];
+        cell.textLabel.text = path;
+        cell.imageView.image = [self imageForType:type WithPath:path];
     } else {
         NSDictionary *commitInfo = self.commitList[row];
         NSDictionary *commit = [commitInfo valueForKey:@"commit"];
@@ -267,7 +306,7 @@
     [self startNetworkIndicator];
     path = [NSString stringWithFormat:@"/repos/%@/%@/commits", self.repoOwnerString, self.repoNameString];
     [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
-        NSLog(@"COMMITS : %@", JSON);
+        //NSLog(@"COMMITS : %@", JSON);
         self.commitList = JSON;
         [self.tableView reloadData];
         [self stopNetworkIndicator];
