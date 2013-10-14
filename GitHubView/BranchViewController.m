@@ -240,13 +240,15 @@
         
         NSString *fileType = [file objectForKey:@"type"];
         if ([fileType isEqualToString:@"tree"]) {
-            NSString *fileName = [file objectForKey:@"name"];
+            NSString *fileName = [file objectForKey:@"path"];
             if ([fileName isEqualToString:@".."]) {
+                self.directoryDepth--;
+                [self.directoryPath removeObjectAtIndex:self.directoryDepth];
             } else {
                 self.directoryDepth++;
                 [self.directoryPath addObject:file];
-                [self refreshBranchFileList];
             }
+            [self refreshBranchFileList];
         } else {
         }
     }
@@ -279,7 +281,13 @@
     [self startNetworkIndicator];
     
     //path = [NSString stringWithFormat:@"/repos/%@/%@/branches/%@", self.repoOwnerString, self.repoNameString, self.branchNameString];
-    path = treesPath;
+    
+    if (self.directoryDepth > 0) {
+        NSDictionary *file = self.directoryPath[self.directoryDepth - 1];
+        path = [file valueForKey:@"url"];
+    } else {
+        path = treesPath;
+    }
 
     [manager GET:path parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
         NSLog(@"BRANCH INFO : %@", JSON);
@@ -301,7 +309,10 @@
         NSMutableArray *tree = [self.fileList valueForKey:@"tree"];
         [self.directoryList addObjectsFromArray:tree];
         
-        [self.tableView reloadData];
+        if (self.viewMode == 0) {
+            [self.tableView reloadData];
+            [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+        }
         [self stopNetworkIndicator];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSString *errorMessage = path; //error.localizedDescription;
@@ -336,7 +347,10 @@
     [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
         //NSLog(@"COMMITS : %@", JSON);
         self.commitList = JSON;
-        [self.tableView reloadData];
+        if (self.viewMode == 1) {
+            [self.tableView reloadData];
+            [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+        }
         [self stopNetworkIndicator];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSString *errorMessage = error.localizedDescription;
