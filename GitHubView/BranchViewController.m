@@ -20,6 +20,9 @@
 @property (nonatomic, retain) UIImage *imageImage;
 @property (nonatomic, retain) UIImage *videoImage;
 
+@property (nonatomic, retain) NSArray *textTypeList;
+@property (nonatomic, retain) NSArray *imageTypeList;
+
 @property (nonatomic, assign) int directoryDepth;
 @property (nonatomic, retain) NSMutableArray *directoryPath;
 @property (nonatomic, retain) NSMutableArray *directoryList;
@@ -72,6 +75,12 @@
     self.execImage = [UIImage imageNamed:@"mime_exec.png"];
     self.videoImage = [UIImage imageNamed:@"mime_video.png"];
     self.imageImage = [UIImage imageNamed:@"mime_image.png"];
+    
+    self.textTypeList = [[NSArray alloc] initWithObjects:@".py", @".m", @".h",
+                         @".rb", @".txt", @".c", @".md", @".sh", @".xml", @".html",
+                         @".xhtml", nil];
+    self.imageTypeList = [[NSArray alloc] initWithObjects:@".jpg",
+                              @".png", @".jpeg", nil];
 
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -123,20 +132,16 @@
 
 - (UIImage *)imageForType:(NSString *)type WithPath:(NSString *)path
 {
-    NSArray *textTypeList = [[NSArray alloc] initWithObjects:@".jpg",
-                             @".rb", @".txt", @".c", @".md", nil];
-    NSArray *imageTypeList = [[NSArray alloc] initWithObjects:@".jpg",
-                              @".png", @".jpeg", nil];
     
     if ([type isEqualToString:@"tree"])
         return self.folderImage;
     
-    for (NSString *fileType in textTypeList) {
+    for (NSString *fileType in self.textTypeList) {
         if ([path hasSuffix:fileType])
             return self.textImage;
     }
     
-    for (NSString *fileType in imageTypeList) {
+    for (NSString *fileType in self.imageTypeList) {
         if ([path hasSuffix:fileType])
             return self.imageImage;
     }
