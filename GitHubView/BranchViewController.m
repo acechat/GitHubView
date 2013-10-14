@@ -13,12 +13,16 @@
 
 @interface BranchViewController ()
 
-@property UIImage *folderImage;
-@property UIImage *textImage;
-@property UIImage *audioImage;
-@property UIImage *execImage;
-@property UIImage *imageImage;
-@property UIImage *videoImage;
+@property (nonatomic, retain) UIImage *folderImage;
+@property (nonatomic, retain) UIImage *textImage;
+@property (nonatomic, retain) UIImage *audioImage;
+@property (nonatomic, retain) UIImage *execImage;
+@property (nonatomic, retain) UIImage *imageImage;
+@property (nonatomic, retain) UIImage *videoImage;
+
+@property (nonatomic, assign) int directoryDepth;
+@property (nonatomic, retain) NSMutableArray *directoryPath;
+@property (nonatomic, retain) NSMutableArray *directoryList;
 
 @end
 
@@ -35,7 +39,6 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        self.viewMode = 0;
     }
     return self;
 }
@@ -49,6 +52,11 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.viewMode = 0;
+    self.directoryDepth = 0;
+    self.directoryPath = [[NSMutableArray alloc] init];
+    self.directoryList = [[NSMutableArray alloc] init];
+    
     self.headerView = [[UIView alloc] init];
     NSArray *itemArray = [NSArray arrayWithObjects: @"File Tree", @"Commits", nil];
     self.segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
@@ -110,7 +118,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [[self.fileList valueForKey:@"tree"] count];
+    return [self.directoryList count];
 }
 
 - (UIImage *)imageForType:(NSString *)type WithPath:(NSString *)path
@@ -150,7 +158,7 @@
     long row = indexPath.row;
     cell.imageView.image = nil;
     if (self.viewMode == 0) {
-        NSDictionary *file = [self.fileList valueForKey:@"tree"][row];
+        NSDictionary *file = self.directoryList[row];
         NSString *path = [HelperTools getStringFor:@"path" From:file];
         NSString *type = [HelperTools getStringFor:@"type" From:file];
         cell.textLabel.text = path;
@@ -222,24 +230,27 @@
 }
 */
 
-/*
 #pragma mark - Table view delegate
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here, for example:
-    // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-
-    // Pass the selected object to the new view controller.
-    
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    if (self.viewMode == 0) {
+        NSDictionary *file = self.directoryList[indexPath.row];
+        
+        NSString *fileType = [file objectForKey:@"type"];
+        if ([fileType isEqualToString:@"tree"]) {
+            NSString *fileName = [file objectForKey:@"name"];
+            if ([fileName isEqualToString:@".."]) {
+            } else {
+                self.directoryDepth++;
+                [self.directoryPath addObject:file];
+                [self refreshBranchFileList];
+            }
+        } else {
+        }
+    }
 }
- 
- */
-
 
 #pragma mark - Fetching Branch Info
 
@@ -272,7 +283,24 @@
 
     [manager GET:path parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
         NSLog(@"BRANCH INFO : %@", JSON);
+
         self.fileList = JSON;
+        [self.directoryList removeAllObjects];
+        if (self.directoryDepth > 0) {
+            NSMutableDictionary *parent = [[NSMutableDictionary alloc] init];
+            [parent setObject:@".." forKey:@"path"];
+            [parent setObject:@"tree" forKey:@"type"];
+            NSDictionary *parentData = [self.directoryPath objectAtIndex:self.directoryDepth - 1];
+            NSLog(@"directoryPath : %@", self.directoryPath);
+            NSLog(@"parentData : %@", parentData);
+            [parent setObject:[parentData valueForKey:@"url"] forKey:@"url"];
+            [parent setObject:[parentData valueForKey:@"sha"] forKey:@"sha"];
+            
+            [self.directoryList addObject:parent];
+        }
+        NSMutableArray *tree = [self.fileList valueForKey:@"tree"];
+        [self.directoryList addObjectsFromArray:tree];
+        
         [self.tableView reloadData];
         [self stopNetworkIndicator];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
