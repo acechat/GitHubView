@@ -224,6 +224,9 @@
     long row = indexPath.row;
     
     // Configure the cell...
+    cell.textLabel.text = @"";
+    cell.detailTextLabel.text = @"";
+    cell.imageView.image = nil;
     if (section == 0 || section == 1) { // Basic, Additional
         if (section == 0 && row == 0) {
                 cell.textLabel.text = @"";
