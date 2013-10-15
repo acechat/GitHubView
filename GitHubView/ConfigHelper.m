@@ -7,6 +7,7 @@
 //
 
 #import "ConfigHelper.h"
+#import "AppDelegate.h"
 
 @implementation ConfigHelper
 
@@ -42,6 +43,16 @@
     [defaults setValue:userID forKey:@"user_id"];
     
     [defaults synchronize];
+}
+
++ (NSString *)getCurrentTheme
+{
+    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    
+    NSNumber *themeNumber = [app.appConfiguration objectForKey:@"theme_index"];
+    int themeIndex = [themeNumber intValue];
+
+    return [app.themeList[themeIndex] valueForKey:@"path"];
 }
 
 @end

@@ -22,6 +22,44 @@
 		1F1AFAE017FBF419001072F3 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1AFADE17FBF419001072F3 /* HelpViewController.xib */; };
 		1F1AFAE417FBF436001072F3 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1AFAE217FBF436001072F3 /* AboutViewController.m */; };
 		1F1AFAE517FBF436001072F3 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1AFAE317FBF436001072F3 /* AboutViewController.xib */; };
+		1FE985E4180CCF9400DD1111 /* FileContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE985E2180CCF9400DD1111 /* FileContentViewController.m */; };
+		1FE985E5180CCF9400DD1111 /* FileContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985E3180CCF9400DD1111 /* FileContentViewController.xib */; };
+		1FE985E8180D02BF00DD1111 /* iphone.css in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985E7180D02BF00DD1111 /* iphone.css */; };
+		1FE98624180D037B00DD1111 /* prettify.css in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98605180D037B00DD1111 /* prettify.css */; };
+		1FE98627180D071F00DD1111 /* lang-apollo.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985E9180D037B00DD1111 /* lang-apollo.js */; };
+		1FE98628180D071F00DD1111 /* lang-basic.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985EA180D037B00DD1111 /* lang-basic.js */; };
+		1FE98629180D071F00DD1111 /* lang-clj.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985EB180D037B00DD1111 /* lang-clj.js */; };
+		1FE9862A180D071F00DD1111 /* lang-css.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985EC180D037B00DD1111 /* lang-css.js */; };
+		1FE9862B180D071F00DD1111 /* lang-dart.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985ED180D037B00DD1111 /* lang-dart.js */; };
+		1FE9862C180D071F00DD1111 /* lang-erlang.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985EE180D037B00DD1111 /* lang-erlang.js */; };
+		1FE9862D180D071F00DD1111 /* lang-go.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985EF180D037B00DD1111 /* lang-go.js */; };
+		1FE9862E180D071F00DD1111 /* lang-hs.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985F0180D037B00DD1111 /* lang-hs.js */; };
+		1FE9862F180D071F00DD1111 /* lang-lisp.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985F1180D037B00DD1111 /* lang-lisp.js */; };
+		1FE98630180D071F00DD1111 /* lang-llvm.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985F2180D037B00DD1111 /* lang-llvm.js */; };
+		1FE98631180D071F00DD1111 /* lang-lua.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985F3180D037B00DD1111 /* lang-lua.js */; };
+		1FE98632180D071F00DD1111 /* lang-matlab.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985F4180D037B00DD1111 /* lang-matlab.js */; };
+		1FE98633180D071F00DD1111 /* lang-ml.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985F5180D037B00DD1111 /* lang-ml.js */; };
+		1FE98634180D071F00DD1111 /* lang-mumps.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985F6180D037B00DD1111 /* lang-mumps.js */; };
+		1FE98635180D071F00DD1111 /* lang-n.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985F7180D037B00DD1111 /* lang-n.js */; };
+		1FE98636180D071F00DD1111 /* lang-pascal.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985F8180D037B00DD1111 /* lang-pascal.js */; };
+		1FE98637180D071F00DD1111 /* lang-proto.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985F9180D037B00DD1111 /* lang-proto.js */; };
+		1FE98638180D071F00DD1111 /* lang-r.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985FA180D037B00DD1111 /* lang-r.js */; };
+		1FE98639180D071F00DD1111 /* lang-rd.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985FB180D037B00DD1111 /* lang-rd.js */; };
+		1FE9863A180D071F00DD1111 /* lang-scala.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985FC180D037B00DD1111 /* lang-scala.js */; };
+		1FE9863B180D071F00DD1111 /* lang-sql.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985FD180D037B00DD1111 /* lang-sql.js */; };
+		1FE9863C180D071F00DD1111 /* lang-tcl.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985FE180D037B00DD1111 /* lang-tcl.js */; };
+		1FE9863D180D071F00DD1111 /* lang-tex.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985FF180D037B00DD1111 /* lang-tex.js */; };
+		1FE9863E180D071F00DD1111 /* lang-vb.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98600180D037B00DD1111 /* lang-vb.js */; };
+		1FE9863F180D071F00DD1111 /* lang-vhdl.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98601180D037B00DD1111 /* lang-vhdl.js */; };
+		1FE98640180D071F00DD1111 /* lang-wiki.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98602180D037B00DD1111 /* lang-wiki.js */; };
+		1FE98641180D071F00DD1111 /* lang-xq.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98603180D037B00DD1111 /* lang-xq.js */; };
+		1FE98642180D071F00DD1111 /* lang-yaml.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98604180D037B00DD1111 /* lang-yaml.js */; };
+		1FE98643180D071F00DD1111 /* prettify.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98606180D037B00DD1111 /* prettify.js */; };
+		1FE98644180D071F00DD1111 /* run_prettify.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98607180D037B00DD1111 /* run_prettify.js */; };
+		1FE98649180D0AB300DD1111 /* desert.css in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98645180D0AB300DD1111 /* desert.css */; };
+		1FE9864A180D0AB300DD1111 /* doxy.css in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98646180D0AB300DD1111 /* doxy.css */; };
+		1FE9864B180D0AB300DD1111 /* sons.css in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98647180D0AB300DD1111 /* sons.css */; };
+		1FE9864C180D0AB300DD1111 /* sunburst.css in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98648180D0AB300DD1111 /* sunburst.css */; };
 		8215E4DF17FAB6EC00B0F43C /* StarsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8215E4DD17FAB6EC00B0F43C /* StarsViewController.m */; };
 		8215E4E017FAB6EC00B0F43C /* StarsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8215E4DE17FAB6EC00B0F43C /* StarsViewController.xib */; };
 		8215E4E417FAB6FF00B0F43C /* IssuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8215E4E217FAB6FF00B0F43C /* IssuesViewController.m */; };
@@ -113,6 +151,45 @@
 		1F1AFAE117FBF436001072F3 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		1F1AFAE217FBF436001072F3 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		1F1AFAE317FBF436001072F3 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
+		1FE985E1180CCF9400DD1111 /* FileContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileContentViewController.h; sourceTree = "<group>"; };
+		1FE985E2180CCF9400DD1111 /* FileContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileContentViewController.m; sourceTree = "<group>"; };
+		1FE985E3180CCF9400DD1111 /* FileContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileContentViewController.xib; sourceTree = "<group>"; };
+		1FE985E7180D02BF00DD1111 /* iphone.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = iphone.css; sourceTree = "<group>"; };
+		1FE985E9180D037B00DD1111 /* lang-apollo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-apollo.js"; sourceTree = "<group>"; };
+		1FE985EA180D037B00DD1111 /* lang-basic.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-basic.js"; sourceTree = "<group>"; };
+		1FE985EB180D037B00DD1111 /* lang-clj.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-clj.js"; sourceTree = "<group>"; };
+		1FE985EC180D037B00DD1111 /* lang-css.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-css.js"; sourceTree = "<group>"; };
+		1FE985ED180D037B00DD1111 /* lang-dart.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-dart.js"; sourceTree = "<group>"; };
+		1FE985EE180D037B00DD1111 /* lang-erlang.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-erlang.js"; sourceTree = "<group>"; };
+		1FE985EF180D037B00DD1111 /* lang-go.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-go.js"; sourceTree = "<group>"; };
+		1FE985F0180D037B00DD1111 /* lang-hs.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-hs.js"; sourceTree = "<group>"; };
+		1FE985F1180D037B00DD1111 /* lang-lisp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-lisp.js"; sourceTree = "<group>"; };
+		1FE985F2180D037B00DD1111 /* lang-llvm.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-llvm.js"; sourceTree = "<group>"; };
+		1FE985F3180D037B00DD1111 /* lang-lua.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-lua.js"; sourceTree = "<group>"; };
+		1FE985F4180D037B00DD1111 /* lang-matlab.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-matlab.js"; sourceTree = "<group>"; };
+		1FE985F5180D037B00DD1111 /* lang-ml.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-ml.js"; sourceTree = "<group>"; };
+		1FE985F6180D037B00DD1111 /* lang-mumps.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-mumps.js"; sourceTree = "<group>"; };
+		1FE985F7180D037B00DD1111 /* lang-n.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-n.js"; sourceTree = "<group>"; };
+		1FE985F8180D037B00DD1111 /* lang-pascal.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-pascal.js"; sourceTree = "<group>"; };
+		1FE985F9180D037B00DD1111 /* lang-proto.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-proto.js"; sourceTree = "<group>"; };
+		1FE985FA180D037B00DD1111 /* lang-r.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-r.js"; sourceTree = "<group>"; };
+		1FE985FB180D037B00DD1111 /* lang-rd.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-rd.js"; sourceTree = "<group>"; };
+		1FE985FC180D037B00DD1111 /* lang-scala.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-scala.js"; sourceTree = "<group>"; };
+		1FE985FD180D037B00DD1111 /* lang-sql.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-sql.js"; sourceTree = "<group>"; };
+		1FE985FE180D037B00DD1111 /* lang-tcl.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-tcl.js"; sourceTree = "<group>"; };
+		1FE985FF180D037B00DD1111 /* lang-tex.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-tex.js"; sourceTree = "<group>"; };
+		1FE98600180D037B00DD1111 /* lang-vb.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-vb.js"; sourceTree = "<group>"; };
+		1FE98601180D037B00DD1111 /* lang-vhdl.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-vhdl.js"; sourceTree = "<group>"; };
+		1FE98602180D037B00DD1111 /* lang-wiki.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-wiki.js"; sourceTree = "<group>"; };
+		1FE98603180D037B00DD1111 /* lang-xq.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-xq.js"; sourceTree = "<group>"; };
+		1FE98604180D037B00DD1111 /* lang-yaml.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lang-yaml.js"; sourceTree = "<group>"; };
+		1FE98605180D037B00DD1111 /* prettify.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = prettify.css; sourceTree = "<group>"; };
+		1FE98606180D037B00DD1111 /* prettify.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = prettify.js; sourceTree = "<group>"; };
+		1FE98607180D037B00DD1111 /* run_prettify.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = run_prettify.js; sourceTree = "<group>"; };
+		1FE98645180D0AB300DD1111 /* desert.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = desert.css; sourceTree = "<group>"; };
+		1FE98646180D0AB300DD1111 /* doxy.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = doxy.css; sourceTree = "<group>"; };
+		1FE98647180D0AB300DD1111 /* sons.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = sons.css; sourceTree = "<group>"; };
+		1FE98648180D0AB300DD1111 /* sunburst.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = sunburst.css; sourceTree = "<group>"; };
 		8215E4DC17FAB6EC00B0F43C /* StarsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarsViewController.h; sourceTree = "<group>"; };
 		8215E4DD17FAB6EC00B0F43C /* StarsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarsViewController.m; sourceTree = "<group>"; };
 		8215E4DE17FAB6EC00B0F43C /* StarsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StarsViewController.xib; sourceTree = "<group>"; };
@@ -234,6 +311,49 @@
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
+		1FE985E6180D02BF00DD1111 /* scripts */ = {
+			isa = PBXGroup;
+			children = (
+				1FE98645180D0AB300DD1111 /* desert.css */,
+				1FE98646180D0AB300DD1111 /* doxy.css */,
+				1FE98647180D0AB300DD1111 /* sons.css */,
+				1FE98648180D0AB300DD1111 /* sunburst.css */,
+				1FE985E9180D037B00DD1111 /* lang-apollo.js */,
+				1FE985EA180D037B00DD1111 /* lang-basic.js */,
+				1FE985EB180D037B00DD1111 /* lang-clj.js */,
+				1FE985EC180D037B00DD1111 /* lang-css.js */,
+				1FE985ED180D037B00DD1111 /* lang-dart.js */,
+				1FE985EE180D037B00DD1111 /* lang-erlang.js */,
+				1FE985EF180D037B00DD1111 /* lang-go.js */,
+				1FE985F0180D037B00DD1111 /* lang-hs.js */,
+				1FE985F1180D037B00DD1111 /* lang-lisp.js */,
+				1FE985F2180D037B00DD1111 /* lang-llvm.js */,
+				1FE985F3180D037B00DD1111 /* lang-lua.js */,
+				1FE985F4180D037B00DD1111 /* lang-matlab.js */,
+				1FE985F5180D037B00DD1111 /* lang-ml.js */,
+				1FE985F6180D037B00DD1111 /* lang-mumps.js */,
+				1FE985F7180D037B00DD1111 /* lang-n.js */,
+				1FE985F8180D037B00DD1111 /* lang-pascal.js */,
+				1FE985F9180D037B00DD1111 /* lang-proto.js */,
+				1FE985FA180D037B00DD1111 /* lang-r.js */,
+				1FE985FB180D037B00DD1111 /* lang-rd.js */,
+				1FE985FC180D037B00DD1111 /* lang-scala.js */,
+				1FE985FD180D037B00DD1111 /* lang-sql.js */,
+				1FE985FE180D037B00DD1111 /* lang-tcl.js */,
+				1FE985FF180D037B00DD1111 /* lang-tex.js */,
+				1FE98600180D037B00DD1111 /* lang-vb.js */,
+				1FE98601180D037B00DD1111 /* lang-vhdl.js */,
+				1FE98602180D037B00DD1111 /* lang-wiki.js */,
+				1FE98603180D037B00DD1111 /* lang-xq.js */,
+				1FE98604180D037B00DD1111 /* lang-yaml.js */,
+				1FE98605180D037B00DD1111 /* prettify.css */,
+				1FE98606180D037B00DD1111 /* prettify.js */,
+				1FE98607180D037B00DD1111 /* run_prettify.js */,
+				1FE985E7180D02BF00DD1111 /* iphone.css */,
+			);
+			path = scripts;
+			sourceTree = "<group>";
+		};
 		827CA8FC17EB07A800490E88 = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +389,7 @@
 		827CA90E17EB07A800490E88 /* GitHubView */ = {
 			isa = PBXGroup;
 			children = (
+				1FE985E6180D02BF00DD1111 /* scripts */,
 				8283CA1C18090F4500080905 /* Resources */,
 				1F0C54D4180269FE00CAFC23 /* AFNetworking */,
 				827CA93717EB088D00490E88 /* PKRevealController */,
@@ -292,6 +413,9 @@
 				82C593E1180A0966007DD85F /* BranchViewController.h */,
 				82C593E2180A0966007DD85F /* BranchViewController.m */,
 				82C593E3180A0966007DD85F /* BranchViewController.xib */,
+				1FE985E1180CCF9400DD1111 /* FileContentViewController.h */,
+				1FE985E2180CCF9400DD1111 /* FileContentViewController.m */,
+				1FE985E3180CCF9400DD1111 /* FileContentViewController.xib */,
 				8215E4DC17FAB6EC00B0F43C /* StarsViewController.h */,
 				8215E4DD17FAB6EC00B0F43C /* StarsViewController.m */,
 				8215E4DE17FAB6EC00B0F43C /* StarsViewController.xib */,
@@ -459,8 +583,42 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FE98627180D071F00DD1111 /* lang-apollo.js in Resources */,
+				1FE98628180D071F00DD1111 /* lang-basic.js in Resources */,
+				1FE98629180D071F00DD1111 /* lang-clj.js in Resources */,
+				1FE9862A180D071F00DD1111 /* lang-css.js in Resources */,
+				1FE9862B180D071F00DD1111 /* lang-dart.js in Resources */,
+				1FE9862C180D071F00DD1111 /* lang-erlang.js in Resources */,
+				1FE9862D180D071F00DD1111 /* lang-go.js in Resources */,
+				1FE9862E180D071F00DD1111 /* lang-hs.js in Resources */,
+				1FE9862F180D071F00DD1111 /* lang-lisp.js in Resources */,
+				1FE98630180D071F00DD1111 /* lang-llvm.js in Resources */,
+				1FE98631180D071F00DD1111 /* lang-lua.js in Resources */,
+				1FE9864A180D0AB300DD1111 /* doxy.css in Resources */,
+				1FE98632180D071F00DD1111 /* lang-matlab.js in Resources */,
+				1FE98633180D071F00DD1111 /* lang-ml.js in Resources */,
+				1FE98634180D071F00DD1111 /* lang-mumps.js in Resources */,
+				1FE98635180D071F00DD1111 /* lang-n.js in Resources */,
+				1FE98636180D071F00DD1111 /* lang-pascal.js in Resources */,
+				1FE98637180D071F00DD1111 /* lang-proto.js in Resources */,
+				1FE98638180D071F00DD1111 /* lang-r.js in Resources */,
+				1FE98649180D0AB300DD1111 /* desert.css in Resources */,
+				1FE98639180D071F00DD1111 /* lang-rd.js in Resources */,
+				1FE9863A180D071F00DD1111 /* lang-scala.js in Resources */,
+				1FE9863B180D071F00DD1111 /* lang-sql.js in Resources */,
+				1FE9864C180D0AB300DD1111 /* sunburst.css in Resources */,
+				1FE9863C180D071F00DD1111 /* lang-tcl.js in Resources */,
+				1FE9863D180D071F00DD1111 /* lang-tex.js in Resources */,
+				1FE9863E180D071F00DD1111 /* lang-vb.js in Resources */,
+				1FE9863F180D071F00DD1111 /* lang-vhdl.js in Resources */,
+				1FE98640180D071F00DD1111 /* lang-wiki.js in Resources */,
+				1FE98641180D071F00DD1111 /* lang-xq.js in Resources */,
+				1FE98642180D071F00DD1111 /* lang-yaml.js in Resources */,
+				1FE98643180D071F00DD1111 /* prettify.js in Resources */,
+				1FE98644180D071F00DD1111 /* run_prettify.js in Resources */,
 				8283CA2B1809117900080905 /* left_arrow.png in Resources */,
 				822F05B4180BCAB800C6FD0E /* mime_text.png in Resources */,
+				1FE98624180D037B00DD1111 /* prettify.css in Resources */,
 				827CA91317EB07A800490E88 /* InfoPlist.strings in Resources */,
 				8283CA2C1809117900080905 /* right_arrow.png in Resources */,
 				827CA91B17EB07A800490E88 /* Images.xcassets in Resources */,
@@ -473,10 +631,13 @@
 				8215E4EA17FAB70A00B0F43C /* RepositoryViewController.xib in Resources */,
 				82C593E5180A0966007DD85F /* BranchViewController.xib in Resources */,
 				82170D5017FBA21500F311BA /* LICENSE in Resources */,
+				1FE9864B180D0AB300DD1111 /* sons.css in Resources */,
 				827CA94A17EB09B200490E88 /* LeftMenuViewController.xib in Resources */,
 				822F05B5180BCAB800C6FD0E /* mime_video.png in Resources */,
+				1FE985E5180CCF9400DD1111 /* FileContentViewController.xib in Resources */,
 				1F1AFAE517FBF436001072F3 /* AboutViewController.xib in Resources */,
 				827CA94F17EB0A0C00490E88 /* NewsFeedViewController.xib in Resources */,
+				1FE985E8180D02BF00DD1111 /* iphone.css in Resources */,
 				1F1AFAE017FBF419001072F3 /* HelpViewController.xib in Resources */,
 				822F05B7180BCAC100C6FD0E /* folder.png in Resources */,
 				8215E4EF17FAB71300B0F43C /* UsersViewController.xib in Resources */,
@@ -518,6 +679,7 @@
 				8233D77F1803CB6200942BB6 /* NewsFeedPost.m in Sources */,
 				82F26C12180775A80069B9D7 /* RepoInfoViewController.m in Sources */,
 				1F0C54EC180269FE00CAFC23 /* AFSecurityPolicy.m in Sources */,
+				1FE985E4180CCF9400DD1111 /* FileContentViewController.m in Sources */,
 				8215E4DF17FAB6EC00B0F43C /* StarsViewController.m in Sources */,
 				827CA91917EB07A800490E88 /* AppDelegate.m in Sources */,
 				8215E4E917FAB70A00B0F43C /* RepositoryViewController.m in Sources */,

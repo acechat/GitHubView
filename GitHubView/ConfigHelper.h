@@ -14,5 +14,6 @@
 + (void)saveUserProfile:(NSDictionary *)profileList;
 + (NSString *)loadSelectedUserID;
 + (void)saveSelectedUserID:(NSString *)userID;
++ (NSString *)getCurrentTheme;
 
 @end

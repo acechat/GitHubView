@@ -10,6 +10,7 @@
 #import "ConfigHelper.h"
 #import "AFNetworking.h"
 #import "HelperTools.h"
+#import "FileContentViewController.h"
 
 @interface BranchViewController ()
 
@@ -243,9 +244,11 @@
     if (self.viewMode == 0) {
         NSDictionary *file = self.directoryList[indexPath.row];
         
-        NSString *fileType = [file objectForKey:@"type"];
+        NSString *fileType = [HelperTools getStringFor:@"type" From:file];
+        NSString *fileName = [HelperTools getStringFor:@"path" From:file];
+        NSString *fileURL = [HelperTools getStringFor:@"url" From:file];
+
         if ([fileType isEqualToString:@"tree"]) {
-            NSString *fileName = [file objectForKey:@"path"];
             float delayTime = 0.0;
             if ([fileName isEqualToString:@".."]) {
                 self.directoryDepth--;
@@ -258,6 +261,11 @@
             [self performSelector:@selector(refreshBranchFileList) withObject:nil afterDelay:delayTime];
 
         } else {
+            FileContentViewController *fileContentViewController = [[FileContentViewController alloc] initWithNibName:@"FileContentViewController" bundle:nil];
+            fileContentViewController.fileName = fileName;
+            fileContentViewController.url = fileURL;
+            
+            [self.navigationController pushViewController:fileContentViewController animated:YES];
         }
     }
 }
