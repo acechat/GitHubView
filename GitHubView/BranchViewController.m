@@ -246,14 +246,17 @@
         NSString *fileType = [file objectForKey:@"type"];
         if ([fileType isEqualToString:@"tree"]) {
             NSString *fileName = [file objectForKey:@"path"];
+            float delayTime = 0.0;
             if ([fileName isEqualToString:@".."]) {
                 self.directoryDepth--;
                 [self.directoryPath removeObjectAtIndex:self.directoryDepth];
+                delayTime = 0.1;
             } else {
                 self.directoryDepth++;
                 [self.directoryPath addObject:file];
             }
-            [self refreshBranchFileList];
+            [self performSelector:@selector(refreshBranchFileList) withObject:nil afterDelay:delayTime];
+
         } else {
         }
     }
