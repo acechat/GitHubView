@@ -35,11 +35,18 @@
     }
     
     NSString *plainText = [componentsToKeep componentsJoinedByString:@":"];
-    self.details = componentsToKeep[componentsToKeep.count - 1];
 
     _content = [plainText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    
-    NSLog(@"%@", _content);
+        
+    NSRange range = [_content rangeOfString:@"/"];
+    if (range.location > 0 && range.location < _content.length) {
+        NSString *substring = [[_content substringFromIndex:NSMaxRange(range)] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        range = [substring rangeOfString:@":"];
+        substring = [substring substringFromIndex:NSMaxRange(range)];
+        self.details = substring;
+    } else {
+        self.details = componentsToKeep[componentsToKeep.count - 1];
+    }
 }
 
 @end
