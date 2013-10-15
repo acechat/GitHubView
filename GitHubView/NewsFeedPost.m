@@ -47,6 +47,18 @@
     } else {
         self.details = componentsToKeep[componentsToKeep.count - 1];
     }
+    if (self.details == nil)
+        self.details = @"";
+    
+    
+    // Replacing html encoded characters
+    self.details = [[[[[[[self.details stringByReplacingOccurrencesOfString: @"&#39;" withString: @"'"]
+                         stringByReplacingOccurrencesOfString: @"&amp;quot;" withString: @"\""]
+                        stringByReplacingOccurrencesOfString: @"&amp;#39;" withString: @"'"]
+                       stringByReplacingOccurrencesOfString: @"&amp;gt;" withString: @">"]
+                      stringByReplacingOccurrencesOfString: @"&amp;lt;" withString: @"<"]
+                     stringByReplacingOccurrencesOfString:@"&#187;" withString:@">>"]
+                    stringByReplacingOccurrencesOfString:@"&amp;amp;" withString:@"&"];
 }
 
 @end
