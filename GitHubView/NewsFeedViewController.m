@@ -124,11 +124,12 @@
     static NSString *CellIdentifier = @"NewsFeedCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     NewsFeedPost *post = self.feedPosts[indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@:%@", post.name, post.content];
+    cell.textLabel.text = post.name;
+    cell.detailTextLabel.text = post.details;
     
     return cell;
 }
@@ -304,64 +305,6 @@
 
 - (void)feedChanged:(NSNotification *)notification {
     [self.tableView reloadData];
-    /*
-    NSMutableString *htmlBody = [[NSMutableString alloc] init];
-    
-    [htmlBody appendString:@"<html><head>\
-     <meta name='viewport' content='width=device-width; initial-scale=0.9; maximum-scale=0.9;'>\
-     <link rel='stylesheet' href='iphone.css' />\
-     <script type='text/javascript' charset='utf-8'>\
-     window.onload = function() {\
-     setTimeout(function(){window.scrollTo(0, 1);}, 100);\
-     }\
-     </script></head>\
-     <body><div id='content'><table cellspacing=0 cellpading=0 class='nomargintable'>"];
-    
-    int count = 0;
-    
-    for (NewsFeedPost *feedPost in feedPosts) {
-        NSMutableString *msg = [[NSMutableString alloc] init];
-        [msg appendString:feedPost.content];
-        
-        if (msg != nil) {
-            [[[[[msg stringByReplacingOccurrencesOfString: @"&" withString: @"&amp;amp;"]
-                stringByReplacingOccurrencesOfString: @"\"" withString: @"&amp;quot;"]
-               stringByReplacingOccurrencesOfString: @"'" withString: @"&amp;#39;"]
-              stringByReplacingOccurrencesOfString: @">" withString: @"&amp;gt;"]
-             stringByReplacingOccurrencesOfString: @"<" withString: @"&amp;lt;"];
-        } else {
-            msg = [[NSMutableString alloc] initWithString:@""];
-        }
-        
-        NSMutableString *name = [[NSMutableString alloc] init];
-        [name appendString:feedPost.name];
-        
-        if (name != nil) {
-            [[[[[name stringByReplacingOccurrencesOfString: @"&" withString: @"&amp;amp;"]
-                stringByReplacingOccurrencesOfString: @"\"" withString: @"&amp;quot;"]
-               stringByReplacingOccurrencesOfString: @"'" withString: @"&amp;#39;"]
-              stringByReplacingOccurrencesOfString: @">" withString: @"&amp;gt;"]
-             stringByReplacingOccurrencesOfString: @"<" withString: @"&amp;lt;"];
-        } else {
-            name = [[NSMutableString alloc] initWithString:@""];
-        }
-
-        [htmlBody appendFormat:@"<tr><td colspan=2>%@</td></tr><tr valign='top'><td><b>%@</b><br/>%@</td></tr>",
-         count != 0 ? @"<hr>": @"", feedPost.title, msg];
-        
-        msg = nil;
-        name = nil;
-        
-        count++;
-    }
-    
-    [htmlBody appendString:@"</table></div></body></html>"];
-    
-    NSString *path = [[NSBundle mainBundle] bundlePath];
-    NSURL *baseURL = [NSURL fileURLWithPath:path];
-    
-    [self.webView loadHTMLString:htmlBody baseURL:baseURL];
-     */
 }
 
 @end

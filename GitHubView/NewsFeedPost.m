@@ -12,6 +12,7 @@
 
 @synthesize isRead;
 @synthesize title;
+@synthesize details;
 @synthesize content = _content;
 @synthesize updated;
 @synthesize name = _name;
@@ -34,8 +35,11 @@
     }
     
     NSString *plainText = [componentsToKeep componentsJoinedByString:@":"];
+    self.details = componentsToKeep[componentsToKeep.count - 1];
 
     _content = [plainText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    NSLog(@"%@", _content);
 }
 
 @end

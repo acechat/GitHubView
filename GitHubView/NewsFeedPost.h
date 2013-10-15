@@ -12,6 +12,8 @@
 
 @property (nonatomic, assign) BOOL isRead;
 @property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) NSString *details;
+
 @property (nonatomic, retain) NSString *content;
 @property (nonatomic, retain) NSString *updated;
 @property (nonatomic, retain) NSString *name;
