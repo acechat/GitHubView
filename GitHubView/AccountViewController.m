@@ -86,7 +86,7 @@
     self.avatarImage = nil;
     
     NSArray *firstSection = [[NSArray alloc] initWithObjects:@"login", @"name", @"email", @"company", @"location", @"blog", nil];
-    NSArray *secondSection = [[NSArray alloc] initWithObjects:@"followers", @"following", @"created_at", nil];
+    NSArray *secondSection = [[NSArray alloc] initWithObjects:@"followers", @"following", @"created_at", @"updated_at", @"disk_usage", nil];
     self.titleOfCell = [[NSArray alloc] initWithObjects:firstSection, secondSection, nil];
     
     [self pullToRefresh];
@@ -186,8 +186,17 @@
             [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
             
             data = [NSString stringWithFormat:@"%@ Users", [formatter stringFromNumber:[NSNumber numberWithInt:[[self.userDetails objectForKey:[self titleOfCellAtRow:row InSection:section]] intValue]]]];
-        } else if (row == 2) {
+        } else if (row == 2 || row == 3) {
             data = [NSString stringWithFormat:@"%@", [self dateDiff:[self.userDetails objectForKey:[self titleOfCellAtRow:row InSection:section]]]];
+        } else if (row == 4) {
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+            [formatter setDecimalSeparator:@","];
+
+            NSNumber *usage = [self.userDetails objectForKey:[self titleOfCellAtRow:row InSection:section]];
+            if (usage == nil)
+                usage = 0;
+            data = [formatter stringFromNumber:usage];
         }
     } else if (section == 0) {
         data = [HelperTools getStringFor:[self titleOfCellAtRow:row InSection:section] From:self.userDetails];
