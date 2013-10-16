@@ -55,7 +55,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if (self.htmlContent == nil || self.htmlContent.length == 0)
+    if (self.url != nil && self.url.length > 0)
         [self loadFileContent];
     else {
         NSString *path = [[NSBundle mainBundle] bundlePath];
