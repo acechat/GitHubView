@@ -10,6 +10,8 @@
 #import "ConfigHelper.h"
 #import "AFNetworking.h"
 #import "HelperTools.h"
+#import "AccountViewController.h"
+#import "FileContentViewController.h"
 
 @interface CommitDetailViewController ()
 
@@ -160,6 +162,8 @@
         }
     } else if (section == 2) {
         data = [HelperTools getStringFor:title From:commit];
+    } else if (section == 3) {
+        data = [HelperTools getStringFor:@"filename" From:self.committedFileList[row]];
     }
     if (data == nil || [data isKindOfClass:[NSNull class]])
         data = @"";
@@ -181,6 +185,14 @@
     
     cell.textLabel.text = [self titleOfCellAtRow:row InSection:section];
     cell.detailTextLabel.text = [self dataOfCellAtRow:row InSection:section];
+    
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    if (section == 0 || section == 1) {
+        if (row == 1 && cell.detailTextLabel.text.length > 0)
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    } else if (section == 3) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
     
     return cell;
 }
@@ -235,7 +247,6 @@
 }
 */
 
-/*
 #pragma mark - Table view delegate
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
@@ -243,19 +254,65 @@
 {
     // Navigation logic may go here, for example:
     // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-
-    // Pass the selected object to the new view controller.
+    long section = indexPath.section;
+    long row = indexPath.row;
     
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    if (section == 0 || section == 1) {
+        NSString *data = [self dataOfCellAtRow:row InSection:section];
+        if (row == 1 && data.length > 0) {
+            AccountViewController *accountViewController = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil];
+            accountViewController.userToView = data;
+            [self.navigationController pushViewController:accountViewController animated:YES];
+        }
+    } else if (section == 3) {
+        FileContentViewController *fileContentViewController = [[FileContentViewController alloc] initWithNibName:@"FileContentViewController" bundle:nil];
+        fileContentViewController.fileName = [self dataOfCellAtRow:row InSection:section];
+        fileContentViewController.htmlContent = [HelperTools getStringFor:@"patch" From:self.committedFileList[row]];
+        
+        [self.navigationController pushViewController:fileContentViewController animated:YES];
+    }
 }
- 
- */
+
+#pragma mark - Fetching Committed File List
+
+- (void)startNetworkIndicator {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+}
+- (void)stopNetworkIndicator {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
 
 - (void)fetchCommittedFiles
 {
+    NSDictionary *profileList = [ConfigHelper loadUserProfile];
+    NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
+    NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
+    NSString *user_id = [userProfile valueForKey:@"user_id"];
+    NSString *password = [userProfile valueForKey:@"password"];
+    NSString *commitURL = [self.commitInfo objectForKey:@"url"];
     
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Basic %@", [HelperTools AFBase64EncodedStringFromString:basicAuthCredentials]] forHTTPHeaderField:@"Authorization"];
+    
+    
+    [self startNetworkIndicator];
+    [manager GET:commitURL parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+        NSLog(@"Committed file list : %@", JSON);
+        self.committedFileList = [JSON objectForKey:@"files"];
+        [self.tableView reloadData];
+        [self stopNetworkIndicator];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSString *errorMessage = error.localizedDescription;
+        [self stopNetworkIndicator];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:errorMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Close"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
 }
 
 @end

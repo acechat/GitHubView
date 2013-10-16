@@ -14,5 +14,6 @@
 @property (nonatomic, retain) NSString *fileName;
 @property (nonatomic, retain) NSString *url;
 @property (nonatomic, retain) NSDictionary *fileInfo;
+@property (nonatomic, retain) NSString *htmlContent;
 
 @end

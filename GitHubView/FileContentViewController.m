@@ -13,6 +13,10 @@
 
 @interface FileContentViewController ()
 
+@property (nonatomic, retain) NSString *bodyTemplate;
+@property (nonatomic, retain) NSString *codeTemplate;
+@property (nonatomic, retain) NSString *imageTemplate;
+
 @end
 
 @implementation FileContentViewController
@@ -30,7 +34,38 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self loadFileContent];
+    self.bodyTemplate = @"<html><head>\
+    <meta name='viewport' content='width=device-width; initial-scale=1.0; maximum-scale=1.0;'>\
+    <link rel='stylesheet' href='iphone.css' />\
+    <script type='text/javascript' charset='utf-8'>\
+    window.onload = function() {\
+    setTimeout(function(){window.scrollTo(0, 1);}, 100);\
+    }\
+    </script>\
+    <link href='%@' type='text/css' rel='stylesheet' />\
+    <script type='text/javascript' src='prettify.js'></script>\
+    <script type='text/javascript' src='general.js'></script>\
+    </head>\
+    <body onload='prettyPrint()'>\
+    %@</body></html>";
+    
+    self.codeTemplate = @"<div id='content'><pre class='prettyprint'>%@</pre></div>";
+    self.imageTemplate = @"<img src='data:image;base64,%@'>";
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (self.htmlContent == nil || self.htmlContent.length == 0)
+        [self loadFileContent];
+    else {
+        NSString *path = [[NSBundle mainBundle] bundlePath];
+        NSURL *baseURL = [NSURL fileURLWithPath:path];
+        NSString *content = [NSString stringWithFormat:self.codeTemplate, self.htmlContent];
+        NSString *htmlBody = [NSString stringWithFormat:self.bodyTemplate, [ConfigHelper getCurrentTheme], content];
+        
+        [self.webView loadHTMLString:htmlBody baseURL:baseURL];
+        self.title = self.fileName;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -72,30 +107,16 @@
     NSString *content = nil;
     
     if ([self isImageType:decodedData]) {
-        content = [NSString stringWithFormat:@"<img src='data:%@;base64,%@'>", @"image", originalContent];
+        content = [NSString stringWithFormat:self.imageTemplate, originalContent];
     } else {
-        content = [NSString stringWithFormat:@"<div id='content'><pre class='prettyprint'>%@</pre></div>", stringVersion];
+        content = [NSString stringWithFormat:self.codeTemplate, stringVersion];
     }
-    NSString *htmlBody = [NSString stringWithFormat:@"<html><head>\
-                          <meta name='viewport' content='width=device-width; initial-scale=1.0; maximum-scale=1.0;'>\
-                          <link rel='stylesheet' href='iphone.css' />\
-                          <script type='text/javascript' charset='utf-8'>\
-                          window.onload = function() {\
-                          setTimeout(function(){window.scrollTo(0, 1);}, 100);\
-                          }\
-                          </script>\
-                          <link href='%@' type='text/css' rel='stylesheet' />\
-                          <script type='text/javascript' src='prettify.js'></script>\
-                          <script type='text/javascript' src='general.js'></script>\
-                          </head>\
-                          <body onload='prettyPrint()'>\
-                          %@</body></html>", [ConfigHelper getCurrentTheme], content];
+    NSString *htmlBody = [NSString stringWithFormat:self.bodyTemplate, [ConfigHelper getCurrentTheme], content];
 
     
     NSString *path = [[NSBundle mainBundle] bundlePath];
     NSURL *baseURL = [NSURL fileURLWithPath:path];
     
-    NSLog(@"HTML : %@", htmlBody);
     [self.webView loadHTMLString:htmlBody baseURL:baseURL];
     self.title = self.fileName;
 }
