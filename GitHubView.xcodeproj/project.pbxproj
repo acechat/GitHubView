@@ -60,6 +60,8 @@
 		1FE9864A180D0AB300DD1111 /* doxy.css in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98646180D0AB300DD1111 /* doxy.css */; };
 		1FE9864B180D0AB300DD1111 /* sons.css in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98647180D0AB300DD1111 /* sons.css */; };
 		1FE9864C180D0AB300DD1111 /* sunburst.css in Resources */ = {isa = PBXBuildFile; fileRef = 1FE98648180D0AB300DD1111 /* sunburst.css */; };
+		1FF7A802180E6BDD003FA999 /* CommitDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF7A800180E6BDD003FA999 /* CommitDetailViewController.m */; };
+		1FF7A803180E6BDD003FA999 /* CommitDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FF7A801180E6BDD003FA999 /* CommitDetailViewController.xib */; };
 		8215E4DF17FAB6EC00B0F43C /* StarsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8215E4DD17FAB6EC00B0F43C /* StarsViewController.m */; };
 		8215E4E017FAB6EC00B0F43C /* StarsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8215E4DE17FAB6EC00B0F43C /* StarsViewController.xib */; };
 		8215E4E417FAB6FF00B0F43C /* IssuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8215E4E217FAB6FF00B0F43C /* IssuesViewController.m */; };
@@ -190,6 +192,9 @@
 		1FE98646180D0AB300DD1111 /* doxy.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = doxy.css; sourceTree = "<group>"; };
 		1FE98647180D0AB300DD1111 /* sons.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = sons.css; sourceTree = "<group>"; };
 		1FE98648180D0AB300DD1111 /* sunburst.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = sunburst.css; sourceTree = "<group>"; };
+		1FF7A7FF180E6BDD003FA999 /* CommitDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitDetailViewController.h; sourceTree = "<group>"; };
+		1FF7A800180E6BDD003FA999 /* CommitDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitDetailViewController.m; sourceTree = "<group>"; };
+		1FF7A801180E6BDD003FA999 /* CommitDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommitDetailViewController.xib; sourceTree = "<group>"; };
 		8215E4DC17FAB6EC00B0F43C /* StarsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarsViewController.h; sourceTree = "<group>"; };
 		8215E4DD17FAB6EC00B0F43C /* StarsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarsViewController.m; sourceTree = "<group>"; };
 		8215E4DE17FAB6EC00B0F43C /* StarsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StarsViewController.xib; sourceTree = "<group>"; };
@@ -416,6 +421,9 @@
 				1FE985E1180CCF9400DD1111 /* FileContentViewController.h */,
 				1FE985E2180CCF9400DD1111 /* FileContentViewController.m */,
 				1FE985E3180CCF9400DD1111 /* FileContentViewController.xib */,
+				1FF7A7FF180E6BDD003FA999 /* CommitDetailViewController.h */,
+				1FF7A800180E6BDD003FA999 /* CommitDetailViewController.m */,
+				1FF7A801180E6BDD003FA999 /* CommitDetailViewController.xib */,
 				8215E4DC17FAB6EC00B0F43C /* StarsViewController.h */,
 				8215E4DD17FAB6EC00B0F43C /* StarsViewController.m */,
 				8215E4DE17FAB6EC00B0F43C /* StarsViewController.xib */,
@@ -612,6 +620,7 @@
 				1FE9863E180D071F00DD1111 /* lang-vb.js in Resources */,
 				1FE9863F180D071F00DD1111 /* lang-vhdl.js in Resources */,
 				1FE98640180D071F00DD1111 /* lang-wiki.js in Resources */,
+				1FF7A803180E6BDD003FA999 /* CommitDetailViewController.xib in Resources */,
 				1FE98641180D071F00DD1111 /* lang-xq.js in Resources */,
 				1FE98642180D071F00DD1111 /* lang-yaml.js in Resources */,
 				1FE98643180D071F00DD1111 /* prettify.js in Resources */,
@@ -663,6 +672,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FF7A802180E6BDD003FA999 /* CommitDetailViewController.m in Sources */,
 				1F0C54F0180269FE00CAFC23 /* AFURLSessionManager.m in Sources */,
 				821F6E7C1808AAFF00BE0B74 /* WebViewController.m in Sources */,
 				1F0C54ED180269FE00CAFC23 /* AFURLConnectionOperation.m in Sources */,

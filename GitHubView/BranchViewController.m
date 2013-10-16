@@ -11,6 +11,7 @@
 #import "AFNetworking.h"
 #import "HelperTools.h"
 #import "FileContentViewController.h"
+#import "CommitDetailViewController.h"
 
 @interface BranchViewController ()
 
@@ -267,6 +268,12 @@
             
             [self.navigationController pushViewController:fileContentViewController animated:YES];
         }
+    } else {
+        NSDictionary *commitInfo = self.commitList[indexPath.row];
+        CommitDetailViewController *commitDetailViewController = [[CommitDetailViewController alloc] initWithNibName:@"CommitDetailViewController" bundle:nil];
+        commitDetailViewController.commitInfo = commitInfo;
+        
+        [self.navigationController pushViewController:commitDetailViewController animated:YES];
     }
 }
 
@@ -306,7 +313,7 @@
     }
 
     [manager GET:path parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
-        NSLog(@"BRANCH INFO : %@", JSON);
+        //NSLog(@"BRANCH INFO : %@", JSON);
 
         self.fileList = JSON;
         [self.directoryList removeAllObjects];
@@ -361,7 +368,7 @@
     [self startNetworkIndicator];
     path = [NSString stringWithFormat:@"/repos/%@/%@/commits", self.repoOwnerString, self.repoNameString];
     [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
-        //NSLog(@"COMMITS : %@", JSON);
+        NSLog(@"COMMITS : %@", JSON);
         self.commitList = JSON;
         if (self.viewMode == 1) {
             [self.tableView reloadData];
