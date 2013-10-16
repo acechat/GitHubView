@@ -222,7 +222,8 @@ code {
 
 img {
     /*width: 950px;*/
-    max-width: 98%;
+    max-width: 100%;
+  width: 100%;
     height: auto;
     align: center;
     height: relative;
