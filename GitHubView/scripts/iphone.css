@@ -20,9 +20,11 @@ Original from below, but made lots of changes to make it fit to this app.
     box-shadow:2px 2px 2px #000;
     -webkit-box-shadow:2px 2px 2px #000;
     -moz-box-shadow:2px 2px 2px #000000;
-    border-radius:10px; 
+    /* 
+    border-radius:10px;
     -moz-border-radius:10px; 
     -webkit-border-radius:10px;
+    */
     color: #000000;
     background-color: #AAF;
     
@@ -46,9 +48,11 @@ embed {
     box-shadow:2px 2px 2px #000;
     -webkit-box-shadow:2px 2px 2px #000;
     -moz-box-shadow:2px 2px 2px #000000;
+    /*
     border-radius:10px; 
     -moz-border-radius:10px; 
     -webkit-border-radius:10px;
+    */
     color: #000000;
     background-color: #AAF;
     
@@ -224,8 +228,10 @@ img {
     height: relative;
     margin-left: 1px;
     margin-right: 1px;
+    /*
     -moz-border-radius: 1em 1em 1em 1em;
     border-radius: 1em 1em 1em 1em;
+    */
 }
 
 h1 img {
