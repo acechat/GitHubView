@@ -23,7 +23,6 @@
 		1F1AFAE417FBF436001072F3 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1AFAE217FBF436001072F3 /* AboutViewController.m */; };
 		1F1AFAE517FBF436001072F3 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1AFAE317FBF436001072F3 /* AboutViewController.xib */; };
 		1F5D85C8180F854C00731FBF /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F5D85C7180F854C00731FBF /* star.png */; };
-		1F5D85CC180F8AD700731FBF /* unstar.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F5D85CB180F8AD700731FBF /* unstar.png */; };
 		1FE985E4180CCF9400DD1111 /* FileContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE985E2180CCF9400DD1111 /* FileContentViewController.m */; };
 		1FE985E5180CCF9400DD1111 /* FileContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985E3180CCF9400DD1111 /* FileContentViewController.xib */; };
 		1FE985E8180D02BF00DD1111 /* iphone.css in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985E7180D02BF00DD1111 /* iphone.css */; };
@@ -156,7 +155,6 @@
 		1F1AFAE217FBF436001072F3 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		1F1AFAE317FBF436001072F3 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
 		1F5D85C7180F854C00731FBF /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
-		1F5D85CB180F8AD700731FBF /* unstar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unstar.png; sourceTree = "<group>"; };
 		1FE985E1180CCF9400DD1111 /* FileContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileContentViewController.h; sourceTree = "<group>"; };
 		1FE985E2180CCF9400DD1111 /* FileContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileContentViewController.m; sourceTree = "<group>"; };
 		1FE985E3180CCF9400DD1111 /* FileContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileContentViewController.xib; sourceTree = "<group>"; };
@@ -508,7 +506,6 @@
 		8283CA1C18090F4500080905 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1F5D85CB180F8AD700731FBF /* unstar.png */,
 				1F5D85C7180F854C00731FBF /* star.png */,
 				822F05B6180BCAC100C6FD0E /* folder.png */,
 				822F05AC180BCAB800C6FD0E /* mime_audio.png */,
@@ -628,7 +625,6 @@
 				1FE98640180D071F00DD1111 /* lang-wiki.js in Resources */,
 				1FF7A803180E6BDD003FA999 /* CommitDetailViewController.xib in Resources */,
 				1FE98641180D071F00DD1111 /* lang-xq.js in Resources */,
-				1F5D85CC180F8AD700731FBF /* unstar.png in Resources */,
 				1FE98642180D071F00DD1111 /* lang-yaml.js in Resources */,
 				1FE98643180D071F00DD1111 /* prettify.js in Resources */,
 				1FE98644180D071F00DD1111 /* run_prettify.js in Resources */,
