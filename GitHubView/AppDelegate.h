@@ -34,8 +34,8 @@
 - (NSString *)getPassword;
 
 - (void)setThemeList;
-- (int)getThemeIndex;
-- (NSString *)getThemeFilename:(int)index;
+- (long)getThemeIndex;
+- (NSString *)getThemeFilename:(long)index;
 - (NSString *)getCurrentTheme;
 
 

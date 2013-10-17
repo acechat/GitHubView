@@ -128,7 +128,7 @@
     return 0;
 }
 
-- (NSString *)titleOfCellAtRow:(int)row InSection:(int)section
+- (NSString *)titleOfCellAtRow:(long)row InSection:(long)section
 {
     if (section == 2) {
         NSDictionary *dic = [self.repoList objectAtIndex:row];
@@ -177,7 +177,7 @@
     }
 }
 
-- (NSString *)dataOfCellAtRow:(int)row InSection:(int)section
+- (NSString *)dataOfCellAtRow:(long)row InSection:(long)section
 {
     NSString *data = nil;
     if (section == 1) {
