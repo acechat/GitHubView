@@ -36,6 +36,18 @@
     return self;
 }
 
+- (void)changeStarring:(id)sender
+{
+    UIBarButtonItem *button = sender;
+    
+    UIColor *currentColor = button.tintColor;
+    if (currentColor == [UIColor grayColor]) {
+        [button setTintColor:[UIColor redColor]];
+    } else {
+        [button setTintColor:[UIColor grayColor]];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -47,6 +59,12 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.title = @"Repo Info";
+    
+    UIImage *starImage = [UIImage imageNamed:@"unstar.png"];
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:starImage style:UIBarButtonItemStyleBordered target:self action:@selector(changeStarring:)];
+
+    [rightButton setTintColor:[UIColor redColor]];
+    self.navigationItem.rightBarButtonItem = rightButton;
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.tintColor = [UIColor grayColor];
@@ -354,6 +372,7 @@
     [manager GET:self.repoURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
         NSLog(@"REPOINFO : %@", JSON);
         self.repoInfo = JSON;
+        [self getCheckStatus];
         [self.tableView reloadData];
         [self stopNetworkIndicator];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -399,5 +418,73 @@
         [alertView show];
     }];
 }
+
+
+- (void) getCheckStatus
+{
+    NSString *hostAddr = @"https://api.github.com";
+    NSString *path = nil;
+    
+    NSDictionary *profileList = [ConfigHelper loadUserProfile];
+    NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
+    NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
+    NSString *user_id = [userProfile valueForKey:@"user_id"];
+    NSString *password = [userProfile valueForKey:@"password"];
+    
+    NSString *repoOwner = [self.repoInfo valueForKey:@"owner"];
+    NSString *repoName = [self.repoInfo valueForKey:@"name"];
+    
+    path = [NSString stringWithFormat:@"/user/starred/%@/%@", repoOwner, repoName];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Basic %@", [HelperTools AFBase64EncodedStringFromString:basicAuthCredentials]] forHTTPHeaderField:@"Authorization"];
+    
+    [self startNetworkIndicator];
+    [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+        NSLog(@"STARRRED : %@", JSON);
+        [self stopNetworkIndicator];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSString *errorMessage = error.localizedDescription;
+        [self stopNetworkIndicator];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:errorMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Close"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
+
+/*
+- (void) saveCheckStatus
+{
+    NSString *hostAddr = @"https://api.github.com";
+    NSString *path = nil;
+    
+    path = [NSString stringWithFormat:@"/user/starred/%@/%@", self.ownerName, self.repoName];
+    
+    NSDictionary *profileList = [ConfigHelper loadUserProfile];
+    NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", hostAddr, path]];
+    
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+    NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
+    [httpClient setAuthorizationHeaderWithUsername:[userProfile valueForKey:@"user_id"] password:[userProfile valueForKey:@"password"]];
+    
+    NSURLRequest *request = [httpClient requestWithMethod:(self.isChecked ? @"PUT" : @"DELETE") path:path parameters:nil];
+    
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        [self setTopTitle];
+        [self stopLoading];
+        self.isChecked = !self.isChecked;
+        self.checkImage.hidden = !self.isChecked;
+    }];
+    
+    [operation start];
+}
+ */
 
 @end
