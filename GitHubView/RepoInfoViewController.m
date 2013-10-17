@@ -38,10 +38,27 @@
 
 - (void)changeStarring:(id)sender
 {
-    UIBarButtonItem *button = sender;
-    
+    [self setStarringState:![self getStarringState]];
+    [self saveCheckStatus];
+}
+
+- (bool)getStarringState
+{
+    UIBarButtonItem *button = self.navigationItem.rightBarButtonItem;
+
     UIColor *currentColor = button.tintColor;
     if (currentColor == [UIColor grayColor]) {
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (void)setStarringState:(bool)on
+{
+    UIBarButtonItem *button = self.navigationItem.rightBarButtonItem;
+
+    if (on) {
         [button setTintColor:[UIColor redColor]];
     } else {
         [button setTintColor:[UIColor grayColor]];
@@ -63,8 +80,8 @@
     UIImage *starImage = [UIImage imageNamed:@"unstar.png"];
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:starImage style:UIBarButtonItemStyleBordered target:self action:@selector(changeStarring:)];
 
-    [rightButton setTintColor:[UIColor redColor]];
     self.navigationItem.rightBarButtonItem = rightButton;
+    [self setStarringState:NO];
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.tintColor = [UIColor grayColor];
@@ -424,6 +441,7 @@
 {
     NSString *hostAddr = @"https://api.github.com";
     NSString *path = nil;
+    NSString *urlPath = nil;
     
     NSDictionary *profileList = [ConfigHelper loadUserProfile];
     NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
@@ -431,7 +449,7 @@
     NSString *user_id = [userProfile valueForKey:@"user_id"];
     NSString *password = [userProfile valueForKey:@"password"];
     
-    NSString *repoOwner = [self.repoInfo valueForKey:@"owner"];
+    NSString *repoOwner = [[self.repoInfo valueForKey:@"owner"] valueForKey:@"login"];
     NSString *repoName = [self.repoInfo valueForKey:@"name"];
     
     path = [NSString stringWithFormat:@"/user/starred/%@/%@", repoOwner, repoName];
@@ -441,50 +459,57 @@
     NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"Basic %@", [HelperTools AFBase64EncodedStringFromString:basicAuthCredentials]] forHTTPHeaderField:@"Authorization"];
     
+    urlPath = [NSString stringWithFormat:@"%@%@", hostAddr, path];
     [self startNetworkIndicator];
-    [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
-        NSLog(@"STARRRED : %@", JSON);
+    [manager GET:urlPath parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+        [self setStarringState:YES];
         [self stopNetworkIndicator];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSString *errorMessage = error.localizedDescription;
+        [self setStarringState:NO];
         [self stopNetworkIndicator];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:errorMessage
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"Close"
-                                                  otherButtonTitles:nil];
-        [alertView show];
     }];
 }
 
-/*
 - (void) saveCheckStatus
 {
     NSString *hostAddr = @"https://api.github.com";
     NSString *path = nil;
-    
-    path = [NSString stringWithFormat:@"/user/starred/%@/%@", self.ownerName, self.repoName];
+    NSString *urlPath = nil;
     
     NSDictionary *profileList = [ConfigHelper loadUserProfile];
     NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", hostAddr, path]];
-    
-    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
     NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
-    [httpClient setAuthorizationHeaderWithUsername:[userProfile valueForKey:@"user_id"] password:[userProfile valueForKey:@"password"]];
+    NSString *user_id = [userProfile valueForKey:@"user_id"];
+    NSString *password = [userProfile valueForKey:@"password"];
     
-    NSURLRequest *request = [httpClient requestWithMethod:(self.isChecked ? @"PUT" : @"DELETE") path:path parameters:nil];
+    NSString *repoOwner = [[self.repoInfo valueForKey:@"owner"] valueForKey:@"login"];
+    NSString *repoName = [self.repoInfo valueForKey:@"name"];
     
-    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-        [self setTopTitle];
-        [self stopLoading];
-        self.isChecked = !self.isChecked;
-        self.checkImage.hidden = !self.isChecked;
-    }];
+    path = [NSString stringWithFormat:@"/user/starred/%@/%@", repoOwner, repoName];
     
-    [operation start];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Basic %@", [HelperTools AFBase64EncodedStringFromString:basicAuthCredentials]] forHTTPHeaderField:@"Authorization"];
+    
+    urlPath = [NSString stringWithFormat:@"%@%@", hostAddr, path];
+    [self startNetworkIndicator];
+    
+    if ([self getStarringState] == YES) {
+        [manager PUT:urlPath parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+            [self stopNetworkIndicator];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self setStarringState:NO];
+            [self stopNetworkIndicator];
+        }];
+    } else {
+        [manager DELETE:urlPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self stopNetworkIndicator];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self setStarringState:YES];
+            [self stopNetworkIndicator];
+        }];
+    }
 }
- */
 
 @end
