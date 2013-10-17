@@ -104,10 +104,10 @@
     self.themeList = [[NSMutableArray alloc] initWithObjects:prettify, desert, sons, nil];
 }
 
-- (int)getThemeIndex
+- (long)getThemeIndex
 {
     NSNumber *number = [self.appConfiguration objectForKey:@"theme_index"];
-    int themeIndex = [number intValue];
+    long themeIndex = [number intValue];
     
     if (themeIndex < 0) themeIndex = 0;
     
@@ -117,7 +117,7 @@
     return themeIndex;
 }
 
-- (NSString *)getThemeFilename:(int)index
+- (NSString *)getThemeFilename:(long)index
 {
     return [[self.themeList objectAtIndex:index] objectForKey:@"path"];
 }

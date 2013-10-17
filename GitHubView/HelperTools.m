@@ -130,7 +130,7 @@
     return result;
 }
 
-+ (NSString *)getStringAt:(int)index From:(NSArray *)array
++ (NSString *)getStringAt:(long)index From:(NSArray *)array
 {
     NSString *result = array[index];
     if (result == (id)[NSNull null] || result.length == 0 || [result isEqualToString:@"null"] )

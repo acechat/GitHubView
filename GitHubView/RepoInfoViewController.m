@@ -101,7 +101,7 @@
     return [data count];
 }
 
-- (NSString *)titleOfCellAtRow:(int)row InSection:(int)section
+- (NSString *)titleOfCellAtRow:(long)row InSection:(long)section
 {
     if (section == 2) {
         return [HelperTools getStringAt:row From:self.branchNameList];
@@ -151,7 +151,7 @@
     return result;
 }
 
-- (NSString *)dataOfCellAtRow:(int)row InSection:(int)section
+- (NSString *)dataOfCellAtRow:(long)row InSection:(long)section
 {
     NSString *data = nil;
     NSString *title = [self titleOfCellAtRow:row InSection:section];
