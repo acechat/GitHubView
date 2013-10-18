@@ -22,6 +22,7 @@
 		1F1AFAE017FBF419001072F3 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1AFADE17FBF419001072F3 /* HelpViewController.xib */; };
 		1F1AFAE417FBF436001072F3 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1AFAE217FBF436001072F3 /* AboutViewController.m */; };
 		1F1AFAE517FBF436001072F3 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1AFAE317FBF436001072F3 /* AboutViewController.xib */; };
+		1F5D85C8180F854C00731FBF /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F5D85C7180F854C00731FBF /* star.png */; };
 		1FE985E4180CCF9400DD1111 /* FileContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE985E2180CCF9400DD1111 /* FileContentViewController.m */; };
 		1FE985E5180CCF9400DD1111 /* FileContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985E3180CCF9400DD1111 /* FileContentViewController.xib */; };
 		1FE985E8180D02BF00DD1111 /* iphone.css in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985E7180D02BF00DD1111 /* iphone.css */; };
@@ -153,6 +154,7 @@
 		1F1AFAE117FBF436001072F3 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		1F1AFAE217FBF436001072F3 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		1F1AFAE317FBF436001072F3 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
+		1F5D85C7180F854C00731FBF /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		1FE985E1180CCF9400DD1111 /* FileContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileContentViewController.h; sourceTree = "<group>"; };
 		1FE985E2180CCF9400DD1111 /* FileContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileContentViewController.m; sourceTree = "<group>"; };
 		1FE985E3180CCF9400DD1111 /* FileContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileContentViewController.xib; sourceTree = "<group>"; };
@@ -504,6 +506,7 @@
 		8283CA1C18090F4500080905 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1F5D85C7180F854C00731FBF /* star.png */,
 				822F05B6180BCAC100C6FD0E /* folder.png */,
 				822F05AC180BCAB800C6FD0E /* mime_audio.png */,
 				822F05AD180BCAB800C6FD0E /* mime_exec.png */,
@@ -644,6 +647,7 @@
 				827CA94A17EB09B200490E88 /* LeftMenuViewController.xib in Resources */,
 				822F05B5180BCAB800C6FD0E /* mime_video.png in Resources */,
 				1FE985E5180CCF9400DD1111 /* FileContentViewController.xib in Resources */,
+				1F5D85C8180F854C00731FBF /* star.png in Resources */,
 				1F1AFAE517FBF436001072F3 /* AboutViewController.xib in Resources */,
 				827CA94F17EB0A0C00490E88 /* NewsFeedViewController.xib in Resources */,
 				1FE985E8180D02BF00DD1111 /* iphone.css in Resources */,

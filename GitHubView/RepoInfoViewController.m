@@ -36,6 +36,35 @@
     return self;
 }
 
+- (void)changeStarring:(id)sender
+{
+    [self setStarringState:![self getStarringState]];
+    [self saveCheckStatus];
+}
+
+- (bool)getStarringState
+{
+    UIBarButtonItem *button = self.navigationItem.rightBarButtonItem;
+
+    UIColor *currentColor = button.tintColor;
+    if (currentColor == [UIColor grayColor]) {
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (void)setStarringState:(bool)on
+{
+    UIBarButtonItem *button = self.navigationItem.rightBarButtonItem;
+
+    if (on) {
+        [button setTintColor:[UIColor redColor]];
+    } else {
+        [button setTintColor:[UIColor grayColor]];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -47,6 +76,12 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.title = @"Repo Info";
+    
+    UIImage *starImage = [UIImage imageNamed:@"unstar.png"];
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:starImage style:UIBarButtonItemStyleBordered target:self action:@selector(changeStarring:)];
+
+    self.navigationItem.rightBarButtonItem = rightButton;
+    [self setStarringState:NO];
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.tintColor = [UIColor grayColor];
@@ -101,7 +136,7 @@
     return [data count];
 }
 
-- (NSString *)titleOfCellAtRow:(int)row InSection:(int)section
+- (NSString *)titleOfCellAtRow:(long)row InSection:(long)section
 {
     if (section == 2) {
         return [HelperTools getStringAt:row From:self.branchNameList];
@@ -151,7 +186,7 @@
     return result;
 }
 
-- (NSString *)dataOfCellAtRow:(int)row InSection:(int)section
+- (NSString *)dataOfCellAtRow:(long)row InSection:(long)section
 {
     NSString *data = nil;
     NSString *title = [self titleOfCellAtRow:row InSection:section];
@@ -354,6 +389,7 @@
     [manager GET:self.repoURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
         NSLog(@"REPOINFO : %@", JSON);
         self.repoInfo = JSON;
+        [self getCheckStatus];
         [self.tableView reloadData];
         [self stopNetworkIndicator];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -398,6 +434,82 @@
                                                   otherButtonTitles:nil];
         [alertView show];
     }];
+}
+
+
+- (void) getCheckStatus
+{
+    NSString *hostAddr = @"https://api.github.com";
+    NSString *path = nil;
+    NSString *urlPath = nil;
+    
+    NSDictionary *profileList = [ConfigHelper loadUserProfile];
+    NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
+    NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
+    NSString *user_id = [userProfile valueForKey:@"user_id"];
+    NSString *password = [userProfile valueForKey:@"password"];
+    
+    NSString *repoOwner = [[self.repoInfo valueForKey:@"owner"] valueForKey:@"login"];
+    NSString *repoName = [self.repoInfo valueForKey:@"name"];
+    
+    path = [NSString stringWithFormat:@"/user/starred/%@/%@", repoOwner, repoName];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Basic %@", [HelperTools AFBase64EncodedStringFromString:basicAuthCredentials]] forHTTPHeaderField:@"Authorization"];
+    
+    urlPath = [NSString stringWithFormat:@"%@%@", hostAddr, path];
+    [self startNetworkIndicator];
+    [manager GET:urlPath parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+        [self setStarringState:YES];
+        [self stopNetworkIndicator];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self setStarringState:NO];
+        [self stopNetworkIndicator];
+    }];
+}
+
+- (void) saveCheckStatus
+{
+    NSString *hostAddr = @"https://api.github.com";
+    NSString *path = nil;
+    NSString *urlPath = nil;
+    
+    NSDictionary *profileList = [ConfigHelper loadUserProfile];
+    NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
+    NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
+    NSString *user_id = [userProfile valueForKey:@"user_id"];
+    NSString *password = [userProfile valueForKey:@"password"];
+    
+    NSString *repoOwner = [[self.repoInfo valueForKey:@"owner"] valueForKey:@"login"];
+    NSString *repoName = [self.repoInfo valueForKey:@"name"];
+    
+    path = [NSString stringWithFormat:@"/user/starred/%@/%@", repoOwner, repoName];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Basic %@", [HelperTools AFBase64EncodedStringFromString:basicAuthCredentials]] forHTTPHeaderField:@"Authorization"];
+    
+    urlPath = [NSString stringWithFormat:@"%@%@", hostAddr, path];
+    [self startNetworkIndicator];
+    
+    if ([self getStarringState] == YES) {
+        [manager PUT:urlPath parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+            [self stopNetworkIndicator];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self setStarringState:NO];
+            [self stopNetworkIndicator];
+        }];
+    } else {
+        [manager DELETE:urlPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self stopNetworkIndicator];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self setStarringState:YES];
+            [self stopNetworkIndicator];
+        }];
+    }
 }
 
 @end

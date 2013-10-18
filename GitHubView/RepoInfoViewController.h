@@ -18,4 +18,5 @@
 @property (nonatomic, retain) NSMutableArray *branches;
 @property (nonatomic, retain) NSMutableArray *branchNameList;
 @property (nonatomic, retain) NSMutableArray *branchHashList;
+@property (nonatomic, assign) bool isStarred;
 @end

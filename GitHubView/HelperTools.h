@@ -12,7 +12,7 @@
 
 + (NSString *)AFBase64EncodedStringFromString:(NSString *)string;
 + (NSString *)getStringFor:(NSString *)key From:(NSDictionary *)dictonary;
-+ (NSString *)getStringAt:(int)index From:(NSArray *)array;
++ (NSString *)getStringAt:(long)index From:(NSArray *)array;
 + (NSString*)Base64EncodedStringFromData:(NSData*)theData;
 + (NSData *)Base64DecodedDataFromString:(NSString *)string;
 
