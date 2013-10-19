@@ -387,7 +387,9 @@
     
     [self startNetworkIndicator];
     [manager GET:self.repoURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+#ifdef DEBUG
         NSLog(@"REPOINFO : %@", JSON);
+#endif
         self.repoInfo = JSON;
         [self getCheckStatus];
         [self.tableView reloadData];
@@ -404,7 +406,9 @@
     }];
 
     [manager GET:[NSString stringWithFormat:@"%@/branches", repoURLString] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
-        NSLog(@"BRANCHES : %@", JSON);        
+#ifdef DEBUG
+        NSLog(@"BRANCHES : %@", JSON);
+#endif
         NSMutableArray *branchList = [[NSMutableArray alloc] init];
         for (NSDictionary *dic in JSON) {
             [branchList addObject:dic];

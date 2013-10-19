@@ -316,7 +316,9 @@
     }
 
     [manager GET:path parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
-        //NSLog(@"BRANCH INFO : %@", JSON);
+#ifdef DEBUG
+        NSLog(@"BRANCH INFO : %@", JSON);
+#endif
 
         self.fileList = JSON;
         [self.directoryList removeAllObjects];
@@ -325,8 +327,6 @@
             [parent setObject:@".." forKey:@"path"];
             [parent setObject:@"tree" forKey:@"type"];
             NSDictionary *parentData = [self.directoryPath objectAtIndex:self.directoryDepth - 1];
-            NSLog(@"directoryPath : %@", self.directoryPath);
-            NSLog(@"parentData : %@", parentData);
             [parent setObject:[parentData valueForKey:@"url"] forKey:@"url"];
             [parent setObject:[parentData valueForKey:@"sha"] forKey:@"sha"];
             
@@ -371,7 +371,9 @@
     [self startNetworkIndicator];
     path = [NSString stringWithFormat:@"/repos/%@/%@/commits", self.repoOwnerString, self.repoNameString];
     [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+#ifdef DEBUG
         NSLog(@"COMMITS : %@", JSON);
+#endif
         self.commitList = JSON;
         if (self.viewMode == 1) {
             [self.tableView reloadData];

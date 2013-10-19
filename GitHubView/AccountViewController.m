@@ -416,11 +416,13 @@
     
     [self startNetworkIndicator];
     [manager GET:repoPath parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+#ifdef DEBUG
+        NSLog(@"REPOLIST: %@", JSON);
+#endif
         self.repoList = JSON;
         [self.tableView reloadData];
         [self stopNetworkIndicator];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"ERROR: %@", error);
         NSString *errorMessage = error.localizedDescription;
         [self stopNetworkIndicator];
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -456,14 +458,15 @@
     
     [self startNetworkIndicator];
     [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
-        NSLog(@"JSON: %@", JSON);
+#ifdef DEBUG
+        NSLog(@"USERINFO: %@", JSON);
+#endif
         userDetails = JSON;
         [self.tableView reloadData];
         [self stopNetworkIndicator];
         
         [self refreshRepoList];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"ERROR: %@", error);
         NSString *errorMessage = error.localizedDescription;
         [self stopNetworkIndicator];
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"

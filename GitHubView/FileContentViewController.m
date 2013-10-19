@@ -141,7 +141,9 @@
     path = self.url;
     
     [manager GET:path parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+#ifdef DEBUG
         NSLog(@"FILE INFO : %@", JSON);
+#endif
         self.fileInfo = JSON;
         [self updateContentView];
         [self stopNetworkIndicator];

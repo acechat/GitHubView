@@ -300,7 +300,9 @@
 }
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
+#ifdef DEBUG
     NSLog(@"ERR: %@", parseError);
+#endif
 }
 
 - (void)feedChanged:(NSNotification *)notification {

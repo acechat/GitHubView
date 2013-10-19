@@ -245,7 +245,9 @@
     
     [self startNetworkIndicator];
     [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+#ifdef DEBUG
         NSLog(@"JSON: %@", JSON);
+#endif
         [self.usersList removeAllObjects];
         [self.usersList addObjectsFromArray:JSON];
         [self.userImageList removeAllObjects];
@@ -253,7 +255,6 @@
         [self.tableView reloadData];
         [self stopNetworkIndicator];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"ERROR: %@", error);
         NSString *errorMessage = error.localizedDescription;
         [self stopNetworkIndicator];
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"

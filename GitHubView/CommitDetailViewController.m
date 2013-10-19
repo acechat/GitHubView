@@ -299,7 +299,9 @@
     
     [self startNetworkIndicator];
     [manager GET:commitURL parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+#ifdef DEBUG
         NSLog(@"Committed file list : %@", JSON);
+#endif
         self.committedFileList = [JSON objectForKey:@"files"];
         [self.tableView reloadData];
         [self stopNetworkIndicator];
