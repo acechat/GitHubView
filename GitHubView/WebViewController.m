@@ -7,6 +7,9 @@
 //
 
 #import "WebViewController.h"
+#import "AFNetworking.h"
+#import "ConfigHelper.h"
+#import "HelperTools.h"
 
 @interface WebViewController ()
 
@@ -39,7 +42,19 @@
 
 - (void)loadURL
 {
-    NSURLRequest *urlRequest = [[NSURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:self.webURLString]];
+    NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:self.webURLString]];
+    
+    if ([urlRequest.URL.host hasSuffix:@"github.com"]) {
+        NSDictionary *profileList = [ConfigHelper loadUserProfile];
+        NSString *selectedUserID = [ConfigHelper loadSelectedUserID];
+        NSDictionary *userProfile = [profileList valueForKey:selectedUserID];
+        NSString *user_id = [userProfile valueForKey:@"user_id"];
+        NSString *password = [userProfile valueForKey:@"password"];
+            
+        NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];
+        [urlRequest addValue:[NSString stringWithFormat:@"Basic %@", [HelperTools AFBase64EncodedStringFromString:basicAuthCredentials]] forHTTPHeaderField:@"Authorization"];
+    }
+    
     [self.webView loadRequest:urlRequest];
 }
 
