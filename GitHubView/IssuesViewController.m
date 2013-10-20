@@ -11,6 +11,7 @@
 #import "AFNetworking.h"
 #import "ConfigHelper.h"
 #import "HelperTools.h"
+#import "WebViewController.h"
 
 @interface IssuesViewController ()
 
@@ -109,12 +110,14 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     // Configure the cell...
     NSDictionary *issue = self.issuesList[indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@:%@", [HelperTools getStringFor:@"title" From:issue], [HelperTools getStringFor:@"body" From:issue]];
+    cell.detailTextLabel.text =  [HelperTools getStringFor:@"body" From:issue];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@(%@)", [HelperTools getStringFor:@"title" From:issue], [HelperTools getStringFor:@"state" From:issue]];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
 }
@@ -158,7 +161,6 @@
 }
 */
 
-/*
 #pragma mark - Table view delegate
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
@@ -166,15 +168,17 @@
 {
     // Navigation logic may go here, for example:
     // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-
-    // Pass the selected object to the new view controller.
+    long row = indexPath.row;
     
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    NSString *url = [HelperTools getStringFor:@"html_url" From:self.issuesList[row]];
+    if (url != nil && url.length > 0) {
+        WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+        webViewController.webURLString = url;
+        [self.navigationController pushViewController:webViewController animated:YES];
+    }
 }
- 
- */
+
+
 #pragma mark - Fetching Issues
 
 - (void)startNetworkIndicator {
@@ -203,7 +207,7 @@
     [self startNetworkIndicator];
     [manager GET:[NSString stringWithFormat:@"%@%@", hostAddr, path] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
 #ifdef DEBUG
-        NSLog(@"JSON: %@", JSON);
+        NSLog(@"ISSUES: %@", JSON);
 #endif
         [self.issuesList removeAllObjects];
         [self.issuesList addObjectsFromArray:JSON];
