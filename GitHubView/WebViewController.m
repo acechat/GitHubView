@@ -53,7 +53,6 @@
         NSString *user_id = [userProfile valueForKey:@"user_id"];
         NSString *password = [userProfile valueForKey:@"password"];
         
-        /*
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         
         NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];
@@ -75,60 +74,15 @@
                 [urlRequest addValue:[NSString stringWithFormat:@"token %@", authToken] forHTTPHeaderField:@"Authorization"];
             }
             [self.webView loadRequest:urlRequest];
+            NSLog(@"request: %@", [self.webView valueForKey:@"Authorization"]);
+            NSLog(@"html: %@", [self.webView stringByEvaluatingJavaScriptFromString:
+                                 @"document.getElementsByTagName('html')[0].outerHTML"]);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [self.webView loadRequest:urlRequest];
         }];
-         */
-        NSURLCredential *credential = [NSURLCredential credentialWithUser:user_id
-                                                                 password:password
-                                                              persistence:NSURLCredentialPersistenceForSession];
-        
-        NSURLProtectionSpace *protectionSpace = [[NSURLProtectionSpace alloc]
-                                                 initWithHost:@"github.com"
-                                                 port:80
-                                                 protocol:@"http"
-                                                 realm:nil
-                                                 authenticationMethod:NSURLAuthenticationMethodDefault];
-        
-        
-        [[NSURLCredentialStorage sharedCredentialStorage] setDefaultCredential:credential forProtectionSpace:protectionSpace];
-        
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://github.com/"]
-                                                               cachePolicy:NSURLRequestReloadIgnoringCacheData
-                                                           timeoutInterval:1
-                                        ];
-        
-        NSLog(@"CONNECTION: Run request");
-        NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
-        NSLog(@"conn = %@", conn);
     } else {
         [self.webView loadRequest:urlRequest];
     }
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge;
-{
-    NSLog(@"CONNECTION: got auth challange");
-    NSString* message = [NSString stringWithFormat:@"CONNECTION: cred cout = %lu", (unsigned long)[[[NSURLCredentialStorage sharedCredentialStorage] allCredentials] count]];
-    NSLog(@"%@", message);
-    NSLog(@"%@", [connection description]);
-    
-    NSLog(@"%@", [NSString stringWithFormat:@"CONNECTION: host = %@", [[challenge protectionSpace] host]]);
-    NSLog(@"%@", [NSString stringWithFormat:@"CONNECTION: port = %li", (long)[[challenge protectionSpace] port]]);
-    NSLog(@"%@", [NSString stringWithFormat:@"CONNECTION: protocol = %@", [[challenge protectionSpace] protocol]]);
-    NSLog(@"%@", [NSString stringWithFormat:@"CONNECTION: realm = %@", [[challenge protectionSpace] realm]]);
-    NSLog(@"%@", [NSString stringWithFormat:@"CONNECTION: authenticationMethod = %@", [[challenge protectionSpace] authenticationMethod]]);
-    
-    NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:self.webURLString]];
-    [self.webView loadRequest:urlRequest];
-
-}
-
--(BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
-{
-    //return YES to say that we have the necessary credentials to access the requested resource
-    NSLog(@"canAuth");
-    return YES;
 }
 
 - (void)didReceiveMemoryWarning
