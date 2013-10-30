@@ -116,8 +116,19 @@
     NSDictionary *repo = self.reposList[indexPath.row];
     cell.textLabel.text = [HelperTools getStringFor:@"full_name" From:repo];
     cell.detailTextLabel.text = [HelperTools getStringFor:@"description" From:repo];
+    cell.detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    cell.detailTextLabel.numberOfLines = 0;
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSDictionary *repo = self.reposList[indexPath.row];
+    NSString *descriptionText = [HelperTools getStringFor:@"description" From:repo];
+    CGSize cellSize = [descriptionText sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@".HelveticaNeueInterface-M3" size:12.0]}];
+    
+    return cellSize.height + 40;
+    
 }
 
 /*
