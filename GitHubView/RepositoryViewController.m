@@ -116,12 +116,16 @@
     NSDictionary *repo = self.reposList[indexPath.row];
     cell.textLabel.text = [HelperTools getStringFor:@"full_name" From:repo];
     cell.detailTextLabel.text = [HelperTools getStringFor:@"description" From:repo];
-    cell.detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    cell.detailTextLabel.numberOfLines = 0;
+    //cell.detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    //cell.detailTextLabel.numberOfLines = 0;
     
     return cell;
 }
 
+/*
+ It doesn't work properly as all uses the same height
+ Need to use custom cell.
+ 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSDictionary *repo = self.reposList[indexPath.row];
     NSString *descriptionText = [HelperTools getStringFor:@"description" From:repo];
@@ -130,6 +134,7 @@
     return cellSize.height + 40;
     
 }
+ */
 
 /*
 // Override to support conditional editing of the table view.
