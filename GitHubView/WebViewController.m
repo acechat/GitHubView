@@ -74,9 +74,10 @@
                 [urlRequest addValue:[NSString stringWithFormat:@"token %@", authToken] forHTTPHeaderField:@"Authorization"];
             }
             [self.webView loadRequest:urlRequest];
-            NSLog(@"request: %@", [self.webView valueForKey:@"Authorization"]);
+#ifdef DEBUG
             NSLog(@"html: %@", [self.webView stringByEvaluatingJavaScriptFromString:
                                  @"document.getElementsByTagName('html')[0].outerHTML"]);
+#endif
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [self.webView loadRequest:urlRequest];
         }];

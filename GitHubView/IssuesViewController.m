@@ -173,6 +173,9 @@
     NSString *url = [HelperTools getStringFor:@"html_url" From:self.issuesList[row]];
     if (url != nil && url.length > 0) {
         WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+#ifdef DEBUG
+        NSLog(@"URL = %@", url);
+#endif
         webViewController.webURLString = url;
         [self.navigationController pushViewController:webViewController animated:YES];
     }
