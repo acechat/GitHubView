@@ -12,6 +12,7 @@
 
 @property (nonatomic, retain) NSDictionary *commitInfo;
 @property (nonatomic, retain) NSMutableArray *committedFileList;
+@property (nonatomic, retain) NSDictionary *commitStats;
 
 @property (nonatomic, retain) NSArray *titleOfCell;
 

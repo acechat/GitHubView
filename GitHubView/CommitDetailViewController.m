@@ -173,16 +173,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"CommitDetailCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier];
-    }
-    
-    // Configure the cell...
     long section = indexPath.section;
     long row = indexPath.row;
     
+    static NSString *CellIdentifier = @"CommitDetailCell";
+    static NSString *CommittedFilesCellIdentifier = @"CommittedFilesCellIdentifier";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(section != 3) ? CellIdentifier : CommittedFilesCellIdentifier];
+    if (cell == nil) {
+        if (section != 3) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier];
+        } else {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CommittedFilesCellIdentifier];
+        }
+
+    }
+    
+    // Configure the cell...
+
     cell.textLabel.text = [self titleOfCellAtRow:row InSection:section];
     cell.detailTextLabel.text = [self dataOfCellAtRow:row InSection:section];
     
@@ -192,6 +200,8 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     } else if (section == 3) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.text = [self dataOfCellAtRow:row InSection:section];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"additions = %@, deletions = %@", [self.commitStats valueForKey:@"additions"], [self.commitStats valueForKey:@"deletions"]];
     }
     
     return cell;
@@ -303,6 +313,7 @@
         NSLog(@"Committed file list : %@", JSON);
 #endif
         self.committedFileList = [JSON objectForKey:@"files"];
+        self.commitStats = [JSON valueForKey:@"stats"];
         [self.tableView reloadData];
         [self stopNetworkIndicator];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
