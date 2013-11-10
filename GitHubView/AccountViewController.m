@@ -451,6 +451,18 @@
     NSString *user_id = [userProfile valueForKey:@"user_id"];
     NSString *password = [userProfile valueForKey:@"password"];
     
+    if (user_id == nil || user_id.length == 0 || password == nil || password.length == 0) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No login details"
+                                                            message:@"Please set your login details in 'Settings' menu"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Close"
+                                                  otherButtonTitles:nil];
+        
+        [alertView show];
+        
+        return;
+    }
+    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", user_id, password];

@@ -211,6 +211,17 @@
     NSString *user_id = [userProfile valueForKey:@"user_id"];
     NSString *password = [userProfile valueForKey:@"password"];
     
+    if (user_id == nil || user_id.length == 0 || password == nil || password.length == 0) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No login details"
+                                                            message:@"Please set your login details in 'Settings' menu"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Close"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.leftViewController];
+        return;
+    }
+    
     path = [NSString stringWithFormat:@"/%@.private.atom", selectedUserID];
 
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
