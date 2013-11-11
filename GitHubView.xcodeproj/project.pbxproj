@@ -22,6 +22,7 @@
 		1F1AFAE017FBF419001072F3 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1AFADE17FBF419001072F3 /* HelpViewController.xib */; };
 		1F1AFAE417FBF436001072F3 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1AFAE217FBF436001072F3 /* AboutViewController.m */; };
 		1F1AFAE517FBF436001072F3 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1AFAE317FBF436001072F3 /* AboutViewController.xib */; };
+		1F4BB7431830966600E9CC60 /* UIAlertView+Block.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4BB7421830966600E9CC60 /* UIAlertView+Block.m */; };
 		1F5D85C8180F854C00731FBF /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F5D85C7180F854C00731FBF /* star.png */; };
 		1FE985E4180CCF9400DD1111 /* FileContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE985E2180CCF9400DD1111 /* FileContentViewController.m */; };
 		1FE985E5180CCF9400DD1111 /* FileContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FE985E3180CCF9400DD1111 /* FileContentViewController.xib */; };
@@ -154,6 +155,8 @@
 		1F1AFAE117FBF436001072F3 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		1F1AFAE217FBF436001072F3 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		1F1AFAE317FBF436001072F3 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
+		1F4BB7411830966600E9CC60 /* UIAlertView+Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Block.h"; sourceTree = "<group>"; };
+		1F4BB7421830966600E9CC60 /* UIAlertView+Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Block.m"; sourceTree = "<group>"; };
 		1F5D85C7180F854C00731FBF /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		1FE985E1180CCF9400DD1111 /* FileContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileContentViewController.h; sourceTree = "<group>"; };
 		1FE985E2180CCF9400DD1111 /* FileContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileContentViewController.m; sourceTree = "<group>"; };
@@ -402,6 +405,8 @@
 				827CA93717EB088D00490E88 /* PKRevealController */,
 				827CA91717EB07A800490E88 /* AppDelegate.h */,
 				827CA91817EB07A800490E88 /* AppDelegate.m */,
+				1F4BB7411830966600E9CC60 /* UIAlertView+Block.h */,
+				1F4BB7421830966600E9CC60 /* UIAlertView+Block.m */,
 				827CA91A17EB07A800490E88 /* Images.xcassets */,
 				827CA90F17EB07A800490E88 /* Supporting Files */,
 				827CA94617EB09B200490E88 /* LeftMenuViewController.h */,
@@ -677,6 +682,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FF7A802180E6BDD003FA999 /* CommitDetailViewController.m in Sources */,
+				1F4BB7431830966600E9CC60 /* UIAlertView+Block.m in Sources */,
 				1F0C54F0180269FE00CAFC23 /* AFURLSessionManager.m in Sources */,
 				821F6E7C1808AAFF00BE0B74 /* WebViewController.m in Sources */,
 				1F0C54ED180269FE00CAFC23 /* AFURLConnectionOperation.m in Sources */,

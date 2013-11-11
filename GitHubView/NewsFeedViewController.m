@@ -13,6 +13,7 @@
 #import "NewsFeedChannel.h"
 #import "NewsFeedPost.h"
 #import "HelperTools.h"
+#import "UIAlertView+Block.h"
 
 #define kFeederReloadCompletedNotification  @"feedChanged"
 
@@ -83,7 +84,10 @@
 
     self.feedPosts = [[NSMutableArray alloc] init];
     self.userIconDictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
     [self pullToRefresh];
 }
 
@@ -212,13 +216,12 @@
     NSString *password = [userProfile valueForKey:@"password"];
     
     if (user_id == nil || user_id.length == 0 || password == nil || password.length == 0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No login details"
-                                                            message:@"Please set your login details in 'Settings' menu"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"Close"
-                                                  otherButtonTitles:nil];
+        UIAlertView *alertView = [UIAlertView alertViewWithTitle:@"No login details"
+                                                         message:@"Please set your login details in 'Settings' menu" cancelButtonTitle:@"Close" otherButtonTitles:nil onDismiss:nil onCancel:^{
+                                                             [self.navigationController.revealController showViewController:self.navigationController.revealController.leftViewController];
+                                                         }];
+        
         [alertView show];
-        [self.navigationController.revealController showViewController:self.navigationController.revealController.leftViewController];
         return;
     }
     

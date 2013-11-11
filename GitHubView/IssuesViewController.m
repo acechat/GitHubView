@@ -12,6 +12,7 @@
 #import "ConfigHelper.h"
 #import "HelperTools.h"
 #import "WebViewController.h"
+#import "UIAlertView+Block.h"
 
 @interface IssuesViewController ()
 
@@ -69,7 +70,10 @@
     self.refreshControl = refreshControl;
 
     self.issuesList = [[NSMutableArray alloc] init];
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
     [self pullToRefresh];
 }
 
@@ -203,11 +207,10 @@
     NSString *password = [userProfile valueForKey:@"password"];
     
     if (user_id == nil || user_id.length == 0 || password == nil || password.length == 0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No login details"
-                                                            message:@"Please set your login details in 'Settings' menu"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"Close"
-                                                  otherButtonTitles:nil];
+        UIAlertView *alertView = [UIAlertView alertViewWithTitle:@"No login details"
+                                                         message:@"Please set your login details in 'Settings' menu" cancelButtonTitle:@"Close" otherButtonTitles:nil onDismiss:nil onCancel:^{
+                                                             [self.navigationController.revealController showViewController:self.navigationController.revealController.leftViewController];
+                                                         }];
         
         [alertView show];
         
